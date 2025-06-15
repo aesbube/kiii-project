@@ -1,0 +1,110 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.appointment-selector {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.time-selector {
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 16px;
+}
+
+.calendar-container {
+  width: 100%;
+}
+
+.location-container {
+  margin-top: 25px;
+}
+
+.calendar-card {
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Selected date highlighting */
+::ng-deep .selected-date {
+  background-color: rgba(103, 58, 183, 0.3) !important;
+  border-radius: 50%;
+}
+
+/* Styling for the disabled time options */
+::ng-deep .mat-mdc-select-disabled {
+  opacity: 0.6;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--disabled {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.appointments-list {
+  margin-top: 24px;
+}
+
+.no-appointments {
+  color: #666;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.appointment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+button[color="primary"] {
+  margin-top: 16px;
+}
+
+.back-button {
+  position: fixed;
+  top: 70px;
+  left: 20px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .appointment-selector {
+    flex: 2;
+    margin-right: 24px;
+    margin-bottom: 0;
+  }
+
+  .appointments-list {
+    flex: 1;
+    margin-top: 0;
+  }
+}

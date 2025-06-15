@@ -1,0 +1,9 @@
+
+<ul>
+  <li [class.clicked]="lastClicked == 'Basic Info'"><button (click)="setActiveButton($event)">Basic Info</button></li>
+  <li [class.clicked]="lastClicked == 'Appointments'"><button (click)="setActiveButton($event)">Appointments</button></li>
+  <li [class.clicked]="lastClicked == 'Prescriptions'"><button (click)="setActiveButton($event)">Prescriptions</button></li>
+  <li [class.clicked]="lastClicked == 'History'"><button (click)="setActiveButton($event)">History</button></li>
+</ul>
+
+

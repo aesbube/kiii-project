@@ -1,0 +1,43 @@
+.doctor-dashboard {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 280px;
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 700px;
+  padding: 20px;
+  margin: 20px auto 0;
+}
+
+mat-nav-list {
+  padding: 0;
+  margin: 10px;
+}
+
+a.mat-list-item {
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+a.mat-list-item:hover {
+  background-color: #e0e0e0;
+}
+
+a.mat-list-item.active {
+  background-color: #1976d2;
+  color: #fff;
+}

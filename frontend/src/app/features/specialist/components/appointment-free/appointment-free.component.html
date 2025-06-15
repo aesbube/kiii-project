@@ -1,0 +1,99 @@
+<div class="back-button">
+  <button mat-icon-button [routerLink]="['/dashboard']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</div>
+<div class="container">
+  <div class="appointment-selector">
+    <mat-form-field appearance="outline" class="time-selector">
+      <mat-label>Appointment time</mat-label>
+      <mat-select
+        [(value)]="time"
+        (selectionChange)="onTimeChange($event.value)"
+        [disabled]="!value"
+      >
+        @for (option of timeOptions; track $index) {
+          <mat-option
+            [value]="option"
+            [disabled]="disabledTimeOptions.has(option)"
+          >
+            {{ option }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="calendar-container">
+      <mat-card class="calendar-card">
+        @if (appointmentsLoaded) {
+          <mat-calendar
+            [selected]="value"
+            (selectedChange)="onDateChange($event!!)"
+            [minDate]="minDate"
+            [maxDate]="maxDate"
+            [dateClass]="dateClass"
+          >
+          </mat-calendar>
+        } @else {
+          <div class="spinner-container">
+            <mat-spinner [diameter]="60"></mat-spinner>
+          </div>
+        }
+      </mat-card>
+    </div>
+    <div class="location-container">
+      <mat-form-field appearance="outline" class="location-input">
+        <mat-label>Location</mat-label>
+        <input
+          matInput
+          placeholder="Enter location"
+          required="true"
+          [(ngModel)]="location"
+          [disabled]="!(value && time)"
+        />
+      </mat-form-field>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!(value && time && location)"
+      (click)="addAppointment()"
+    >
+      Add Appointment
+    </button>
+  </div>
+
+  <div class="appointments-list">
+    <h3 style="margin-bottom: 15px">Appointments:</h3>
+    @if (selectedAppointments.length === 0) {
+      <div class="no-appointments">No appointments selected yet</div>
+    }
+    @if (selectedAppointments.length > 0) {
+      <ul>
+        @for (date of selectedAppointments; track $index) {
+          <li class="appointment-item">
+            {{ date.date| date : "EEE dd.MM.yyyy HH:mm" }}
+            {{ date.location }}
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="removeAppointment($index)"
+              aria-label="Remove appointment"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </li>
+        }
+      </ul>
+    }
+
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="selectedAppointments.length === 0"
+      (click)="submitAppointments()"
+    >
+      Submit Appointments
+    </button>
+  </div>
+</div>

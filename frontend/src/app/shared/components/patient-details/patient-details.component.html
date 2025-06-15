@@ -1,0 +1,62 @@
+<div class="patient-container">
+  <mat-card>
+    @if (patient) {
+      <mat-card-title>Patient Details</mat-card-title>
+      <mat-card-content>
+        <div class="patient-info-grid">
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Name:</strong> {{ patient.name }} {{ patient.surname }}
+            </div>
+            <div class="info-item">
+              <strong>Username:</strong> {{ patient.username }}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Email:</strong> {{ patient.email }}
+            </div>
+            <div class="info-item">
+              <strong>Phone:</strong> {{ patient.phone }}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Address:</strong> {{ patient.address }}
+            </div>
+            <div class="info-item">
+              <strong>Birth Date:</strong> {{ patient.birthDate | date }}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Birth Place:</strong> {{ patient.birthPlace }}
+            </div>
+            <div class="info-item">
+              <strong>Blood Type:</strong> {{ patient.bloodType }}
+            </div>
+          </div>
+
+          <div class="info-row full-width">
+            <div class="info-item">
+              <strong>Allergies:</strong> {{ patient.allergies }}
+            </div>
+          </div>
+
+          <div class="info-row full-width">
+            <div class="info-item">
+              <strong>Doctor:</strong> {{ patient.doctor.name }} {{ patient.doctor.surname }}
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    } @else {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="60"></mat-spinner>
+      </div>
+    }
+  </mat-card>
+</div>

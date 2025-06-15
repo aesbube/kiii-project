@@ -1,0 +1,30 @@
+<div class="appointment-item">
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      @if (!isDoctor) {
+        <mat-card-title>Appointment of patient {{ appointment.patientName }}</mat-card-title>
+      }
+      <mat-card-subtitle>Referral number: {{ appointment.refNumber }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div>Date: {{ appointment.date }}</div>
+      <div>Time: {{ appointment.time }}</div>
+      <div>Location: {{ appointment.location }}</div>
+    </mat-card-content>
+    @if (!isPatient) {
+      <mat-card-actions align="end">
+        <a
+          [routerLink]="[appointment.id]"
+          routerLinkActive="active">
+          <button
+            mat-raised-button
+            color="primary"
+          >
+            View Details
+          </button>
+        </a>
+      </mat-card-actions>
+    }
+
+  </mat-card>
+</div>

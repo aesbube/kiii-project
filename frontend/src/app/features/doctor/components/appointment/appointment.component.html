@@ -1,0 +1,83 @@
+<div class="back-button">
+  <button mat-icon-button [routerLink]="['/dashboard/patients/', patientId]">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</div>
+
+<div class="container">
+  <div class="appointment-selector">
+    <h2>Schedule an Appointment</h2>
+
+    <mat-form-field appearance="outline" class="specialist-selector">
+      <mat-label>Select Specialist</mat-label>
+      <mat-select
+        [(value)]="selectedSpecialist"
+        (selectionChange)="onSpecialistChange($event.value)">
+        @for (specialist of specialists; track specialist.username) {
+          <mat-option [value]="specialist">
+            {{ specialist.name }} {{ specialist.surname }} - {{ specialist.specialty }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (loading) {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="40"></mat-spinner>
+      </div>
+    }
+
+    @if (selectedSpecialist) {
+      <div class="calendar-container">
+        <mat-card class="calendar-card">
+          @if (appointmentsLoaded) {
+            <mat-calendar
+              [selected]="value"
+              (selectedChange)="onDateChange($event!!)"
+              [dateClass]="dateClass"
+              [dateFilter]="isDateAvailable"
+            >
+            </mat-calendar>
+          } @else {
+            <div class="spinner-container">
+              <mat-spinner [diameter]="60"></mat-spinner>
+            </div>
+          }
+        </mat-card>
+      </div>
+
+      @if (value) {
+        <mat-form-field appearance="outline" class="time-selector">
+          <mat-label>Available Times</mat-label>
+          <mat-select
+            [(value)]="time"
+            (selectionChange)="onTimeChange($event.value)">
+            @for (timeOption of getAvailableTimesForSelectedDate(); track $index) {
+              <mat-option [value]="timeOption">
+                {{ timeOption }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+    }
+
+    @if (selectedAppointment) {
+      <div class="appointment-details">
+        <h3>Appointment Details</h3>
+        <p><strong>Date:</strong> {{ selectedAppointment.date }}</p>
+        <p><strong>Time:</strong> {{ selectedAppointment.time }}</p>
+        <p><strong>Location:</strong> {{ selectedAppointment.location }}</p>
+        <p><strong>Reference:</strong> {{ selectedAppointment.refNumber }}</p>
+
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="scheduleAppointment()"
+          [disabled]="loading">
+          Schedule Appointment
+        </button>
+      </div>
+    }
+  </div>
+</div>

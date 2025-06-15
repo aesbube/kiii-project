@@ -1,0 +1,47 @@
+<div class="appointment-container">
+  <mat-card>
+    @if (appointment) {
+      <mat-card-title>Appointment Details</mat-card-title>
+      <mat-card-content>
+        <div class="appointment-info-grid">
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Patient:</strong> {{ appointment.patientName || 'N/A' }}
+            </div>
+            <div class="info-item">
+              <strong>Assignee:</strong> {{ appointment.assigneeName || 'N/A' }}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Date:</strong> {{ appointment.date | date }}
+            </div>
+            <div class="info-item">
+              <strong>Time:</strong> {{ appointment.time }}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Location:</strong> {{ appointment.location }}
+            </div>
+            <div class="info-item">
+              <strong>Reference #:</strong> {{ appointment.refNumber }}
+            </div>
+          </div>
+
+          <div class="info-row full-width">
+            <div class="info-item">
+              <strong>Status:</strong> {{ appointment.status }}
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    } @else {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="60"></mat-spinner>
+      </div>
+    }
+  </mat-card>
+</div>

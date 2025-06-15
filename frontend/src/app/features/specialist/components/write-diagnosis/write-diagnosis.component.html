@@ -1,0 +1,73 @@
+<div class="container">
+  <h2>Write Diagnosis</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Diagnosis Name</mat-label>
+      <input matInput formControlName="name" placeholder="Enter diagnosis name" required/>
+      @if (nameControl?.invalid && (nameControl?.dirty || nameControl?.touched)) {
+        <mat-error>
+          @if (nameControl?.errors?.['required']) {
+            Name is required.
+          }
+          @if (nameControl?.errors?.['minlength']) {
+            Minimum 2 characters.
+          }
+          @if (nameControl?.errors?.['maxlength']) {
+            Maximum 1000 characters.
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description" placeholder="Enter description" required/>
+      @if (descriptionControl?.invalid && (descriptionControl?.dirty || descriptionControl?.touched)) {
+        <mat-error>
+          @if (descriptionControl?.errors?.['required']) {
+            Description is required.
+          }
+          @if (descriptionControl?.errors?.['minlength']) {
+            Minimum 10 characters.
+          }
+          @if (descriptionControl?.errors?.['maxlength']) {
+            Maximum 1000 characters.
+          }
+        </mat-error>
+      }
+
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Treatment</mat-label>
+      <input matInput formControlName="treatment" placeholder="Enter treatment plan" required/>
+      @if (treatmentControl?.invalid && (treatmentControl?.dirty || treatmentControl?.touched)) {
+        <mat-error>
+          @if (treatmentControl?.errors?.['required']) {
+            Treatment is required.
+          }
+          @if (treatmentControl?.errors?.['minlength']) {
+            Minimum 10 characters.
+          }
+          @if (treatmentControl?.errors?.['maxlength']) {
+            Maximum 1000 characters.
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid || isSubmitting"
+    >
+      @if (isSubmitting) {
+        Submitting...
+      } @else {
+        Write Prescription
+      }
+    </button>
+  </form>
+</div>

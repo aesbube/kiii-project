@@ -1,0 +1,36 @@
+.users-container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+mat-table {
+  width: 100%;
+}
+
+mat-header-cell, mat-cell {
+  padding: 8px;
+}
+
+.delete-button {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.delete-button:hover {
+  background-color: #f1b0b7;
+}
+
+.back-button {
+  position: fixed;
+  top: 70px;
+  left: 20px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}

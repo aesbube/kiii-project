@@ -1,0 +1,32 @@
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 700px;
+  padding: 20px;
+  margin: 20px auto 0;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.back-button {
+  position: fixed;
+  top: 70px;
+  left: 20px;
+}
+
+button[color="primary"] {
+  margin-top: 16px;
+}

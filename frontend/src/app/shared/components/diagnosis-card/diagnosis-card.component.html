@@ -1,0 +1,33 @@
+<div class="diagnosis-container">
+  <mat-card>
+    @if (diagnosis) {
+      <mat-card-title>Diagnosis Details</mat-card-title>
+      <mat-card-content>
+        <div class="diagnosis-info-grid">
+          <div class="info-row full-width">
+            <div class="info-item">
+              <strong>Patient:</strong> {{ diagnosis.patientNameAndSurname || 'N/A' }}
+            </div>
+          </div>
+
+          <div class="info-row full-width">
+            <div class="info-item">
+              <strong>Description:</strong> {{ diagnosis.description || 'N/A' }}
+            </div>
+          </div>
+
+          <div class="info-row full-width">
+            <div class="info-item">
+              <strong>Treatment:</strong> {{ diagnosis.treatment }}
+            </div>
+          </div>
+
+        </div>
+      </mat-card-content>
+    } @else {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="60"></mat-spinner>
+      </div>
+    }
+  </mat-card>
+</div>

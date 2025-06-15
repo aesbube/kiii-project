@@ -1,0 +1,8 @@
+
+<ng-container [ngSwitch]="uniqueAction">
+  <app-map-search *ngSwitchCase="'map'"></app-map-search>
+  <app-appointment-search *ngSwitchCase="'app'" (focused)="setFocused($event)"></app-appointment-search>
+  <app-specialist-search *ngSwitchCase="'spec'" (focused)="setFocused($event)"></app-specialist-search>
+  <ng-template ngSwitchDefault></ng-template>
+</ng-container>
+

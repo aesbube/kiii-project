@@ -1,0 +1,41 @@
+<div class="prescription-item">
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      @if (!isDoctor) {
+        <mat-card-title
+        >Prescription of patient
+          {{ prescription.patientNameAndSurname }}
+        </mat-card-title
+        >
+      }
+      <mat-card-subtitle
+      >Doctor: {{ prescription.doctorNameAndSurname }}
+      </mat-card-subtitle
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <div>Medicine: {{ prescription.medicine }}</div>
+      <div>Frequency: {{ prescription.frequency }}</div>
+      <div>Expiration date: {{ prescription.expirationDate }}</div>
+      <div>Status: {{ prescription.status }}</div>
+    </mat-card-content>
+    @if (userRole == "ROLE_PATIENT" && prescription.status == PrescriptionStatus.ACTIVE){
+      <div class="qr-wrap">
+        @if (!redeemed) {
+          <button mat-flat-button (click)="redeemed=true">Redeem</button>
+        }
+        @else {
+          <app-qr-code [qrText]="uniqueQrText"></app-qr-code>
+        }
+      </div>
+    }
+
+    @if (userRole == "ROLE_PHARMACIST"){
+      <div class="qr-wrap">
+        @if (prescription.status == PrescriptionStatus.ACTIVE ) {
+          <button mat-flat-button (click)="emitValidation()">Validate</button>
+        }
+      </div>
+    }
+  </mat-card>
+</div>

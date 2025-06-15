@@ -1,0 +1,9 @@
+:host{
+  display: flex;
+}
+
+app-side-menu{
+  position: relative;
+  top: calc(50vh - 28px);
+  transform: translateY(-50%);
+}

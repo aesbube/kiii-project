@@ -1,0 +1,56 @@
+.back-button {
+  position: fixed;
+  top: 70px;
+  left: 20px;
+}
+
+.specialist-container {
+  max-width: 600px;
+  justify-content: center;
+  padding: 20px;
+  margin: 20px auto 0;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.specialist-container {
+  display: flex;
+  justify-content: center;
+}
+
+.specialist-card {
+  width: 100%;
+}
+
+.specialist-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-row {
+  display: flex;
+  gap: 16px;
+}
+
+.info-item {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-card {
+  padding:20px;
+}
+
+mat-card-content {
+  margin-top: 20px;
+}
+

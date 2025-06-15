@@ -1,0 +1,29 @@
+<div class="container">
+  <mat-card>
+    @if (appointmentsLoaded) {
+      <mat-card-title>Patient Appointments</mat-card-title>
+      @for (appointment of appointments; track appointment) {
+        <app-appointment-details
+          [appointment]="appointment"
+          [isDoctor]="true"
+        ></app-appointment-details>
+      } @empty {
+        <ng-content>No appointments found</ng-content>
+      }
+      <a
+        [routerLink]="['appointments']"
+        routerLinkActive="active">
+        <button
+          mat-raised-button
+          color="primary"
+        >
+          Schedule New Appointment
+        </button>
+      </a>
+    } @else {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="60"></mat-spinner>
+      </div>
+    }
+  </mat-card>
+</div>

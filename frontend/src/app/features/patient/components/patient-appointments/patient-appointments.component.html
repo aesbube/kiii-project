@@ -1,0 +1,15 @@
+@if(!fetched){
+  <mat-spinner></mat-spinner>
+}
+@else {
+  @if(numOfAppointments==0){
+    <h3>You do not have any upcoming appointments</h3>
+  }
+  @else {
+    @for(appointment of appointments; track appointment){
+      @if (appointment.date >= today) {
+        <app-appointment-details [appointment]="appointment" [isPatient]="true"></app-appointment-details>
+      }
+    }
+  }
+}

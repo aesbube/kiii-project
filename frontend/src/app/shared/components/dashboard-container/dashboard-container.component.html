@@ -1,0 +1,14 @@
+@if (userRole === Roles.ADMIN) {
+  <app-admin-dashboard></app-admin-dashboard>
+} @else if (userRole === Roles.DOCTOR) {
+  <app-doctor-dashboard></app-doctor-dashboard>
+} @else if (userRole === Roles.PATIENT) {
+  <app-patient-dashboard></app-patient-dashboard>
+} @else if (userRole === Roles.SPECIALIST) {
+  <app-specialist-dashboard></app-specialist-dashboard>
+} @else if (userRole === Roles.PHARMACIST) {
+  <app-pharmacist-dashboard></app-pharmacist-dashboard>
+} @else {
+  <p>Loading user information...</p>
+}
+

@@ -1,0 +1,14 @@
+:host {
+  height: calc(100vh - 58px);
+  display: flex;
+  flex-direction: row;
+}
+.row{
+  flex: 1 1;
+  display: flex;
+  transition: flex ease 0.2s;
+}
+.flexUp{
+  flex: 2 2;
+}
+

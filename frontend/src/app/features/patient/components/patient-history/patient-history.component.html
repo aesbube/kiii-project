@@ -1,0 +1,39 @@
+<div class="col">
+  <h2>Past appointments</h2>
+  @if(!fetchedAppointments){
+    <mat-spinner></mat-spinner>
+  }
+  @else {
+    @if(numOfAppointments==0){
+      <h3>You do not have any upcoming appointments</h3>
+    }
+    @else {
+      @for(appointment of appointments; track appointment){
+        @if (appointment.date < today) {
+          <app-appointment-details [appointment]="appointment"></app-appointment-details>
+        }
+      }
+    }
+  }
+</div>
+
+<div class="col">
+  <h2>Past prescriptions</h2>
+  @if(!fetchedPrescriptions){
+    <mat-spinner></mat-spinner>
+  }
+  @else {
+    @if(numOfPrescriptions==0){
+      <h3>You do not have any upcoming appointments</h3>
+    }
+    @else {
+      @for(prescription of prescriptions; track prescription){
+        <div class="prescription-wrapper">
+          @if (prescription.status != prescriptionStatus.ACTIVE) {
+            <app-prescription-details [prescription]="prescription"></app-prescription-details>
+          }
+        </div>
+      }
+    }
+  }
+</div>

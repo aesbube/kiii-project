@@ -1,0 +1,20 @@
+<div class="back-button">
+  <button mat-icon-button [routerLink]="['/dashboard']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</div>
+@if (appointmentsLoaded) {
+<div class="container">
+  @for (appointment of occupiedAppointments; track appointment) {
+  <app-appointment-details
+    [appointment]="appointment"
+  ></app-appointment-details>
+  } @empty {
+    <ng-content>No appointments found</ng-content>
+  }
+</div>
+} @else {
+<div class="spinner-container">
+  <mat-spinner [diameter]="60"></mat-spinner>
+</div>
+}

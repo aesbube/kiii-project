@@ -1,0 +1,71 @@
+
+<div class="back-button">
+  <button mat-icon-button [routerLink]="['/dashboard/patients', patientId]">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</div>
+
+<div class="container">
+  <h2>Write Prescription</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Medicine</mat-label>
+      <input
+        matInput
+        formControlName="medicine"
+        placeholder="Enter medicine name"
+        required
+      />
+      @if (medicineControl?.invalid && (medicineControl?.dirty || medicineControl?.touched)) {
+        <mat-error>
+          @if (medicineControl?.errors?.['required']) {
+            Medicine is required
+          }
+          @if (medicineControl?.errors?.['minlength']) {
+            Medicine must be at least 2 characters long
+          }
+          @if (medicineControl?.errors?.['maxlength']) {
+            Medicine cannot exceed 100 characters
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Frequency</mat-label>
+      <input
+        matInput
+        formControlName="frequency"
+        placeholder="Enter dosage frequency"
+        required
+      />
+      @if (frequencyControl?.invalid && (frequencyControl?.dirty || frequencyControl?.touched)) {
+        <mat-error>
+          @if (frequencyControl?.errors?.['required']) {
+            Frequency is required
+          }
+          @if (frequencyControl?.errors?.['minlength']) {
+            Frequency must be at least 2 characters long
+          }
+          @if (frequencyControl?.errors?.['maxlength']) {
+            Frequency cannot exceed 100 characters
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid || isSubmitting"
+    >
+      @if (isSubmitting) {
+        Submitting...
+      } @else {
+        Write Prescription
+      }
+    </button>
+  </form>
+</div>

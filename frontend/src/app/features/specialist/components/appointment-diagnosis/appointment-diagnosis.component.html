@@ -1,0 +1,33 @@
+<div class="back-button">
+  <button mat-icon-button [routerLink]="isDoctor ? goBackUrl : '/dashboard/appointments/'">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</div>
+<div class="container">
+  @if (isDoctor) {
+    @if (appointment$) {
+      <app-appointment-card [appointment]="appointment$"></app-appointment-card>
+      @if (diagnosis$) {
+        <app-diagnosis-card [diagnosis]="diagnosis$"></app-diagnosis-card>
+      } @else {
+        <h3 style="text-align: center">No diagnosis found for this appointment</h3>
+      }
+    }
+  } @else if (isGuest) {
+    @if (appointment$) {
+      <app-appointment-card [appointment]="appointment$"></app-appointment-card>
+    } @else {
+      <h3 style="text-align: center">No appointment found</h3>
+    }
+  } @else {
+    @if (appointment$) {
+      <app-appointment-card [appointment]="appointment$"></app-appointment-card>
+      @if (diagnosis$) {
+        <app-diagnosis-card [diagnosis]="diagnosis$"></app-diagnosis-card>
+      } @else {
+        <app-write-diagnosis></app-write-diagnosis>
+      }
+    }
+  }
+</div>
+

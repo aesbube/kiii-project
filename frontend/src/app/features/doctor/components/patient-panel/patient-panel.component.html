@@ -1,0 +1,13 @@
+<div class="back-button">
+  <button mat-icon-button [routerLink]="['/dashboard/patients']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</div>
+@if (patient$) {
+  <div class="container">
+    <app-patient-details [patient]="patient$"></app-patient-details>
+      <app-patient-appointments [patientId]="patient$.id.toString()"></app-patient-appointments>
+      <app-patient-prescriptions [patientId]="patient$.id.toString()"></app-patient-prescriptions>
+  </div>
+}
+

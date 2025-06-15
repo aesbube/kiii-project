@@ -1,0 +1,21 @@
+.prescription-item {
+  margin: 15px;
+  width: 300px;
+}
+
+button{
+  width: 100px;
+}
+
+.qr-wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+
+}
+
+app-qr-code{
+  transform: scale(1.5);
+  padding: 40px;
+}

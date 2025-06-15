@@ -1,0 +1,29 @@
+<div class="container">
+  <mat-card>
+    @if (prescriptionsLoaded) {
+      <mat-card-title>Patient Prescriptions</mat-card-title>
+      @for (prescription of prescriptions; track prescription) {
+        <app-prescription-details
+          [prescription]="prescription"
+          [isDoctor]="true"
+        ></app-prescription-details>
+      } @empty {
+        <ng-content>No prescriptions found</ng-content>
+      }
+      <a
+        [routerLink]="['prescription']"
+        routerLinkActive="active">
+        <button
+          mat-raised-button
+          color="primary"
+        >
+          Add New Prescription
+        </button>
+      </a>
+    } @else {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="60"></mat-spinner>
+      </div>
+    }
+  </mat-card>
+</div>

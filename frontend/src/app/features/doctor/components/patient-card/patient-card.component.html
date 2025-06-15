@@ -1,0 +1,35 @@
+<div class="patient-item">
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Patient name: {{ patient.name }} {{patient.surname}}</mat-card-title>
+      <mat-card-subtitle>Patient email: {{ patient.email }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-actions align="end">
+      @if (isClaim) {
+        <a>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="handleCardClick()"
+          >
+            Claim
+          </button>
+        </a>
+      } @else {
+        <a
+          [routerLink]="[patient.id]"
+          routerLinkActive="active">
+          <button
+            mat-raised-button
+            color="primary"
+          >
+            View Details
+          </button>
+        </a>
+      }
+
+
+    </mat-card-actions>
+  </mat-card>
+</div>

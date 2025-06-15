@@ -1,0 +1,61 @@
+<div class="back-button">
+  <button mat-icon-button [routerLink]="['/']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</div>
+<div class="specialist-container">
+  <mat-card>
+    @if (specialist) {
+      <mat-card-title>Specialist Details</mat-card-title>
+      <mat-card-content>
+        <div class="specialist-info-grid">
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Name:</strong> {{ specialist.name }} {{ specialist.surname }}
+            </div>
+            <div class="info-item">
+              <strong>Username:</strong> {{ specialist.username }}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Email:</strong> {{ specialist.email }}
+            </div>
+            <div class="info-item">
+              <strong>Phone:</strong> {{ specialist.phone }}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Address:</strong> {{ specialist.address }}
+            </div>
+            <div class="info-item">
+              <strong>Birth Date:</strong> {{ specialist.birthDate | date }}
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-item">
+              <strong>Specialty:</strong> {{ specialist.specialty }}
+            </div>
+            <div class="info-item">
+              <strong>License number:</strong> {{ specialist.licenseNumber }}
+            </div>
+          </div>
+
+          <div class="info-row full-width">
+            <div class="info-item">
+              <strong>Years of experience:</strong> {{ specialist.yearsOfExperience }}
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    } @else {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="60"></mat-spinner>
+      </div>
+    }
+  </mat-card>
+</div>

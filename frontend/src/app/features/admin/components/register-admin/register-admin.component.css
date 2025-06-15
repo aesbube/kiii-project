@@ -1,0 +1,131 @@
+:host {
+  width: 100vw;
+  height: calc(100vh - 58px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: hsl(205, 89%, 90%);
+}
+
+.register-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 45px;
+  border-radius: 20px;
+  background-color: white;
+}
+
+h2 {
+  margin-bottom: 12px;
+  color: #074b7b;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+label {
+  font-size: 14px;
+  color: gray;
+  margin-bottom: -30px;
+  margin-left: 5px;
+  background-color: white;
+  padding: 0 3px;
+  z-index: 1;
+  transition: margin ease 0.2s, font-size ease 0.2s;
+}
+
+input {
+  outline: 1px gray solid;
+  border: none;
+  padding: 8px;
+  margin: 3px;
+  border-radius: 3px;
+}
+
+input:focus {
+  outline: 2px #074b7b solid;
+}
+
+input:not(:placeholder-shown) + label {
+  margin-bottom: -10px;
+  color: gray;
+  font-size: 10px;
+}
+
+input:focus + label {
+  margin-bottom: -10px;
+  color: #074b7b;
+  font-size: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: start;
+  height: 45px;
+  margin-bottom: 15px;
+}
+
+.submit-button {
+  background-color: #074b7b;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: background-color ease 0.2s;
+  padding: 8px;
+  margin: 3px;
+}
+
+.submit-button:hover {
+  background-color: #2282b6;
+  cursor: pointer;
+}
+
+.submit-button:focus {
+  outline: none;
+}
+
+.error {
+  outline: 2px red solid;
+}
+
+button:disabled {
+  background-color: #aaa;
+  color: black;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+
+.success-message {
+  color: #27ae60;
+  font-weight: bold;
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 1rem;
+}
+
+select {
+  outline: 1px gray solid;
+  border: none;
+  padding: 8px;
+  margin: 3px;
+  border-radius: 3px;
+}
+
+select:focus {
+  outline: 2px #074b7b solid;
+}
+
+.back-button {
+  position: fixed;
+  top: 70px;
+  left: 20px;
+}

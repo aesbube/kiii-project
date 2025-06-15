@@ -1,0 +1,51 @@
+<div class="login-wrapper">
+  <h2>Log In</h2>
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <input
+        type="text"
+        id="username"
+        name="username"
+        formControlName="username"
+        placeholder=""
+        [class.error]="validationService.isControlInvalid(myForm, 'username')"
+      />
+      <label for="username">Username</label>
+      @if (this.myForm.controls['username'].touched && this.myForm.controls['username'].invalid) {
+        <div class="error-message">
+          @if (this.myForm.controls['username'].errors?.['required']) {
+            <div>Username is required.</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group">
+      <input
+        type="password"
+        id="password"
+        name="password"
+        formControlName="password"
+        placeholder=""
+        [class.error]="validationService.isControlInvalid(myForm, 'password')"
+      />
+      <label for="password">Password</label>
+
+      @if (this.myForm.controls['password'].touched && this.myForm.controls['password'].invalid) {
+        <div class="error-message">
+          @if (this.myForm.controls['password'].errors?.['required']) {
+            <div>Password is required.</div>
+          }
+        </div>
+      }
+    </div>
+    @if (successMessage) {
+      <div class="success-message">
+        {{ successMessage }}
+      </div>
+    }
+    <button type="submit" [disabled]="!myForm.valid" class="submit-button">
+      Login
+    </button>
+
+  </form>
+</div>

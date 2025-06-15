@@ -1,0 +1,21 @@
+<div class="camera-wrapper">
+  <zxing-scanner (scanSuccess)="onCodeResult($event)"></zxing-scanner>
+  <button mat-flat-button routerLink="/dashboard">Cancel</button>
+
+</div>
+
+<div class="prescription-wrapper">
+  @if (!fetched) {
+  <mat-spinner></mat-spinner>
+  }
+  @else {
+  @if(prescription){
+  <app-prescription-details [prescription]="prescription"
+    (validate)="validatePrescription($event)"></app-prescription-details>
+  }
+  @else {
+  <p>Invalid Prescription</p>
+  }
+  }
+  <button mat-flat-button (click)="clearResult()">Clear prescription</button>
+</div>

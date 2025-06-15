@@ -1,0 +1,14 @@
+<div id="nav-left">
+  <a routerLink="" id="logo"><img src="MedView Logo.png" alt="Logo" /></a>
+  <a routerLink="" href="">MedView</a>
+</div>
+
+<div id="nav-right">
+  <button mat-button routerLink="">Home</button>
+
+  <button mat-flat-button *ngIf="!authService.isLoggedIn()" routerLink="/login">Login</button>
+  <button mat-flat-button *ngIf="!authService.isLoggedIn()" routerLink="/register">Register</button>
+
+  <button mat-button *ngIf="authService.isLoggedIn()" routerLink="/dashboard"> Dashboard</button>
+  <button mat-button *ngIf="authService.isLoggedIn()" (click)="authService.logout()"> Logout</button>
+</div>

@@ -1,0 +1,15 @@
+<mat-form-field id="appointment-form" class="search-form" >
+  <mat-label>Find your appointment details</mat-label>
+  <input #searchInput matInput type="text" [formControl]="searchControl2" (focus)="onFocus()" (blur)="onBlur()" (keyup.enter)="goToAppointment()" >
+  @if (searchControl2.value) {
+    <ng-container matSuffix>
+      <button mat-icon-button aria-label="Clear" (click)="searchControl2.setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button mat-icon-button aria-label="Search" [routerLink]="['/appointment', searchControl2.value]">
+        <mat-icon>search</mat-icon>
+      </button>
+    </ng-container>
+    }
+</mat-form-field>
+

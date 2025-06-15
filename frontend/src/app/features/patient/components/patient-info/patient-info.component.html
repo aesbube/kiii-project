@@ -1,0 +1,78 @@
+@if (form) {
+  <div class="container">
+    <h2>Patient Information</h2>
+    <form [formGroup]="form">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>First name</mat-label>
+        <input matInput formControlName="name" required/>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Last name</mat-label>
+        <input matInput formControlName="surname" required/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Phone Number</mat-label>
+        <input matInput type="tel" placeholder="+1234567890" formControlName="phone" pattern="^[0-9+\-\s]*$" required/>
+        <mat-hint>Include country code</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" required/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Date of Birth</mat-label>
+        <input matInput [matDatepicker]="picker" [max]="today" placeholder="DD/MM/YYYY" formControlName="birthDate"
+               required/>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Place of Birth</mat-label>
+        <input matInput formControlName="birthPlace" required/>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Allergies</mat-label>
+        <textarea matInput formControlName="allergies" rows="3"
+                  placeholder="List any allergies or write 'None' if applicable"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Blood Type</mat-label>
+        <mat-select formControlName="bloodType" required>
+          @for (type of bloodTypes; track type.value) {
+            <mat-option [value]="type.value">{{type.display}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="form.invalid || form.disabled"
+        (click)="submit()"
+      >
+        Save Changes
+      </button>
+    </form>
+  </div>
+} @else {
+  <div class="spinner-container">
+    <mat-spinner [diameter]="60"></mat-spinner>
+  </div>
+}

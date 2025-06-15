@@ -1,0 +1,27 @@
+<div class="back-button">
+  <button mat-icon-button [routerLink]="['/dashboard']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</div>
+<div class="search-container">
+  <input
+    #search
+    type="text"
+    placeholder="Start typing to search..."
+    (input)="onChange(search.value)"
+  />
+  @if (patients$ | async) {
+    <div class="container">
+      @for (patient of patients$ | async; track patient.id) {
+        <app-patient-card [patient]="patient" [isClaim]="true"
+                          (cardClick)="handleCardClick(patient.username.toString())"></app-patient-card>
+      } @empty {
+        <ng-content>No patients found</ng-content>
+      }
+    </div>
+  } @else {
+    <div class="spinner-container">
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </div>
+  }
+</div>

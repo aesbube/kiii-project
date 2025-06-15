@@ -1,0 +1,14 @@
+:host{
+  width: calc(100vw - 250px);
+  min-height: calc(100vh - 56px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.prescription-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

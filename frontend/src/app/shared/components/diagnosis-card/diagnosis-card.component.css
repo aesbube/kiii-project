@@ -1,0 +1,38 @@
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.diagnosis-container {
+  display: flex;
+  justify-content: center;
+}
+
+.diagnosis-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-row {
+  display: flex;
+  gap: 16px;
+}
+
+.info-item {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-card {
+  padding: 20px;
+}
+
+mat-card-content {
+  margin-top: 20px;
+}

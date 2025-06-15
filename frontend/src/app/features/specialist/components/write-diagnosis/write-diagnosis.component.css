@@ -1,0 +1,33 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.back-button {
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 20px;
+  align-self: flex-start;
+}
+
+h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
