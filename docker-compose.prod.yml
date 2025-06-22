@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_DB: ${MEDVIEW_DB_NAME}
+      POSTGRES_USER: ${MEDVIEW_DB_USER}
+      POSTGRES_PASSWORD: ${MEDVIEW_DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    image: aesbube/medview-backend:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${MEDVIEW_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${MEDVIEW_DB_USER}  
+      SPRING_DATASOURCE_PASSWORD: ${MEDVIEW_DB_PASSWORD}
+      APP_JWT_SECRET: ${MEDVIEW_JWT_SECRET} 
+      APP_JWT_EXPIRATIONMS: ${MEDVIEW_JWT_EXPIRATIONMS}
+
+  frontend:
+    image: aesbube/medview-frontend:latest
+    restart: always
+    ports:
+      - "80:80"
+
+volumes:
+  pgdata:
