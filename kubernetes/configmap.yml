@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: medview-config
+  namespace: medview
+data:
+  POSTGRES_DB: "medview"
+  POSTGRES_USER: "admin"
+  API_URL: "http://medview.local/api"
+  MEDVIEW_JWT_EXPIRATIONMS: "86400000"

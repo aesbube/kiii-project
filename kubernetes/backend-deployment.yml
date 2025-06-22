@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medview-backend
+  namespace: medview
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: medview-backend
+  template:
+    metadata:
+      labels:
+        app: medview-backend
+    spec:
+      containers:
+      - name: backend
+        image: aesbube/medview-backend:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://postgres-service:5432/medview"
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: medview-config
+              key: POSTGRES_USER
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: medview-secrets
+              key: POSTGRES_PASSWORD
+        - name: APP_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: medview-secrets
+              key: MEDVIEW_JWT_SECRET
+        - name: APP_JWT_EXPIRATIONMS
+          valueFrom:
+            configMapKeyRef:
+              name: medview-config
+              key: MEDVIEW_JWT_EXPIRATIONMS
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/auth/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /api/auth/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10

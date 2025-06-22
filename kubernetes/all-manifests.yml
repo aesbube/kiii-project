@@ -1,0 +1,275 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: medview
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: medview-config
+  namespace: medview
+data:
+  POSTGRES_DB: "medview"
+  POSTGRES_USER: "admin"
+  API_URL: "http://medview.local/api"
+  MEDVIEW_JWT_EXPIRATIONMS: "86400000"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: medview-secrets
+  namespace: medview
+type: Opaque
+data:
+  POSTGRES_PASSWORD: cGFzc3dvcmQ= 
+  MEDVIEW_JWT_SECRET: eW91clNlY3JldEtleUhlcmVNYWtlU3VyZUl0SXNBdExlYXN0MjU2Qml0c0xvbmdGb3JTZWN1cml0eXM=
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-db
+  namespace: medview
+spec:
+  serviceName: postgres-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:17
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: medview-config
+              key: POSTGRES_DB
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: medview-config
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: medview-secrets
+              key: POSTGRES_PASSWORD
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - medview
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - medview
+          initialDelaySeconds: 10
+          periodSeconds: 5
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: medview
+spec:
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
+    targetPort: 5432
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medview-backend
+  namespace: medview
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: medview-backend
+  template:
+    metadata:
+      labels:
+        app: medview-backend
+    spec:
+      containers:
+      - name: backend
+        image: aesbube/medview-backend:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://postgres-service:5432/medview"
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: medview-config
+              key: POSTGRES_USER
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: medview-secrets
+              key: POSTGRES_PASSWORD
+        - name: APP_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: medview-secrets
+              key: MEDVIEW_JWT_SECRET
+        - name: APP_JWT_EXPIRATIONMS
+          valueFrom:
+            configMapKeyRef:
+              name: medview-config
+              key: MEDVIEW_JWT_EXPIRATIONMS
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/auth/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /api/auth/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: medview-backend-service
+  namespace: medview
+spec:
+  selector:
+    app: medview-backend
+  ports:
+  - port: 8080
+    targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medview-frontend
+  namespace: medview
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: medview-frontend
+  template:
+    metadata:
+      labels:
+        app: medview-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: aesbube/medview-frontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: medview-config
+              key: API_URL
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: medview-frontend-service
+  namespace: medview
+spec:
+  selector:
+    app: medview-frontend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: medview-ingress
+  namespace: medview
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: medview.local
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: medview-backend-service
+            port:
+              number: 8080
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: medview-frontend-service
+            port:
+              number: 80
