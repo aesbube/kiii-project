@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/pharmacists")
+@RequestMapping("/api/pharmacists")
 class PharmacistController(private val pharmacistService: PharmacistService) {
     @GetMapping
     fun getAllDoctors(): ResponseEntity<List<PharmacistDto>> {
