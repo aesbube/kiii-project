@@ -26,4 +26,9 @@ class AuthController(
         val response = authService.registerUser(signupRequest)
         return ResponseEntity.ok(response)
     }
+
+    @GetMapping("/health")
+    fun checkHealth(): ResponseEntity<String> {
+        return ResponseEntity.ok("Welcome to the MedView API!")
+    }
 }
