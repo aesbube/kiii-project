@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @CrossOrigin(origins = ["http://localhost:4200"])
 class AuthController(
     private val authService: AuthService

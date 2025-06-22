@@ -38,19 +38,19 @@ class SecurityConfig(
             .authorizeHttpRequests { authz ->
                 authz
                     .requestMatchers(
-                        "/auth/**",
-                        "/h2/**",
-                        "/doctors/all",
-                        "/specialists/search",
-                        "/specialists/{id}",
-                        "/specialists/appointments/ref/**"
+                        "/api/auth/**",
+                        "/api/h2/**",
+                        "/api/doctors/all",
+                        "/api/specialists/search",
+                        "/api/specialists/{id}",
+                        "/api/specialists/appointments/ref/**"
                     )
                     .permitAll()
-                    .requestMatchers("/pharmacists/**").hasAnyRole("PHARMACIST", "ADMIN")
-                    .requestMatchers("/doctors/**", "/patients").hasAnyRole("DOCTOR", "ADMIN")
-                    .requestMatchers("/patients/**").hasAnyRole("PATIENT", "ADMIN")
-                    .requestMatchers("/specialists/**").hasAnyRole("SPECIALIST", "ADMIN")
-                    .requestMatchers("/users/**").hasRole("ADMIN")
+                    .requestMatchers("/api/pharmacists/**").hasAnyRole("PHARMACIST", "ADMIN")
+                    .requestMatchers("/api/doctors/**", "/patients").hasAnyRole("DOCTOR", "ADMIN")
+                    .requestMatchers("/api/patients/**").hasAnyRole("PATIENT", "ADMIN")
+                    .requestMatchers("/api/specialists/**").hasAnyRole("SPECIALIST", "ADMIN")
+                    .requestMatchers("/api/users/**").hasRole("ADMIN")
                     .anyRequest().hasRole("ADMIN")
             }
             .exceptionHandling {

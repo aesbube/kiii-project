@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/doctors")
+@RequestMapping("/api/doctors")
 class DoctorController(private val doctorService: DoctorService, private val specialistService: SpecialistServiceImpl) {
     @PostMapping("/update")
     fun addDetailsToDoctor(@RequestBody doctorDto: DoctorDto): ResponseEntity<String> {

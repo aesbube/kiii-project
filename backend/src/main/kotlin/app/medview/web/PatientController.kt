@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("/api/patients")
 class PatientController(private val patientService: PatientService) {
     @PostMapping("/update")
     fun addDetailsToPatient(@RequestBody patientDto: PatientDto): ResponseEntity<String> {
