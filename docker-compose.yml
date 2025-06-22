@@ -32,6 +32,8 @@ services:
     restart: always
     ports:
       - "80:80"
+    environment:
+      API_URL: ${API_URL}
 
 volumes:
   pgdata:
