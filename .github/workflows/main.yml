@@ -126,6 +126,7 @@ jobs:
           POSTGRES_USER: ${{ secrets.MEDVIEW_DB_USER }}
           MEDVIEW_JWT_SECRET: ${{ secrets.MEDVIEW_JWT_SECRET }}
           MEDVIEW_JWT_EXPIRATIONMS: ${{ secrets.MEDVIEW_JWT_EXPIRATIONMS }}
+          API_URL: ${{ secrets.API_URL }}
         run: |
           ssh -i ec2_key.pem -o StrictHostKeyChecking=no ec2-user@${{ needs.aws_instance_prep.outputs.public_ip }} "
             echo 'POSTGRES_DB=${POSTGRES_DB}' > /home/ec2-user/.env &&
@@ -133,6 +134,7 @@ jobs:
             echo 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD}' >> /home/ec2-user/.env &&
             echo 'MEDVIEW_JWT_SECRET=${MEDVIEW_JWT_SECRET}' >> /home/ec2-user/.env &&
             echo 'MEDVIEW_JWT_EXPIRATIONMS=${MEDVIEW_JWT_EXPIRATIONMS}' >> /home/ec2-user/.env &&
+            echo 'API_URL=${API_URL}' >> /home/ec2-user/.env &&
             cd /home/ec2-user &&
             docker-compose --env-file .env -f docker-compose.prod.yml down || true &&
             docker-compose --env-file .env -f docker-compose.prod.yml up -d
