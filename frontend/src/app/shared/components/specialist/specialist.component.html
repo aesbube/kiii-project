@@ -1,61 +1,57 @@
-<div class="back-button">
-  <button mat-icon-button [routerLink]="['/']">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-</div>
-<div class="specialist-container">
-  <mat-card>
-    @if (specialist) {
-      <mat-card-title>Specialist Details</mat-card-title>
-      <mat-card-content>
-        <div class="specialist-info-grid">
-          <div class="info-row">
-            <div class="info-item">
-              <strong>Name:</strong> {{ specialist.name }} {{ specialist.surname }}
-            </div>
-            <div class="info-item">
-              <strong>Username:</strong> {{ specialist.username }}
-            </div>
-          </div>
+<div class="app-page-inner">
+  <a class="app-back" [routerLink]="['/']">
+    <button mat-icon-button aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="app-back-label">Back to home</span>
+  </a>
 
-          <div class="info-row">
-            <div class="info-item">
-              <strong>Email:</strong> {{ specialist.email }}
-            </div>
-            <div class="info-item">
-              <strong>Phone:</strong> {{ specialist.phone }}
-            </div>
-          </div>
-
-          <div class="info-row">
-            <div class="info-item">
-              <strong>Address:</strong> {{ specialist.address }}
-            </div>
-            <div class="info-item">
-              <strong>Birth Date:</strong> {{ specialist.birthDate | date }}
-            </div>
-          </div>
-
-          <div class="info-row">
-            <div class="info-item">
-              <strong>Specialty:</strong> {{ specialist.specialty }}
-            </div>
-            <div class="info-item">
-              <strong>License number:</strong> {{ specialist.licenseNumber }}
-            </div>
-          </div>
-
-          <div class="info-row full-width">
-            <div class="info-item">
-              <strong>Years of experience:</strong> {{ specialist.yearsOfExperience }}
-            </div>
-          </div>
+  @if (specialist) {
+    <div class="app-card">
+      <div class="app-card__header">
+        <div class="app-card__header-icon">
+          <mat-icon>health_and_safety</mat-icon>
         </div>
-      </mat-card-content>
-    } @else {
-      <div class="spinner-container">
-        <mat-spinner [diameter]="60"></mat-spinner>
+        <div>
+          <h2 class="app-card__title">{{ specialist.name }} {{ specialist.surname }}</h2>
+          <div class="app-card__subtitle">{{ specialist.specialty || 'Specialist' }}</div>
+        </div>
       </div>
-    }
-  </mat-card>
+
+      <div class="app-info-grid">
+        <div class="app-info-item">
+          <span class="app-info-label">Username</span>
+          <span class="app-info-value">{{ specialist.username }}</span>
+        </div>
+        <div class="app-info-item">
+          <span class="app-info-label">Email</span>
+          <span class="app-info-value">{{ specialist.email }}</span>
+        </div>
+        <div class="app-info-item">
+          <span class="app-info-label">Phone</span>
+          <span class="app-info-value">{{ specialist.phone || '—' }}</span>
+        </div>
+        <div class="app-info-item">
+          <span class="app-info-label">Address</span>
+          <span class="app-info-value">{{ specialist.address || '—' }}</span>
+        </div>
+        <div class="app-info-item">
+          <span class="app-info-label">Birth date</span>
+          <span class="app-info-value">{{ (specialist.birthDate | date) || '—' }}</span>
+        </div>
+        <div class="app-info-item">
+          <span class="app-info-label">License number</span>
+          <span class="app-info-value">{{ specialist.licenseNumber || '—' }}</span>
+        </div>
+        <div class="app-info-item app-info-item--full">
+          <span class="app-info-label">Years of experience</span>
+          <span class="app-info-value">{{ specialist.yearsOfExperience }}</span>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="spinner-container">
+      <mat-spinner [diameter]="48"></mat-spinner>
+    </div>
+  }
 </div>

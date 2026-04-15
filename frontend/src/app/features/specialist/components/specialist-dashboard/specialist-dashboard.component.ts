@@ -1,13 +1,11 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
-import {MatListItem, MatNavList} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-specialist-dashboard',
-  imports: [RouterLink, RouterLinkActive, MatNavList, MatListItem],
+  imports: [RouterLink, RouterLinkActive, MatIconModule],
   templateUrl: './specialist-dashboard.component.html',
   styleUrl: './specialist-dashboard.component.css'
 })
-export class SpecialistDashboardComponent {
-
-}
+export class SpecialistDashboardComponent {}

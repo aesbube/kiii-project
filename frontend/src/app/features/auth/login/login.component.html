@@ -1,16 +1,18 @@
 <div class="login-wrapper">
-  <h2>Log In</h2>
+  <h2>Welcome back</h2>
+  <p class="subtitle">Sign in to your MedView account</p>
+
   <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
+      <label for="username">Username</label>
       <input
         type="text"
         id="username"
         name="username"
         formControlName="username"
-        placeholder=""
+        autocomplete="username"
         [class.error]="validationService.isControlInvalid(myForm, 'username')"
       />
-      <label for="username">Username</label>
       @if (this.myForm.controls['username'].touched && this.myForm.controls['username'].invalid) {
         <div class="error-message">
           @if (this.myForm.controls['username'].errors?.['required']) {
@@ -19,17 +21,17 @@
         </div>
       }
     </div>
+
     <div class="form-group">
+      <label for="password">Password</label>
       <input
         type="password"
         id="password"
         name="password"
         formControlName="password"
-        placeholder=""
+        autocomplete="current-password"
         [class.error]="validationService.isControlInvalid(myForm, 'password')"
       />
-      <label for="password">Password</label>
-
       @if (this.myForm.controls['password'].touched && this.myForm.controls['password'].invalid) {
         <div class="error-message">
           @if (this.myForm.controls['password'].errors?.['required']) {
@@ -38,14 +40,15 @@
         </div>
       }
     </div>
+
     @if (successMessage) {
       <div class="success-message">
         {{ successMessage }}
       </div>
     }
-    <button type="submit" [disabled]="!myForm.valid" class="submit-button">
-      Login
-    </button>
 
+    <button type="submit" [disabled]="!myForm.valid" class="submit-button">
+      Sign In
+    </button>
   </form>
 </div>

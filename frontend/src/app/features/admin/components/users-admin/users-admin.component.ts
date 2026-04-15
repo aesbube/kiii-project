@@ -1,34 +1,15 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {AdminService} from '../../admin.service';
-import {User} from '../../../../models/user.model';
-import {
-  MatCell, MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef,
-  MatRow, MatRowDef,
-  MatTable
-} from '@angular/material/table';
-import {MatButton, MatIconButton} from '@angular/material/button';
-import {RouterLink} from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
-import {MatProgressSpinner} from '@angular/material/progress-spinner';
+import { Component, inject, OnInit } from '@angular/core';
+import { AdminService } from '../../admin.service';
+import { User } from '../../../../models/user.model';
+import { MatIconButton } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-users-admin',
   imports: [
-    MatTable,
-    MatHeaderCell,
-    MatCell,
-    MatHeaderRow,
-    MatRow,
-    MatColumnDef,
-    MatHeaderCellDef,
-    MatCellDef,
-    MatButton,
-    MatHeaderRowDef,
-    MatRowDef,
     MatIconModule,
     MatIconButton,
     RouterLink,
@@ -39,8 +20,8 @@ import {MatProgressSpinner} from '@angular/material/progress-spinner';
 })
 export class UsersAdminComponent implements OnInit {
   service = inject(AdminService);
+  private toast = inject(ToastService);
   users: User[] = [];
-  displayedColumns: string[] = ['id', 'name', 'email', 'actions'];
   loaded = false;
 
   ngOnInit(): void {
@@ -55,17 +36,21 @@ export class UsersAdminComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading users:', error);
+        this.loaded = true;
+        this.toast.error('Could not load users');
       }
     });
   }
 
-  deleteUser(userId: number) {
-    this.service.deleteUser(userId).subscribe({
+  deleteUser(userId: any) {
+    this.service.deleteUser(Number(userId)).subscribe({
       next: () => {
         this.users = this.users.filter(u => u.id !== userId);
+        this.toast.success('User deleted');
       },
       error: (error) => {
         console.error('Error deleting user:', error);
+        this.toast.error('Could not delete user');
       }
     });
   }

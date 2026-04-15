@@ -1,3 +1,7 @@
+:host {
+  display: block;
+}
+
 .spinner-container {
   display: flex;
   justify-content: center;
@@ -5,34 +9,31 @@
   height: 200px;
 }
 
-.appointment-container {
-  display: flex;
-  justify-content: center;
+.appt-status {
+  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
 }
 
-.appointment-info-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.appt-status--occupied,
+.appt-status--booked {
+  background-color: #dbeafe;
+  color: #1d4ed8;
 }
 
-.info-row {
-  display: flex;
-  gap: 16px;
+.appt-status--free,
+.appt-status--available {
+  background-color: #dcfce7;
+  color: #16a34a;
 }
 
-.info-item {
-  flex: 1;
-}
-
-.full-width {
-  width: 100%;
-}
-
-mat-card {
-  padding: 20px;
-}
-
-mat-card-content {
-  margin-top: 20px;
+.appt-status--cancelled,
+.appt-status--canceled {
+  background-color: #fee2e2;
+  color: #dc2626;
 }

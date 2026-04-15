@@ -1,8 +1,26 @@
+<div class="card-overlay">
+  <div class="card-content">
+    <ng-container [ngSwitch]="uniqueAction">
+      <ng-container *ngSwitchCase="'app'">
+        <span class="eyebrow">Book visits</span>
+        <h2 class="headline">Find your next appointment</h2>
+        <p class="subtext">Look up appointment references instantly and manage visits in one place.</p>
+        <div class="card-search">
+          <app-appointment-search (focused)="setFocused($event)"></app-appointment-search>
+        </div>
+      </ng-container>
 
-<ng-container [ngSwitch]="uniqueAction">
-  <app-map-search *ngSwitchCase="'map'"></app-map-search>
-  <app-appointment-search *ngSwitchCase="'app'" (focused)="setFocused($event)"></app-appointment-search>
-  <app-specialist-search *ngSwitchCase="'spec'" (focused)="setFocused($event)"></app-specialist-search>
-  <ng-template ngSwitchDefault></ng-template>
-</ng-container>
+      <ng-container *ngSwitchCase="'spec'">
+        <span class="eyebrow">Discover specialists</span>
+        <h2 class="headline">Care from trusted specialists</h2>
+        <p class="subtext">Search verified specialists by name, specialty, or hospital &mdash; all in seconds.</p>
+        <div class="card-search">
+          <app-specialist-search (focused)="setFocused($event)"></app-specialist-search>
+        </div>
+      </ng-container>
 
+      <app-map-search *ngSwitchCase="'map'"></app-map-search>
+      <ng-template ngSwitchDefault></ng-template>
+    </ng-container>
+  </div>
+</div>

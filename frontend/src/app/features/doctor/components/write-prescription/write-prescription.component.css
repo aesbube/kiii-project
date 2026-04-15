@@ -1,33 +1,18 @@
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
+:host {
+  display: block;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--color-bg);
+  padding: var(--space-6) var(--space-4);
 }
 
-.back-button {
-  margin-bottom: 20px;
+.field-error {
+  font-size: 12px;
+  color: var(--color-danger);
+  margin-top: 2px;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.full-width {
-  width: 100%;
-}
-
-mat-form-field {
-  margin-bottom: 10px;
-}
-
-button {
-  margin-top: 20px;
-  align-self: flex-start;
-}
-
-h2 {
-  margin-bottom: 20px;
-  text-align: center;
+.details-form__actions .app-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }

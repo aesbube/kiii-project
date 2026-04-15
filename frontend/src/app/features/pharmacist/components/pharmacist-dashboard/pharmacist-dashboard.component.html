@@ -1,1 +1,19 @@
-<button mat-flat-button routerLink="/scan">Scan</button>
+<div class="dashboard-page">
+  <div class="dashboard-welcome">
+    <h1 class="dashboard-welcome__title">Pharmacist Dashboard</h1>
+    <p class="dashboard-welcome__sub">Verify and dispense prescriptions from here.</p>
+  </div>
+
+  <div>
+    <div class="dashboard-section-label">Actions</div>
+    <div class="dashboard-grid">
+      <a class="dashboard-tile" routerLink="/scan">
+        <div class="dashboard-tile__icon">
+          <mat-icon>qr_code_scanner</mat-icon>
+        </div>
+        <h3 class="dashboard-tile__title">Scan prescription</h3>
+        <p class="dashboard-tile__desc">Scan a QR code or barcode to look up and validate a patient prescription.</p>
+      </a>
+    </div>
+  </div>
+</div>

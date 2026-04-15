@@ -1,15 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {AppointmentComponent} from '../appointment/appointment.component';
-import {MatListItem, MatNavList} from '@angular/material/list';
+import {Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   standalone: true,
   selector: 'app-doctor-dashboard',
-  imports: [MatListItem, MatNavList, RouterLinkActive, RouterLink],
+  imports: [RouterLink, RouterLinkActive, MatIconModule],
   templateUrl: './doctor-dashboard.component.html',
   styleUrl: './doctor-dashboard.component.css'
 })
-export class DoctorDashboardComponent {
-
-}
+export class DoctorDashboardComponent {}

@@ -1,14 +1,13 @@
-.back-button {
-  position: fixed;
-  top: 70px;
-  left: 20px;
+:host {
+  display: block;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--color-bg);
+  padding: var(--space-6) var(--space-4);
 }
 
-.container {
+.spinner-container {
   display: flex;
-  flex-direction: column;
-  gap: 30px;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 260px;
 }

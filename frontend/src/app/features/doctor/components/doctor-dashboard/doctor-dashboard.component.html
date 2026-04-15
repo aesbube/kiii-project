@@ -1,9 +1,35 @@
-<div class="container">
-  <div class="doctor-dashboard">
-    <mat-nav-list>
-      <a mat-list-item [routerLink]="['/dashboard/info-d']" routerLinkActive="active">My Details</a>
-      <a mat-list-item [routerLink]="['/dashboard/patients']" routerLinkActive="active">My Patients</a>
-      <a mat-list-item [routerLink]="['/dashboard/claim-patient']" routerLinkActive="active">Claim a Patient</a>
-    </mat-nav-list>
+<div class="dashboard-page">
+  <div class="dashboard-welcome">
+    <h1 class="dashboard-welcome__title">Doctor Dashboard</h1>
+    <p class="dashboard-welcome__sub">Manage your patients, appointments, and personal details.</p>
+  </div>
+
+  <div>
+    <div class="dashboard-section-label">Navigation</div>
+    <div class="dashboard-grid">
+      <a class="dashboard-tile" [routerLink]="['/dashboard/info-d']" routerLinkActive="dashboard-tile--active">
+        <div class="dashboard-tile__icon">
+          <mat-icon>manage_accounts</mat-icon>
+        </div>
+        <h3 class="dashboard-tile__title">My details</h3>
+        <p class="dashboard-tile__desc">View and update your personal and professional information.</p>
+      </a>
+
+      <a class="dashboard-tile" [routerLink]="['/dashboard/patients']" routerLinkActive="dashboard-tile--active">
+        <div class="dashboard-tile__icon">
+          <mat-icon>groups</mat-icon>
+        </div>
+        <h3 class="dashboard-tile__title">My patients</h3>
+        <p class="dashboard-tile__desc">Browse and manage all patients currently under your care.</p>
+      </a>
+
+      <a class="dashboard-tile" [routerLink]="['/dashboard/claim-patient']" routerLinkActive="dashboard-tile--active">
+        <div class="dashboard-tile__icon">
+          <mat-icon>person_add</mat-icon>
+        </div>
+        <h3 class="dashboard-tile__title">Claim a patient</h3>
+        <p class="dashboard-tile__desc">Search for unclaimed patients and take them under your care.</p>
+      </a>
+    </div>
   </div>
 </div>

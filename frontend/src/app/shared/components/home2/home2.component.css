@@ -1,14 +1,22 @@
 :host {
-  height: calc(100vh - 58px);
+  height: calc(100vh - var(--nav-height));
   display: flex;
   flex-direction: row;
+  background-color: var(--color-bg);
 }
-.row{
+
+.row {
   flex: 1 1;
   display: flex;
-  transition: flex ease 0.2s;
+  transition: flex var(--transition-base);
 }
-.flexUp{
+
+.flexUp {
   flex: 2 2;
 }
 
+@media (max-width: 768px) {
+  :host {
+    flex-direction: column;
+  }
+}

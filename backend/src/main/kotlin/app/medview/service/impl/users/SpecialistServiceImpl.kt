@@ -43,7 +43,7 @@ class SpecialistServiceImpl(
     }
 
     override fun getSpecialistsByNameOrSurname(name: String): List<Specialist> {
-        return specialistRepository.findByNameContainingIgnoreCaseOrSurnameContainingIgnoreCase(name, name)
+        return specialistRepository.searchSpecialists(name)
     }
 
     override fun getSpecialistByUsername(username: String): SpecialistDto {

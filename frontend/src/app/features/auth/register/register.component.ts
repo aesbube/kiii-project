@@ -1,14 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators, } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ValidationService } from '../../../core/services/validation.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -23,6 +19,8 @@ export class RegisterComponent implements OnInit {
   strongPasswordPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/;
   successMessage: string | null = null;
+
+  private toast = inject(ToastService);
 
   constructor(
     public validationService: ValidationService,
@@ -40,7 +38,8 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   onSubmit() {
     console.log('Submit');
@@ -51,7 +50,8 @@ export class RegisterComponent implements OnInit {
       this.authService.register(registrationData).subscribe({
         next: (response) => {
           console.log('Registration successful!', response);
-          this.successMessage = 'Registration successful!';
+          this.successMessage = null;
+          this.toast.success('Account created — please sign in');
           this.myForm.reset();
           this.myForm.markAsPristine();
           this.myForm.markAsUntouched();
@@ -60,6 +60,7 @@ export class RegisterComponent implements OnInit {
         error: (error) => {
           console.error('Registration failed:', error);
           this.successMessage = 'Registration failed please try again';
+          this.toast.error('Registration failed. Please try again');
         },
       });
     } else {

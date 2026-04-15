@@ -1,9 +1,30 @@
-:host{
-  display: flex;
+:host {
+  display: block;
+  background-color: var(--color-bg);
 }
 
-app-side-menu{
-  position: relative;
-  top: calc(50vh - 28px);
-  transform: translateY(-50%);
+.patient-layout {
+  display: flex;
+  min-height: calc(100vh - var(--nav-height));
+}
+
+app-side-menu {
+  flex-shrink: 0;
+}
+
+.patient-content {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-6);
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .patient-layout {
+    flex-direction: column;
+  }
+
+  .patient-content {
+    padding: var(--space-4);
+  }
 }

@@ -1,7 +1,31 @@
-mat-card {
-  padding:20px;
+:host {
+  display: block;
 }
 
-mat-card-content {
-  margin-top: 20px;
+.section-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.section-header-text {
+  flex: 1;
+}
+
+.section-btn {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.section-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
 }

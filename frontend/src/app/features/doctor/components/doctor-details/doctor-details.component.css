@@ -1,32 +1,19 @@
-.full-width {
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  max-width: 700px;
-  padding: 20px;
-  margin: 20px auto 0;
+:host {
+  display: block;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--color-bg);
+  padding: var(--space-6) var(--space-4);
 }
 
 .spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  height: 260px;
 }
 
-.back-button {
-  position: fixed;
-  top: 70px;
-  left: 20px;
-}
-
-button[color="primary"] {
-  margin-top: 16px;
+.details-form__actions .app-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }

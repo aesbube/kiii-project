@@ -1,30 +1,40 @@
-<div class="appointment-item">
-  <mat-card appearance="outlined">
-    <mat-card-header>
-      @if (!isDoctor) {
-        <mat-card-title>Appointment of patient {{ appointment.patientName }}</mat-card-title>
+<div class="app-card appointment-card">
+  <div class="app-card__header appointment-card__header">
+    <div class="app-card__header-icon">
+      <mat-icon>event</mat-icon>
+    </div>
+    <div class="appointment-card__title-wrap">
+      @if (!isDoctor && appointment.patientName) {
+        <h3 class="app-card__title">{{ appointment.patientName }}</h3>
+        <div class="app-card__subtitle">Ref #{{ appointment.refNumber }}</div>
+      } @else {
+        <h3 class="app-card__title">Appointment</h3>
+        <div class="app-card__subtitle">Ref #{{ appointment.refNumber }}</div>
       }
-      <mat-card-subtitle>Referral number: {{ appointment.refNumber }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div>Date: {{ appointment.date }}</div>
-      <div>Time: {{ appointment.time }}</div>
-      <div>Location: {{ appointment.location }}</div>
-    </mat-card-content>
-    @if (!isPatient) {
-      <mat-card-actions align="end">
-        <a
-          [routerLink]="[appointment.id]"
-          routerLinkActive="active">
-          <button
-            mat-raised-button
-            color="primary"
-          >
-            View Details
-          </button>
-        </a>
-      </mat-card-actions>
-    }
+    </div>
+  </div>
 
-  </mat-card>
+  <div class="appointment-card__meta">
+    <div class="appointment-card__meta-item">
+      <mat-icon>calendar_today</mat-icon>
+      <span>{{ appointment.date }}</span>
+    </div>
+    <div class="appointment-card__meta-item">
+      <mat-icon>schedule</mat-icon>
+      <span>{{ appointment.time }}</span>
+    </div>
+    <div class="appointment-card__meta-item">
+      <mat-icon>place</mat-icon>
+      <span>{{ appointment.location }}</span>
+    </div>
+  </div>
+
+  @if (!isPatient) {
+    <div class="appointment-card__actions">
+      <a class="app-btn" [routerLink]="[appointment.id]">
+        <mat-icon>visibility</mat-icon>
+        View details
+      </a>
+    </div>
+  }
 </div>

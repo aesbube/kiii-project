@@ -1,99 +1,103 @@
-<div class="back-button">
-  <button mat-icon-button [routerLink]="['/dashboard']">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-</div>
-<div class="container">
-  <div class="appointment-selector">
-    <mat-form-field appearance="outline" class="time-selector">
-      <mat-label>Appointment time</mat-label>
-      <mat-select
-        [(value)]="time"
-        (selectionChange)="onTimeChange($event.value)"
-        [disabled]="!value"
-      >
-        @for (option of timeOptions; track $index) {
-          <mat-option
-            [value]="option"
-            [disabled]="disabledTimeOptions.has(option)"
-          >
-            {{ option }}
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+<div class="app-page-inner app-page-inner--wide">
+  <a class="app-back" [routerLink]="['/dashboard']">
+    <button mat-icon-button aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="app-back-label">Back to dashboard</span>
+  </a>
 
-    <div class="calendar-container">
-      <mat-card class="calendar-card">
-        @if (appointmentsLoaded) {
-          <mat-calendar
-            [selected]="value"
-            (selectedChange)="onDateChange($event!!)"
-            [minDate]="minDate"
-            [maxDate]="maxDate"
-            [dateClass]="dateClass"
+  <div class="app-card">
+    <div class="app-card__header">
+      <div class="app-card__header-icon">
+        <mat-icon>event_available</mat-icon>
+      </div>
+      <div>
+        <h2 class="app-card__title">Free appointment slots</h2>
+        <div class="app-card__subtitle">Set dates and times when you're available</div>
+      </div>
+    </div>
+
+    <div class="appointment-layout">
+      <div class="appointment-selector">
+        <mat-form-field appearance="outline" class="time-selector">
+          <mat-label>Appointment time</mat-label>
+          <mat-select
+            [(value)]="time"
+            (selectionChange)="onTimeChange($event.value)"
+            [disabled]="!value"
           >
-          </mat-calendar>
-        } @else {
-          <div class="spinner-container">
-            <mat-spinner [diameter]="60"></mat-spinner>
+            @for (option of timeOptions; track $index) {
+              <mat-option [value]="option" [disabled]="disabledTimeOptions.has(option)">
+                {{ option }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <div class="calendar-container">
+          <div class="calendar-card">
+            @if (appointmentsLoaded) {
+              <mat-calendar
+                [selected]="value"
+                (selectedChange)="onDateChange($event!!)"
+                [minDate]="minDate"
+                [maxDate]="maxDate"
+                [dateClass]="dateClass"
+              ></mat-calendar>
+            } @else {
+              <div class="spinner-container">
+                <mat-spinner [diameter]="48"></mat-spinner>
+              </div>
+            }
           </div>
-        }
-      </mat-card>
-    </div>
-    <div class="location-container">
-      <mat-form-field appearance="outline" class="location-input">
-        <mat-label>Location</mat-label>
-        <input
-          matInput
-          placeholder="Enter location"
-          required="true"
-          [(ngModel)]="location"
-          [disabled]="!(value && time)"
-        />
-      </mat-form-field>
-    </div>
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="!(value && time && location)"
-      (click)="addAppointment()"
-    >
-      Add Appointment
-    </button>
-  </div>
+        </div>
 
-  <div class="appointments-list">
-    <h3 style="margin-bottom: 15px">Appointments:</h3>
-    @if (selectedAppointments.length === 0) {
-      <div class="no-appointments">No appointments selected yet</div>
-    }
-    @if (selectedAppointments.length > 0) {
-      <ul>
-        @for (date of selectedAppointments; track $index) {
-          <li class="appointment-item">
-            {{ date.date| date : "EEE dd.MM.yyyy HH:mm" }}
-            {{ date.location }}
-            <button
-              mat-icon-button
-              color="warn"
-              (click)="removeAppointment($index)"
-              aria-label="Remove appointment"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
-          </li>
-        }
-      </ul>
-    }
+        <mat-form-field appearance="outline" class="location-input">
+          <mat-label>Location</mat-label>
+          <input
+            matInput
+            placeholder="Enter location"
+            required="true"
+            [(ngModel)]="location"
+            [disabled]="!(value && time)"
+          />
+        </mat-form-field>
 
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="selectedAppointments.length === 0"
-      (click)="submitAppointments()"
-    >
-      Submit Appointments
-    </button>
+        <button type="button" class="app-btn" [disabled]="!(value && time && location)" (click)="addAppointment()">
+          <mat-icon>add</mat-icon>
+          Add slot
+        </button>
+      </div>
+
+      <div class="appointments-list">
+        <h3 class="appointments-list__title">Selected slots</h3>
+        @if (selectedAppointments.length === 0) {
+          <div class="no-appointments">No slots selected yet</div>
+        } @else {
+          <ul>
+            @for (date of selectedAppointments; track $index) {
+              <li class="appointment-item">
+                <span>
+                  {{ date.date | date : "EEE dd.MM.yyyy HH:mm" }} · {{ date.location }}
+                </span>
+                <button mat-icon-button color="warn" (click)="removeAppointment($index)" aria-label="Remove">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </li>
+            }
+          </ul>
+        }
+
+        <button
+          type="button"
+          class="app-btn submit-btn"
+          [disabled]="selectedAppointments.length === 0"
+          (click)="submitAppointments()"
+        >
+          <mat-icon>save</mat-icon>
+          Save slots
+        </button>
+      </div>
+    </div>
   </div>
 </div>

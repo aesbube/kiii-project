@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ValidationService} from '../../../../core/services/validation.service';
-import {AuthService} from '../../../../core/services/auth.service';
-import {Router, RouterLink} from '@angular/router';
-import {MatIconButton} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { Component, inject, OnInit } from '@angular/core';
+import { ToastService } from '../../../../core/services/toast.service';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ValidationService } from '../../../../core/services/validation.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Router, RouterLink } from '@angular/router';
+import { MatIconButton } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register-admin',
@@ -23,6 +24,7 @@ export class RegisterAdminComponent implements OnInit {
   strongPasswordPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/;
   successMessage: string | null = null;
+  private toast = inject(ToastService);
 
   constructor(
     public validationService: ValidationService,
@@ -53,17 +55,16 @@ export class RegisterAdminComponent implements OnInit {
       this.authService.register(registrationData).subscribe({
         next: (response) => {
           console.log('Registration successful!', response);
-          this.successMessage = 'Registration successful!';
+          this.successMessage = null;
+          this.toast.success('User registered successfully');
           this.myForm.reset();
           this.myForm.markAsPristine();
           this.myForm.markAsUntouched();
-          setTimeout(() => {
-            this.successMessage = null;
-          }, 5000);
         },
         error: (error) => {
           console.error('Registration failed:', error);
-          this.successMessage = 'Registration failed please try again';
+          this.successMessage = null;
+          this.toast.error('Registration failed. Please try again');
         },
       });
     } else {

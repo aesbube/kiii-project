@@ -1,29 +1,35 @@
-<div class="container">
-  <mat-card>
-    @if (appointmentsLoaded) {
-      <mat-card-title>Patient Appointments</mat-card-title>
-      @for (appointment of appointments; track appointment) {
-        <app-appointment-details
-          [appointment]="appointment"
-          [isDoctor]="true"
-        ></app-appointment-details>
-      } @empty {
-        <ng-content>No appointments found</ng-content>
-      }
-      <a
-        [routerLink]="['appointments']"
-        routerLinkActive="active">
-        <button
-          mat-raised-button
-          color="primary"
-        >
-          Schedule New Appointment
-        </button>
-      </a>
+<div class="app-card section-card">
+  <div class="app-card__header">
+    <div class="app-card__header-icon">
+      <mat-icon>event</mat-icon>
+    </div>
+    <div class="section-header-text">
+      <h2 class="app-card__title">Appointments</h2>
+      <div class="app-card__subtitle">Scheduled appointments for this patient</div>
+    </div>
+    <a class="app-btn section-btn" [routerLink]="['appointments']">
+      <mat-icon>add</mat-icon>
+      Schedule new
+    </a>
+  </div>
+
+  @if (appointmentsLoaded) {
+    @if (appointments.length) {
+      <div class="app-grid-cards">
+        @for (appointment of appointments; track appointment.id) {
+          <app-appointment-details [appointment]="appointment" [isDoctor]="true"></app-appointment-details>
+        }
+      </div>
     } @else {
-      <div class="spinner-container">
-        <mat-spinner [diameter]="60"></mat-spinner>
+      <div class="app-empty">
+        <mat-icon>event_busy</mat-icon>
+        <h3>No appointments yet</h3>
+        <p>No appointments have been scheduled for this patient.</p>
       </div>
     }
-  </mat-card>
+  } @else {
+    <div class="spinner-container">
+      <mat-spinner [diameter]="48"></mat-spinner>
+    </div>
+  }
 </div>

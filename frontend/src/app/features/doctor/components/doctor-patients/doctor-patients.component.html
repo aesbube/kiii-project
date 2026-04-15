@@ -1,26 +1,51 @@
-<div class="back-button">
-  <button mat-icon-button [routerLink]="['/dashboard']">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-</div>
-<div class="search-container">
-  <input
-    #search
-    type="text"
-    placeholder="Start typing to search..."
-    (input)="onChange(search.value)"
-  />
-  @if (patients$ | async) {
-    <div class="container">
-      @for (patient of patients$ | async; track patient.id) {
-        <app-patient-card [patient]="patient"></app-patient-card>
-      } @empty {
-        <ng-content>No patients found</ng-content>
-      }
+<div class="app-page-inner app-page-inner--wide">
+  <a class="app-back" [routerLink]="['/dashboard']">
+    <button mat-icon-button aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="app-back-label">Back to dashboard</span>
+  </a>
+
+  <div class="app-card">
+    <div class="app-card__header">
+      <div class="app-card__header-icon">
+        <mat-icon>groups</mat-icon>
+      </div>
+      <div>
+        <h2 class="app-card__title">My patients</h2>
+        <div class="app-card__subtitle">Search and view patients under your care</div>
+      </div>
     </div>
+
+    <div class="search-row">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input
+        #search
+        class="app-input search-input"
+        type="text"
+        placeholder="Search by name, surname, email or username..."
+        (input)="onChange(search.value)"
+      />
+    </div>
+  </div>
+
+  @if (patients$ | async; as patients) {
+    @if (patients.length) {
+      <div class="app-grid-cards">
+        @for (patient of patients; track patient.id) {
+          <app-patient-card [patient]="patient"></app-patient-card>
+        }
+      </div>
+    } @else {
+      <div class="app-empty">
+        <mat-icon>person_off</mat-icon>
+        <h3>No patients found</h3>
+        <p>Try a different search term or check back later.</p>
+      </div>
+    }
   } @else {
     <div class="spinner-container">
-      <mat-spinner [diameter]="60"></mat-spinner>
+      <mat-spinner [diameter]="48"></mat-spinner>
     </div>
   }
 </div>

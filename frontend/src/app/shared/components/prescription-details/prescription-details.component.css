@@ -1,21 +1,61 @@
-.prescription-item {
-  margin: 15px;
-  width: 300px;
+:host {
+  display: block;
 }
 
-button{
-  width: 100px;
+.prescription-card {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
-.qr-wrap{
+.prescription-card__header {
+  padding-bottom: var(--space-4);
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+
+.prescription-status {
+  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.prescription-status--active {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.prescription-status--redeemed,
+.prescription-status--used {
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-subtle);
+}
+
+.prescription-status--expired {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.prescription-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.prescription-actions .app-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.qr-wrap {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-
-}
-
-app-qr-code{
-  transform: scale(1.5);
-  padding: 40px;
+  padding: var(--space-4);
 }

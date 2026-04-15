@@ -1,33 +1,32 @@
-<div class="diagnosis-container">
-  <mat-card>
-    @if (diagnosis) {
-      <mat-card-title>Diagnosis Details</mat-card-title>
-      <mat-card-content>
-        <div class="diagnosis-info-grid">
-          <div class="info-row full-width">
-            <div class="info-item">
-              <strong>Patient:</strong> {{ diagnosis.patientNameAndSurname || 'N/A' }}
-            </div>
-          </div>
-
-          <div class="info-row full-width">
-            <div class="info-item">
-              <strong>Description:</strong> {{ diagnosis.description || 'N/A' }}
-            </div>
-          </div>
-
-          <div class="info-row full-width">
-            <div class="info-item">
-              <strong>Treatment:</strong> {{ diagnosis.treatment }}
-            </div>
-          </div>
-
-        </div>
-      </mat-card-content>
-    } @else {
-      <div class="spinner-container">
-        <mat-spinner [diameter]="60"></mat-spinner>
+@if (diagnosis) {
+  <div class="app-card">
+    <div class="app-card__header">
+      <div class="app-card__header-icon">
+        <mat-icon>assignment</mat-icon>
       </div>
-    }
-  </mat-card>
-</div>
+      <div>
+        <h2 class="app-card__title">Diagnosis details</h2>
+        <div class="app-card__subtitle">{{ diagnosis.patientNameAndSurname || 'Patient record' }}</div>
+      </div>
+    </div>
+
+    <div class="app-info-grid">
+      <div class="app-info-item app-info-item--full">
+        <span class="app-info-label">Patient</span>
+        <span class="app-info-value">{{ diagnosis.patientNameAndSurname || '—' }}</span>
+      </div>
+      <div class="app-info-item app-info-item--full">
+        <span class="app-info-label">Description</span>
+        <span class="app-info-value">{{ diagnosis.description || '—' }}</span>
+      </div>
+      <div class="app-info-item app-info-item--full">
+        <span class="app-info-label">Treatment</span>
+        <span class="app-info-value">{{ diagnosis.treatment || '—' }}</span>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="spinner-container">
+    <mat-spinner [diameter]="48"></mat-spinner>
+  </div>
+}

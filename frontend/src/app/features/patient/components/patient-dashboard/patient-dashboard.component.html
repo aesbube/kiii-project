@@ -1,11 +1,15 @@
-<app-side-menu (currentTab)="updatePatientTab($event)"></app-side-menu>
+<div class="patient-layout">
+  <app-side-menu class="side-menu" (currentTab)="updatePatientTab($event)"></app-side-menu>
 
-@if (currentTab == "Basic Info") {
-  <app-patient-info></app-patient-info>
-} @else if (currentTab == "Appointments") {
-  <app-patient-appointments></app-patient-appointments>
-} @else if (currentTab == "Prescriptions") {
-  <app-patient-prescriptions></app-patient-prescriptions>
-} @else if (currentTab == "History") {
-  <app-patient-history></app-patient-history>
-}
+  <main class="patient-content">
+    @if (currentTab == "Basic Info") {
+      <app-patient-info></app-patient-info>
+    } @else if (currentTab == "Appointments") {
+      <app-patient-appointments></app-patient-appointments>
+    } @else if (currentTab == "Prescriptions") {
+      <app-patient-prescriptions></app-patient-prescriptions>
+    } @else if (currentTab == "History") {
+      <app-patient-history></app-patient-history>
+    }
+  </main>
+</div>

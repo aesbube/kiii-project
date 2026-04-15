@@ -10,6 +10,7 @@ import {DiagnosisCardComponent} from '../../../../shared/components/diagnosis-ca
 import {catchError} from 'rxjs/operators';
 import {MatIconButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {DoctorService} from '../../../doctor/doctor.service';
 
 @Component({
@@ -20,6 +21,7 @@ import {DoctorService} from '../../../doctor/doctor.service';
     DiagnosisCardComponent,
     MatIconModule,
     MatIconButton,
+    MatProgressSpinner,
     RouterLink
   ],
   templateUrl: './appointment-diagnosis.component.html',

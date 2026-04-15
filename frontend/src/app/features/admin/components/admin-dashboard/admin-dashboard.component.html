@@ -1,8 +1,27 @@
-<div class="container">
-  <div class="admin-dashboard">
-    <mat-nav-list>
-      <a mat-list-item [routerLink]="['/dashboard/register']" routerLinkActive="active">Register a user</a>
-      <a mat-list-item [routerLink]="['/dashboard/users']" routerLinkActive="active">Manage users</a>
-    </mat-nav-list>
+<div class="dashboard-page">
+  <div class="dashboard-welcome">
+    <h1 class="dashboard-welcome__title">Admin Dashboard</h1>
+    <p class="dashboard-welcome__sub">Register new users and manage existing accounts.</p>
+  </div>
+
+  <div>
+    <div class="dashboard-section-label">Administration</div>
+    <div class="dashboard-grid">
+      <a class="dashboard-tile" [routerLink]="['/dashboard/register']" routerLinkActive="dashboard-tile--active">
+        <div class="dashboard-tile__icon">
+          <mat-icon>person_add</mat-icon>
+        </div>
+        <h3 class="dashboard-tile__title">Register a user</h3>
+        <p class="dashboard-tile__desc">Create a new doctor, specialist, pharmacist, or admin account.</p>
+      </a>
+
+      <a class="dashboard-tile" [routerLink]="['/dashboard/users']" routerLinkActive="dashboard-tile--active">
+        <div class="dashboard-tile__icon">
+          <mat-icon>manage_accounts</mat-icon>
+        </div>
+        <h3 class="dashboard-tile__title">Manage users</h3>
+        <p class="dashboard-tile__desc">View, search, and delete existing user accounts in the system.</p>
+      </a>
+    </div>
   </div>
 </div>

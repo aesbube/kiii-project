@@ -1,47 +1,51 @@
-<div class="appointment-container">
-  <mat-card>
-    @if (appointment) {
-      <mat-card-title>Appointment Details</mat-card-title>
-      <mat-card-content>
-        <div class="appointment-info-grid">
-          <div class="info-row">
-            <div class="info-item">
-              <strong>Patient:</strong> {{ appointment.patientName || 'N/A' }}
-            </div>
-            <div class="info-item">
-              <strong>Assignee:</strong> {{ appointment.assigneeName || 'N/A' }}
-            </div>
-          </div>
-
-          <div class="info-row">
-            <div class="info-item">
-              <strong>Date:</strong> {{ appointment.date | date }}
-            </div>
-            <div class="info-item">
-              <strong>Time:</strong> {{ appointment.time }}
-            </div>
-          </div>
-
-          <div class="info-row">
-            <div class="info-item">
-              <strong>Location:</strong> {{ appointment.location }}
-            </div>
-            <div class="info-item">
-              <strong>Reference #:</strong> {{ appointment.refNumber }}
-            </div>
-          </div>
-
-          <div class="info-row full-width">
-            <div class="info-item">
-              <strong>Status:</strong> {{ appointment.status }}
-            </div>
-          </div>
-        </div>
-      </mat-card-content>
-    } @else {
-      <div class="spinner-container">
-        <mat-spinner [diameter]="60"></mat-spinner>
+@if (appointment) {
+  <div class="app-card">
+    <div class="app-card__header">
+      <div class="app-card__header-icon">
+        <mat-icon>event</mat-icon>
       </div>
-    }
-  </mat-card>
-</div>
+      <div>
+        <h2 class="app-card__title">Appointment details</h2>
+        <div class="app-card__subtitle">Ref #{{ appointment.refNumber }}</div>
+      </div>
+      @if (appointment.status) {
+        <span class="appt-status" [ngClass]="statusClass">{{ appointment.status }}</span>
+      }
+    </div>
+
+    <div class="app-info-grid">
+      @if (appointment.patientName) {
+        <div class="app-info-item">
+          <span class="app-info-label">Patient</span>
+          <span class="app-info-value">{{ appointment.patientName }}</span>
+        </div>
+      }
+      @if (appointment.assigneeName) {
+        <div class="app-info-item">
+          <span class="app-info-label">Specialist</span>
+          <span class="app-info-value">{{ appointment.assigneeName }}</span>
+        </div>
+      }
+      <div class="app-info-item">
+        <span class="app-info-label">Date</span>
+        <span class="app-info-value">{{ appointment.date | date }}</span>
+      </div>
+      <div class="app-info-item">
+        <span class="app-info-label">Time</span>
+        <span class="app-info-value">{{ appointment.time }}</span>
+      </div>
+      <div class="app-info-item">
+        <span class="app-info-label">Location</span>
+        <span class="app-info-value">{{ appointment.location || '—' }}</span>
+      </div>
+      <div class="app-info-item">
+        <span class="app-info-label">Reference</span>
+        <span class="app-info-value">{{ appointment.refNumber }}</span>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="spinner-container">
+    <mat-spinner [diameter]="48"></mat-spinner>
+  </div>
+}

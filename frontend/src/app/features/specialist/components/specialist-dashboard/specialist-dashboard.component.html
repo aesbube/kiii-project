@@ -1,9 +1,35 @@
-<div class="container">
-  <div class="specialist-dashboard">
-    <mat-nav-list>
-      <a mat-list-item [routerLink]="['/dashboard/info']" routerLinkActive="active">My Details</a>
-      <a mat-list-item [routerLink]="['/dashboard/appointments']" routerLinkActive="active">Occupied Appointments</a>
-      <a mat-list-item [routerLink]="['/dashboard/free-appointments']" routerLinkActive="active">Free Appointments</a>
-    </mat-nav-list>
+<div class="dashboard-page">
+  <div class="dashboard-welcome">
+    <h1 class="dashboard-welcome__title">Specialist Dashboard</h1>
+    <p class="dashboard-welcome__sub">Manage your appointments and personal details.</p>
+  </div>
+
+  <div>
+    <div class="dashboard-section-label">Navigation</div>
+    <div class="dashboard-grid">
+      <a class="dashboard-tile" [routerLink]="['/dashboard/info']" routerLinkActive="dashboard-tile--active">
+        <div class="dashboard-tile__icon">
+          <mat-icon>manage_accounts</mat-icon>
+        </div>
+        <h3 class="dashboard-tile__title">My details</h3>
+        <p class="dashboard-tile__desc">View and update your professional profile and contact information.</p>
+      </a>
+
+      <a class="dashboard-tile" [routerLink]="['/dashboard/appointments']" routerLinkActive="dashboard-tile--active">
+        <div class="dashboard-tile__icon">
+          <mat-icon>event_available</mat-icon>
+        </div>
+        <h3 class="dashboard-tile__title">Upcoming appointments</h3>
+        <p class="dashboard-tile__desc">View appointments that have been booked by patients.</p>
+      </a>
+
+      <a class="dashboard-tile" [routerLink]="['/dashboard/free-appointments']" routerLinkActive="dashboard-tile--active">
+        <div class="dashboard-tile__icon">
+          <mat-icon>calendar_today</mat-icon>
+        </div>
+        <h3 class="dashboard-tile__title">Free slots</h3>
+        <p class="dashboard-tile__desc">Set your available dates and time slots for patient bookings.</p>
+      </a>
+    </div>
   </div>
 </div>

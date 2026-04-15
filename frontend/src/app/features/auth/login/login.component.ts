@@ -1,14 +1,10 @@
-import {Component} from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import {ValidationService} from '../../../core/services/validation.service';
-import {AuthService} from '../../../core/services/auth.service';
-import {CommonModule} from '@angular/common';
-import {Router} from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators, } from '@angular/forms';
+import { ValidationService } from '../../../core/services/validation.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +15,7 @@ import {Router} from '@angular/router';
 export class LoginComponent {
   myForm: FormGroup;
   successMessage: string | null = null;
+  private toast = inject(ToastService);
 
   constructor(
     public validationService: ValidationService,
@@ -50,10 +47,12 @@ export class LoginComponent {
           else
             this.router.navigate(['']);
           console.log('Login successful!', response);
+          this.toast.success('Welcome back');
         },
         error: (error) => {
           this.successMessage = 'Wrong credentials';
           console.error('Login failed:', error);
+          this.toast.error('Wrong username or password');
         },
       });
     } else {

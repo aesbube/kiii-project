@@ -1,20 +1,40 @@
-<div class="back-button">
-  <button mat-icon-button [routerLink]="['/dashboard']">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-</div>
-@if (appointmentsLoaded) {
-<div class="container">
-  @for (appointment of occupiedAppointments; track appointment) {
-  <app-appointment-details
-    [appointment]="appointment"
-  ></app-appointment-details>
-  } @empty {
-    <ng-content>No appointments found</ng-content>
+<div class="app-page-inner app-page-inner--wide">
+  <a class="app-back" [routerLink]="['/dashboard']">
+    <button mat-icon-button aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="app-back-label">Back to dashboard</span>
+  </a>
+
+  <div class="app-card">
+    <div class="app-card__header">
+      <div class="app-card__header-icon">
+        <mat-icon>event_available</mat-icon>
+      </div>
+      <div>
+        <h2 class="app-card__title">Upcoming appointments</h2>
+        <div class="app-card__subtitle">Appointments booked by patients</div>
+      </div>
+    </div>
+  </div>
+
+  @if (appointmentsLoaded) {
+    @if (occupiedAppointments.length) {
+      <div class="app-grid-cards">
+        @for (appointment of occupiedAppointments; track appointment.id) {
+          <app-appointment-details [appointment]="appointment"></app-appointment-details>
+        }
+      </div>
+    } @else {
+      <div class="app-empty">
+        <mat-icon>event_busy</mat-icon>
+        <h3>No appointments</h3>
+        <p>There are no scheduled appointments at this time.</p>
+      </div>
+    }
+  } @else {
+    <div class="spinner-container">
+      <mat-spinner [diameter]="48"></mat-spinner>
+    </div>
   }
 </div>
-} @else {
-<div class="spinner-container">
-  <mat-spinner [diameter]="60"></mat-spinner>
-</div>
-}

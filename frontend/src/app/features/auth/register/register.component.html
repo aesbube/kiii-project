@@ -1,16 +1,17 @@
 <div class="register-wrapper">
-  <h2>Register</h2>
+  <h2>Create your account</h2>
+
   <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
+      <label for="username">Username</label>
       <input
         type="text"
         id="username"
         name="username"
         formControlName="username"
-        placeholder=""
+        autocomplete="username"
         [class.error]="validationService.isControlInvalid(myForm, 'username')"
       />
-      <label for="username">Username</label>
       @if (this.myForm.controls['username'].touched && this.myForm.controls['username'].invalid) {
         <div class="error-message">
           @if (this.myForm.controls['username'].errors?.['required']) {
@@ -21,16 +22,15 @@
     </div>
 
     <div class="form-group">
+      <label for="email">E-mail</label>
       <input
         type="email"
         id="email"
         name="email"
         formControlName="email"
-        placeholder=""
+        autocomplete="email"
         [class.error]="validationService.isControlInvalid(myForm, 'email')"
       />
-      <label for="email">E-mail</label>
-
       @if (this.myForm.controls['email'].touched && this.myForm.controls['email'].invalid) {
         <div class="error-message">
           @if (this.myForm.controls['email'].errors?.['required']) {
@@ -43,22 +43,21 @@
     </div>
 
     <div class="form-group">
+      <label for="password">Password</label>
       <input
         type="password"
         id="password"
         name="password"
         formControlName="password"
-        placeholder=""
+        autocomplete="new-password"
         [class.error]="validationService.isControlInvalid(myForm, 'password')"
       />
-      <label for="password">Password</label>
-
       @if (this.myForm.controls['password'].touched && this.myForm.controls['password'].invalid) {
         <div class="error-message">
           @if (this.myForm.controls['password'].errors?.['required']) {
             <div>Password is required.</div>
           } @else if (this.myForm.controls['password'].errors?.['pattern']) {
-            <div>Password must be strong.</div>
+            <div>Must be 8+ chars with upper, lower, number, and symbol.</div>
           }
         </div>
       }
@@ -71,7 +70,7 @@
     }
 
     <button type="submit" [disabled]="!myForm.valid" class="submit-button">
-      Register
+      Create Account
     </button>
   </form>
 </div>

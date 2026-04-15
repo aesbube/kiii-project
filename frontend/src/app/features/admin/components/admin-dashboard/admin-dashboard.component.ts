@@ -1,17 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {RegisterAdminComponent} from '../register-admin/register-admin.component';
-import {UsersAdminComponent} from '../users-admin/users-admin.component';
-import {MatListItem, MatNavList} from '@angular/material/list';
+import {Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [MatListItem, MatNavList, RouterLinkActive, RouterLink],
+  imports: [RouterLink, RouterLinkActive, MatIconModule],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })
-export class AdminDashboardComponent implements OnInit {
-  ngOnInit(): void {
-  }
-
-}
+export class AdminDashboardComponent {}

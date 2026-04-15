@@ -1,41 +1,59 @@
-<div class="prescription-item">
-  <mat-card appearance="outlined">
-    <mat-card-header>
-      @if (!isDoctor) {
-        <mat-card-title
-        >Prescription of patient
-          {{ prescription.patientNameAndSurname }}
-        </mat-card-title
-        >
+<div class="app-card prescription-card">
+  <div class="app-card__header prescription-card__header">
+    <div class="app-card__header-icon">
+      <mat-icon>medication</mat-icon>
+    </div>
+    <div>
+      @if (!isDoctor && prescription.patientNameAndSurname) {
+        <h2 class="app-card__title">{{ prescription.patientNameAndSurname }}</h2>
+        <div class="app-card__subtitle">Dr. {{ prescription.doctorNameAndSurname }}</div>
+      } @else {
+        <h2 class="app-card__title">Prescription</h2>
+        <div class="app-card__subtitle">Dr. {{ prescription.doctorNameAndSurname }}</div>
       }
-      <mat-card-subtitle
-      >Doctor: {{ prescription.doctorNameAndSurname }}
-      </mat-card-subtitle
-      >
-    </mat-card-header>
-    <mat-card-content>
-      <div>Medicine: {{ prescription.medicine }}</div>
-      <div>Frequency: {{ prescription.frequency }}</div>
-      <div>Expiration date: {{ prescription.expirationDate }}</div>
-      <div>Status: {{ prescription.status }}</div>
-    </mat-card-content>
-    @if (userRole == "ROLE_PATIENT" && prescription.status == PrescriptionStatus.ACTIVE){
-      <div class="qr-wrap">
-        @if (!redeemed) {
-          <button mat-flat-button (click)="redeemed=true">Redeem</button>
-        }
-        @else {
-          <app-qr-code [qrText]="uniqueQrText"></app-qr-code>
-        }
-      </div>
-    }
+    </div>
 
-    @if (userRole == "ROLE_PHARMACIST"){
-      <div class="qr-wrap">
-        @if (prescription.status == PrescriptionStatus.ACTIVE ) {
-          <button mat-flat-button (click)="emitValidation()">Validate</button>
-        }
-      </div>
-    }
-  </mat-card>
+    <span class="prescription-status" [ngClass]="statusClass">
+      {{ prescription.status }}
+    </span>
+  </div>
+
+  <div class="app-info-grid">
+    <div class="app-info-item">
+      <span class="app-info-label">Medicine</span>
+      <span class="app-info-value">{{ prescription.medicine || '—' }}</span>
+    </div>
+    <div class="app-info-item">
+      <span class="app-info-label">Frequency</span>
+      <span class="app-info-value">{{ prescription.frequency || '—' }}</span>
+    </div>
+    <div class="app-info-item">
+      <span class="app-info-label">Expiration date</span>
+      <span class="app-info-value">{{ prescription.expirationDate || '—' }}</span>
+    </div>
+  </div>
+
+  @if (userRole == "ROLE_PATIENT" && prescription.status == PrescriptionStatus.ACTIVE) {
+    <div class="prescription-actions">
+      @if (!redeemed) {
+        <button type="button" class="app-btn" (click)="redeemed=true">
+          <mat-icon>qr_code</mat-icon>
+          Redeem prescription
+        </button>
+      } @else {
+        <div class="qr-wrap">
+          <app-qr-code [qrText]="uniqueQrText"></app-qr-code>
+        </div>
+      }
+    </div>
+  }
+
+  @if (userRole == "ROLE_PHARMACIST" && prescription.status == PrescriptionStatus.ACTIVE) {
+    <div class="prescription-actions">
+      <button type="button" class="app-btn" (click)="emitValidation()">
+        <mat-icon>check_circle</mat-icon>
+        Validate prescription
+      </button>
+    </div>
+  }
 </div>

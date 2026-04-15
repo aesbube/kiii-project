@@ -1,29 +1,35 @@
-<div class="container">
-  <mat-card>
-    @if (prescriptionsLoaded) {
-      <mat-card-title>Patient Prescriptions</mat-card-title>
-      @for (prescription of prescriptions; track prescription) {
-        <app-prescription-details
-          [prescription]="prescription"
-          [isDoctor]="true"
-        ></app-prescription-details>
-      } @empty {
-        <ng-content>No prescriptions found</ng-content>
-      }
-      <a
-        [routerLink]="['prescription']"
-        routerLinkActive="active">
-        <button
-          mat-raised-button
-          color="primary"
-        >
-          Add New Prescription
-        </button>
-      </a>
+<div class="app-card section-card">
+  <div class="app-card__header">
+    <div class="app-card__header-icon">
+      <mat-icon>medication</mat-icon>
+    </div>
+    <div class="section-header-text">
+      <h2 class="app-card__title">Prescriptions</h2>
+      <div class="app-card__subtitle">Prescriptions written for this patient</div>
+    </div>
+    <a class="app-btn section-btn" [routerLink]="['prescription']">
+      <mat-icon>add</mat-icon>
+      Add prescription
+    </a>
+  </div>
+
+  @if (prescriptionsLoaded) {
+    @if (prescriptions.length) {
+      <div class="app-grid-cards">
+        @for (prescription of prescriptions; track prescription.id) {
+          <app-prescription-details [prescription]="prescription" [isDoctor]="true"></app-prescription-details>
+        }
+      </div>
     } @else {
-      <div class="spinner-container">
-        <mat-spinner [diameter]="60"></mat-spinner>
+      <div class="app-empty">
+        <mat-icon>medication_liquid</mat-icon>
+        <h3>No prescriptions yet</h3>
+        <p>No prescriptions have been written for this patient.</p>
       </div>
     }
-  </mat-card>
+  } @else {
+    <div class="spinner-container">
+      <mat-spinner [diameter]="48"></mat-spinner>
+    </div>
+  }
 </div>

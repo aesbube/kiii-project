@@ -1,9 +1,8 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCalendar, MatDatepickerModule} from '@angular/material/datepicker';
 import {FormsModule} from '@angular/forms';
-import {MatCard} from '@angular/material/card';
 import {DatePipe} from '@angular/common';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
@@ -14,6 +13,7 @@ import {SpecialistService} from '../../specialist.service';
 import {FreeAppointment} from '../../../../models/free-appointment.model';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {RouterLink} from '@angular/router';
+import {ToastService} from '../../../../core/services/toast.service';
 
 
 @Component({
@@ -26,7 +26,6 @@ import {RouterLink} from '@angular/router';
     MatInputModule,
     MatDatepickerModule,
     FormsModule,
-    MatCard,
     DatePipe,
     MatSelectModule,
     MatIconModule,
@@ -38,6 +37,8 @@ import {RouterLink} from '@angular/router';
 })
 export class AppointmentFreeComponent implements OnInit {
   service = inject(SpecialistService);
+  private toast = inject(ToastService);
+  @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
   value: Date | null = null;
   time: string = '';
   location: string = '';
@@ -102,12 +103,18 @@ export class AppointmentFreeComponent implements OnInit {
       this.value = null;
       this.time = '';
       this.location = '';
+      this.refreshCalendar();
     }
   }
 
   removeAppointment(index: number) {
     this.selectedAppointments.splice(index, 1);
     this.updateDisabledTimes();
+    this.refreshCalendar();
+  }
+
+  private refreshCalendar() {
+    this.calendar?.updateTodaysDate();
   }
 
   submitAppointments() {
@@ -119,11 +126,12 @@ export class AppointmentFreeComponent implements OnInit {
 
     this.service.setFreeAppointments(appointments).subscribe({
       next: () => {
-        console.log('Appointments sent successfully');
+        this.toast.success('Appointment slots saved');
         this.loadOccupiedAppointments();
       },
       error: (err) => {
         console.error('Failed to send appointments:', err);
+        this.toast.error('Could not save appointment slots');
       }
     });
   }

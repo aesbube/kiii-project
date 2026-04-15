@@ -1,76 +1,78 @@
-<div class="back-button">
-  <button mat-icon-button [routerLink]="['/dashboard']">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
+<div class="app-page-inner">
+  <a class="app-back" [routerLink]="['/dashboard']">
+    <button mat-icon-button aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="app-back-label">Back to dashboard</span>
+  </a>
+
+  @if (form) {
+    <div class="app-card">
+      <div class="app-card__header">
+        <div class="app-card__header-icon">
+          <mat-icon>manage_accounts</mat-icon>
+        </div>
+        <div>
+          <h2 class="app-card__title">My details</h2>
+          <div class="app-card__subtitle">Update your professional profile and contact information</div>
+        </div>
+      </div>
+
+      <form [formGroup]="form" class="details-form" (ngSubmit)="submit()">
+        <div class="details-form__grid">
+          <div class="details-form__field">
+            <label class="details-form__label">Username</label>
+            <input class="app-input" formControlName="username"/>
+          </div>
+          <div class="details-form__field">
+            <label class="details-form__label">Email</label>
+            <input class="app-input" formControlName="email"/>
+          </div>
+          <div class="details-form__field">
+            <label class="details-form__label">First name</label>
+            <input class="app-input" formControlName="name"/>
+          </div>
+          <div class="details-form__field">
+            <label class="details-form__label">Last name</label>
+            <input class="app-input" formControlName="surname"/>
+          </div>
+          <div class="details-form__field">
+            <label class="details-form__label">Phone</label>
+            <input class="app-input" type="tel" formControlName="phone" placeholder="+1234567890"/>
+          </div>
+          <div class="details-form__field">
+            <label class="details-form__label">Date of birth</label>
+            <input class="app-input" type="date" formControlName="birthDate" [max]="todayStr"/>
+          </div>
+          <div class="details-form__field details-form__field--full">
+            <label class="details-form__label">Address</label>
+            <input class="app-input" formControlName="address"/>
+          </div>
+          <div class="details-form__field">
+            <label class="details-form__label">Specialty</label>
+            <input class="app-input" formControlName="specialty"/>
+          </div>
+          <div class="details-form__field">
+            <label class="details-form__label">License number</label>
+            <input class="app-input" formControlName="licenseNumber"/>
+          </div>
+          <div class="details-form__field">
+            <label class="details-form__label">Years of experience</label>
+            <input class="app-input" type="number" formControlName="yearsOfExperience" min="0"/>
+          </div>
+        </div>
+
+        <div class="details-form__actions">
+          <button type="submit" class="app-btn" [disabled]="form.invalid || form.disabled">
+            <mat-icon>save</mat-icon>
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  } @else {
+    <div class="spinner-container">
+      <mat-spinner [diameter]="48"></mat-spinner>
+    </div>
+  }
 </div>
-@if (form) {
-  <div class="container">
-    <form [formGroup]="form">
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Username</mat-label>
-        <input matInput formControlName="username"/>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>First name</mat-label>
-        <input matInput formControlName="name"/>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Last name</mat-label>
-        <input matInput formControlName="surname"/>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Phone Number</mat-label>
-        <input matInput type="tel" placeholder="+1234567890" formControlName="phone" pattern="^[0-9+\-\s]*$"/>
-        <mat-hint>Include country code</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="address"/>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Date of Birth</mat-label>
-        <input matInput [matDatepicker]="picker" [max]="today" placeholder="DD/MM/YYYY" formControlName="birthDate" required/>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email"/>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Specialty</mat-label>
-        <input matInput formControlName="specialty" required/>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>License Number</mat-label>
-        <input matInput formControlName="licenseNumber" required/>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Years of Experience</mat-label>
-        <input matInput type="number" formControlName="yearsOfExperience" required/>
-      </mat-form-field>
-      <button
-        mat-raised-button
-        color="primary"
-        [disabled]="form.invalid || form.disabled"
-        (click)="submit()"
-      >
-        Submit Changes
-      </button>
-    </form>
-  </div>
-} @else {
-  <div class="spinner-container">
-    <mat-spinner [diameter]="60"></mat-spinner>
-  </div>
-}
-

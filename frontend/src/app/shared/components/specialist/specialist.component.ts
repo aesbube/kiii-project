@@ -1,6 +1,5 @@
-import {Component, inject, Input, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {DatePipe} from '@angular/common';
-import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {Specialist} from '../../../models/specialist.model';
 import {SearchesService} from '../searches.service';
@@ -14,9 +13,6 @@ import {MatIconModule} from '@angular/material/icon';
   selector: 'app-specialist',
   imports: [
     DatePipe,
-    MatCard,
-    MatCardContent,
-    MatCardTitle,
     MatProgressSpinner,
     MatIconModule,
     MatIconButton,
@@ -40,6 +36,4 @@ export class SpecialistComponent implements OnInit {
       error: err => console.error('Failed to load specialist:', err)
     });
   }
-
-
 }

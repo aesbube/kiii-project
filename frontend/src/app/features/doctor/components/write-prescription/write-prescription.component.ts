@@ -3,20 +3,17 @@ import {DoctorService} from '../../doctor.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {WritePrescriptionModel} from '../../../../models/write-prescription.model';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
-import {MatInput} from '@angular/material/input';
+import {MatIconButton} from '@angular/material/button';
+import {ToastService} from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-write-prescription',
   imports: [
     ReactiveFormsModule,
-    MatFormFieldModule,
     MatIconModule,
-    MatButtonModule,
+    MatIconButton,
     RouterLink,
-    MatInput
   ],
   templateUrl: './write-prescription.component.html',
   styleUrl: './write-prescription.component.css'
@@ -25,59 +22,42 @@ export class WritePrescriptionComponent implements OnInit {
   service = inject(DoctorService);
   route = inject(ActivatedRoute);
   fb = inject(FormBuilder);
+  private toast = inject(ToastService);
 
   form!: FormGroup;
   patientId: number | null = null;
   isSubmitting = false;
 
   ngOnInit(): void {
-    console.log('Patient ID:', this.patientId);
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
-      if (id) {
-        this.patientId = +id;
-        console.log('Patient ID:', this.patientId);
-      }
+      if (id) this.patientId = +id;
     });
 
     this.form = this.fb.group({
-      medicine: ['', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(100)
-      ]],
-      frequency: ['', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(100)
-      ]]
+      medicine: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      frequency: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
     });
   }
 
   submit() {
     if (this.form.valid && this.patientId !== null) {
       this.isSubmitting = true;
-
       const prescription: WritePrescriptionModel = this.form.value;
-
       this.service.writePrescription(this.patientId, prescription).subscribe({
-        next: (response) => {
-          console.log('Prescription written successfully', response);
+        next: () => {
+          this.toast.success('Prescription saved');
           this.isSubmitting = false;
+          this.form.reset();
         },
-        error: (err) => {
-          console.error('Failed to write prescription', err);
+        error: () => {
+          this.toast.error('Could not save prescription');
           this.isSubmitting = false;
         }
       });
     }
   }
 
-  get medicineControl() {
-    return this.form.get('medicine');
-  }
-
-  get frequencyControl() {
-    return this.form.get('frequency');
-  }
+  get medicineControl() { return this.form.get('medicine'); }
+  get frequencyControl() { return this.form.get('frequency'); }
 }

@@ -1,9 +1,28 @@
+<aside class="side-menu">
+  <div class="menu-header">
+    <div class="avatar">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </div>
+    <div>
+      <div class="menu-title">Patient area</div>
+      <div class="menu-sub">Manage your health</div>
+    </div>
+  </div>
 
-<ul>
-  <li [class.clicked]="lastClicked == 'Basic Info'"><button (click)="setActiveButton($event)">Basic Info</button></li>
-  <li [class.clicked]="lastClicked == 'Appointments'"><button (click)="setActiveButton($event)">Appointments</button></li>
-  <li [class.clicked]="lastClicked == 'Prescriptions'"><button (click)="setActiveButton($event)">Prescriptions</button></li>
-  <li [class.clicked]="lastClicked == 'History'"><button (click)="setActiveButton($event)">History</button></li>
-</ul>
-
-
+  <nav class="menu-list">
+    @for (item of items; track item.label) {
+      <button
+        type="button"
+        class="menu-item"
+        [class.active]="lastClicked === item.label"
+        (click)="select(item.label)">
+        <span class="menu-icon" aria-hidden="true" [innerHTML]="item.icon"></span>
+        <span class="menu-label">{{ item.label }}</span>
+      </button>
+    }
+  </nav>
+</aside>

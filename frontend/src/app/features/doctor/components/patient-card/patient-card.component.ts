@@ -1,18 +1,13 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Patient} from '../../../../models/patient.model';
-import {MatCard, MatCardHeader, MatCardModule} from '@angular/material/card';
-import {RouterLink, RouterLinkActive} from '@angular/router';
-import {MatButton} from '@angular/material/button';
+import {RouterLink} from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-patient-card',
   imports: [
-    MatCard,
-    MatCardHeader,
-    MatCardModule,
     RouterLink,
-    MatButton,
-    RouterLinkActive,
+    MatIconModule,
   ],
   templateUrl: './patient-card.component.html',
   styleUrl: './patient-card.component.css'
@@ -24,6 +19,5 @@ export class PatientCardComponent {
 
   handleCardClick() {
     this.cardClick.emit(this.patient.id.toString());
-    console.log("Card clicked:", this.patient.id);
   }
 }

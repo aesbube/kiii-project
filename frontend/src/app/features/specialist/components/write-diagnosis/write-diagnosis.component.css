@@ -1,33 +1,28 @@
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
+:host {
+  display: block;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--color-bg);
+  padding: var(--space-6) var(--space-4);
 }
 
-.back-button {
-  margin-bottom: 20px;
-}
-
-form {
+.write-diagnosis-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-3);
 }
 
 .full-width {
   width: 100%;
 }
 
-mat-form-field {
-  margin-bottom: 10px;
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-3);
 }
 
-button {
-  margin-top: 20px;
-  align-self: flex-start;
-}
-
-h2 {
-  margin-bottom: 20px;
-  text-align: center;
+.form-actions .app-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }

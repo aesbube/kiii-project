@@ -1,83 +1,114 @@
-<div class="back-button">
-  <button mat-icon-button [routerLink]="['/dashboard/patients/', patientId]">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-</div>
+<div class="app-page-inner">
+  <a class="app-back" [routerLink]="['/dashboard/patients', patientId]">
+    <button mat-icon-button aria-label="Back" type="button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="app-back-label">Back to patient</span>
+  </a>
 
-<div class="container">
-  <div class="appointment-selector">
-    <h2>Schedule an Appointment</h2>
-
-    <mat-form-field appearance="outline" class="specialist-selector">
-      <mat-label>Select Specialist</mat-label>
-      <mat-select
-        [(value)]="selectedSpecialist"
-        (selectionChange)="onSpecialistChange($event.value)">
-        @for (specialist of specialists; track specialist.username) {
-          <mat-option [value]="specialist">
-            {{ specialist.name }} {{ specialist.surname }} - {{ specialist.specialty }}
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    @if (loading) {
-      <div class="spinner-container">
-        <mat-spinner [diameter]="40"></mat-spinner>
+  <div class="app-card">
+    <div class="app-card__header">
+      <div class="app-card__header-icon">
+        <mat-icon>event_available</mat-icon>
       </div>
-    }
+      <div>
+        <h2 class="app-card__title">Schedule appointment</h2>
+        <div class="app-card__subtitle">Pick a specialist, date, and time slot</div>
+      </div>
+    </div>
 
-    @if (selectedSpecialist) {
-      <div class="calendar-container">
-        <mat-card class="calendar-card">
-          @if (appointmentsLoaded) {
-            <mat-calendar
-              [selected]="value"
-              (selectedChange)="onDateChange($event!!)"
-              [dateClass]="dateClass"
-              [dateFilter]="isDateAvailable"
-            >
-            </mat-calendar>
-          } @else {
-            <div class="spinner-container">
-              <mat-spinner [diameter]="60"></mat-spinner>
+    <div class="appt-layout">
+      <div class="appt-selector">
+        <div class="details-form__field">
+          <label class="details-form__label">Select specialist</label>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-select
+              [(value)]="selectedSpecialist"
+              (selectionChange)="onSpecialistChange($event.value)"
+              placeholder="Choose a specialist">
+              @for (specialist of specialists; track specialist.username) {
+                <mat-option [value]="specialist">
+                  {{ specialist.name }} {{ specialist.surname }} — {{ specialist.specialty }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        @if (loading && !appointmentsLoaded) {
+          <div class="spinner-container">
+            <mat-spinner [diameter]="40"></mat-spinner>
+          </div>
+        }
+
+        @if (selectedSpecialist) {
+          <div class="calendar-wrap">
+            @if (appointmentsLoaded) {
+              <mat-calendar
+                [selected]="value"
+                (selectedChange)="onDateChange($event!!)"
+                [dateClass]="dateClass"
+                [dateFilter]="isDateAvailable"
+              ></mat-calendar>
+            } @else {
+              <div class="spinner-container">
+                <mat-spinner [diameter]="40"></mat-spinner>
+              </div>
+            }
+          </div>
+
+          @if (value) {
+            <div class="details-form__field">
+              <label class="details-form__label">Available times</label>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-select [(value)]="time" (selectionChange)="onTimeChange($event.value)" placeholder="Pick a time">
+                  @for (timeOption of getAvailableTimesForSelectedDate(); track $index) {
+                    <mat-option [value]="timeOption">{{ timeOption }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
             </div>
           }
-        </mat-card>
+        }
       </div>
 
-      @if (value) {
-        <mat-form-field appearance="outline" class="time-selector">
-          <mat-label>Available Times</mat-label>
-          <mat-select
-            [(value)]="time"
-            (selectionChange)="onTimeChange($event.value)">
-            @for (timeOption of getAvailableTimesForSelectedDate(); track $index) {
-              <mat-option [value]="timeOption">
-                {{ timeOption }}
-              </mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
+      @if (selectedAppointment) {
+        <div class="appt-summary app-card">
+          <div class="app-card__header">
+            <div class="app-card__header-icon">
+              <mat-icon>event</mat-icon>
+            </div>
+            <div>
+              <h3 class="app-card__title">Selected slot</h3>
+              <div class="app-card__subtitle">Review before confirming</div>
+            </div>
+          </div>
+          <div class="app-info-grid">
+            <div class="app-info-item">
+              <span class="app-info-label">Date</span>
+              <span class="app-info-value">{{ selectedAppointment.date }}</span>
+            </div>
+            <div class="app-info-item">
+              <span class="app-info-label">Time</span>
+              <span class="app-info-value">{{ selectedAppointment.time }}</span>
+            </div>
+            <div class="app-info-item">
+              <span class="app-info-label">Location</span>
+              <span class="app-info-value">{{ selectedAppointment.location }}</span>
+            </div>
+            <div class="app-info-item">
+              <span class="app-info-label">Reference</span>
+              <span class="app-info-value">{{ selectedAppointment.refNumber }}</span>
+            </div>
+          </div>
+          <div class="details-form__actions">
+            <button type="button" class="app-btn" (click)="scheduleAppointment()" [disabled]="loading">
+              <mat-icon>check</mat-icon>
+              Confirm appointment
+            </button>
+          </div>
+        </div>
       }
-    }
-
-    @if (selectedAppointment) {
-      <div class="appointment-details">
-        <h3>Appointment Details</h3>
-        <p><strong>Date:</strong> {{ selectedAppointment.date }}</p>
-        <p><strong>Time:</strong> {{ selectedAppointment.time }}</p>
-        <p><strong>Location:</strong> {{ selectedAppointment.location }}</p>
-        <p><strong>Reference:</strong> {{ selectedAppointment.refNumber }}</p>
-
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="scheduleAppointment()"
-          [disabled]="loading">
-          Schedule Appointment
-        </button>
-      </div>
-    }
+    </div>
   </div>
 </div>

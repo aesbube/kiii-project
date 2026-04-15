@@ -1,16 +1,57 @@
-<mat-form-field id="specialist-form">
-  <mat-label>Find a specialist</mat-label>
-  <input matInput type="text" [formControl]="searchControl1" [matAutocomplete]="auto" (focus)="onFocus()" (blur)="onBlur()">
-  @if (searchControl1.value) {
-  <button matSuffix mat-icon-button aria-label="Clear" (click)="searchControl1.setValue('')">
-    <mat-icon>close</mat-icon>
-  </button>
-  }
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-    @for (specialist of filteredSpecialists$ | async; track $index) {
-    <mat-option [value]="specialist.username" [routerLink]="['/specialist', specialist.username]">
-      {{specialist.name}} {{specialist.surname}} ({{specialist.specialty}})
-    </mat-option>
+<div class="search-wrapper">
+  <div class="search-box" [class.focused]="isInputFocused">
+    <span class="search-icon" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </span>
+
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search by name, username, or email"
+      [formControl]="searchControl1"
+      (focus)="onInputFocus()"
+      (blur)="onInputBlur()"
+    />
+
+    @if (searchControl1.value) {
+      <button type="button" class="icon-btn" aria-label="Clear" (mousedown)="$event.preventDefault()"
+              (click)="searchControl1.setValue('')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+             stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
     }
-  </mat-autocomplete>
-</mat-form-field>
+  </div>
+
+  @if (isInputFocused && (filteredSpecialists$ | async); as results) {
+    @if (results.length > 0) {
+      <ul class="results">
+        @for (specialist of results; track specialist.username) {
+          <li class="result-item" (mousedown)="$event.preventDefault()" (click)="selectSpecialist(specialist.username)">
+            <div class="result-avatar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <div class="result-body">
+              <div class="result-name">{{ specialist.name }} {{ specialist.surname }}</div>
+              <div class="result-meta">
+                <span *ngIf="specialist.specialty">{{ specialist.specialty }}</span>
+                <span *ngIf="specialist.specialty && specialist.username" class="dot">&middot;</span>
+                <span *ngIf="specialist.username" class="muted">&#64;{{ specialist.username }}</span>
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  }
+</div>

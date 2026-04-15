@@ -1,20 +1,29 @@
-.container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: 700px;
-  padding: 20px;
-  margin: 20px auto 0;
+:host {
+  display: block;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--color-bg);
+  padding: var(--space-6) var(--space-4);
 }
 
-.search-container {
+.search-row {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  margin-top: 50px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--color-text-subtle);
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+.search-input {
+  padding-left: 42px;
+  height: 44px;
 }
 
 .spinner-container {
@@ -22,26 +31,4 @@
   justify-content: center;
   align-items: center;
   height: 200px;
-}
-
-.back-button {
-  position: fixed;
-  top: 70px;
-  left: 20px;
-}
-
-input {
-  width: 60%;
-  padding: 12px 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s ease;
-  outline: none;
-}
-
-input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
 }

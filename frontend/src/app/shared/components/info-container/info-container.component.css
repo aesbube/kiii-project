@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--color-bg);
+  padding: var(--space-6);
+}
+
+p {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  :host {
+    padding: var(--space-4);
+  }
+}

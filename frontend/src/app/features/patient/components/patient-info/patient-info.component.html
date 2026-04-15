@@ -1,78 +1,75 @@
 @if (form) {
-  <div class="container">
-    <h2>Patient Information</h2>
-    <form [formGroup]="form">
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Username</mat-label>
-        <input matInput formControlName="username"/>
-      </mat-form-field>
+  <div class="app-card">
+    <div class="app-card__header">
+      <div class="app-card__header-icon">
+        <mat-icon>manage_accounts</mat-icon>
+      </div>
+      <div>
+        <h2 class="app-card__title">Basic info</h2>
+        <div class="app-card__subtitle">Update your personal and medical information</div>
+      </div>
+    </div>
 
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email"/>
-      </mat-form-field>
+    <form [formGroup]="form" class="details-form" (ngSubmit)="submit()">
+      <div class="details-form__grid">
+        <div class="details-form__field">
+          <label class="details-form__label">Username</label>
+          <input class="app-input" formControlName="username"/>
+        </div>
+        <div class="details-form__field">
+          <label class="details-form__label">Email</label>
+          <input class="app-input" formControlName="email"/>
+        </div>
+        <div class="details-form__field">
+          <label class="details-form__label">First name</label>
+          <input class="app-input" formControlName="name"/>
+        </div>
+        <div class="details-form__field">
+          <label class="details-form__label">Last name</label>
+          <input class="app-input" formControlName="surname"/>
+        </div>
+        <div class="details-form__field">
+          <label class="details-form__label">Phone</label>
+          <input class="app-input" type="tel" formControlName="phone" placeholder="+1234567890"/>
+        </div>
+        <div class="details-form__field">
+          <label class="details-form__label">Date of birth</label>
+          <input class="app-input" type="date" formControlName="birthDate" [max]="todayStr"/>
+        </div>
+        <div class="details-form__field details-form__field--full">
+          <label class="details-form__label">Address</label>
+          <input class="app-input" formControlName="address"/>
+        </div>
+        <div class="details-form__field">
+          <label class="details-form__label">Place of birth</label>
+          <input class="app-input" formControlName="birthPlace"/>
+        </div>
+        <div class="details-form__field">
+          <label class="details-form__label">Blood type</label>
+          <select class="app-input" formControlName="bloodType">
+            <option value="">Select blood type</option>
+            @for (type of bloodTypes; track type.value) {
+              <option [value]="type.value">{{ type.display }}</option>
+            }
+          </select>
+        </div>
+        <div class="details-form__field details-form__field--full">
+          <label class="details-form__label">Allergies</label>
+          <textarea class="app-input" formControlName="allergies" rows="3"
+                    placeholder="List any allergies or write 'None' if not applicable"></textarea>
+        </div>
+      </div>
 
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>First name</mat-label>
-        <input matInput formControlName="name" required/>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Last name</mat-label>
-        <input matInput formControlName="surname" required/>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Phone Number</mat-label>
-        <input matInput type="tel" placeholder="+1234567890" formControlName="phone" pattern="^[0-9+\-\s]*$" required/>
-        <mat-hint>Include country code</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="address" required/>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Date of Birth</mat-label>
-        <input matInput [matDatepicker]="picker" [max]="today" placeholder="DD/MM/YYYY" formControlName="birthDate"
-               required/>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Place of Birth</mat-label>
-        <input matInput formControlName="birthPlace" required/>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Allergies</mat-label>
-        <textarea matInput formControlName="allergies" rows="3"
-                  placeholder="List any allergies or write 'None' if applicable"></textarea>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Blood Type</mat-label>
-        <mat-select formControlName="bloodType" required>
-          @for (type of bloodTypes; track type.value) {
-            <mat-option [value]="type.value">{{type.display}}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-
-      <button
-        mat-raised-button
-        color="primary"
-        [disabled]="form.invalid || form.disabled"
-        (click)="submit()"
-      >
-        Save Changes
-      </button>
+      <div class="details-form__actions">
+        <button type="submit" class="app-btn" [disabled]="form.invalid || form.disabled">
+          <mat-icon>save</mat-icon>
+          Save changes
+        </button>
+      </div>
     </form>
   </div>
 } @else {
   <div class="spinner-container">
-    <mat-spinner [diameter]="60"></mat-spinner>
+    <mat-spinner [diameter]="48"></mat-spinner>
   </div>
 }

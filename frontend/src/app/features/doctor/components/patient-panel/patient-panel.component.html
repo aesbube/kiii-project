@@ -1,13 +1,14 @@
-<div class="back-button">
-  <button mat-icon-button [routerLink]="['/dashboard/patients']">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-</div>
-@if (patient$) {
-  <div class="container">
-    <app-patient-details [patient]="patient$"></app-patient-details>
-      <app-patient-appointments [patientId]="patient$.id.toString()"></app-patient-appointments>
-      <app-patient-prescriptions [patientId]="patient$.id.toString()"></app-patient-prescriptions>
-  </div>
-}
+<div class="app-page-inner app-page-inner--wide">
+  <a class="app-back" [routerLink]="['/dashboard/patients']">
+    <button mat-icon-button aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="app-back-label">Back to patients</span>
+  </a>
 
+  @if (patient$) {
+    <app-patient-details [patient]="patient$"></app-patient-details>
+    <app-patient-appointments [patientId]="patient$.id.toString()"></app-patient-appointments>
+    <app-patient-prescriptions [patientId]="patient$.id.toString()"></app-patient-prescriptions>
+  }
+</div>

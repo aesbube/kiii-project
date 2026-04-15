@@ -1,47 +1,75 @@
-<div class="back-button">
-  <button mat-icon-button [routerLink]="['/dashboard']">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-</div>
-@if (loaded) {
-  @if (users.length > 0) {
-    <div class="users-container">
-      <mat-table [dataSource]="users" class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef> ID</mat-header-cell>
-          <mat-cell *matCellDef="let user"> {{ user.id }}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef> Username</mat-header-cell>
-          <mat-cell *matCellDef="let user"> {{ user.username }}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="email">
-          <mat-header-cell *matHeaderCellDef> Email</mat-header-cell>
-          <mat-cell *matCellDef="let user"> {{ user.email }}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="actions">
-          <mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
-          <mat-cell *matCellDef="let user">
-            <button mat-raised-button class="delete-button"(click)="deleteUser(user.id)">Delete</button>
-          </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-
-      </mat-table>
-    </div>
-  } @else {
-    <ng-template>
-      <p>No users found.</p>
-    </ng-template>
-  }
-} @else {
-  <div class="spinner-container">
-    <mat-spinner [diameter]="60"></mat-spinner>
+<div class="page">
+  <div class="back-button">
+    <button mat-icon-button [routerLink]="['/dashboard']" aria-label="Back to dashboard">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="back-label">Back to dashboard</span>
   </div>
-}
 
+  <div class="page-header">
+    <div>
+      <h2>Users</h2>
+      <p class="subtitle">Manage registered users</p>
+    </div>
+    <button class="new-user-btn" [routerLink]="['/dashboard/register']">
+      <mat-icon>person_add</mat-icon>
+      <span>Register user</span>
+    </button>
+  </div>
+
+  @if (loaded) {
+    @if (users.length > 0) {
+      <div class="users-card">
+        <div class="users-meta">{{ users.length }} user{{ users.length === 1 ? '' : 's' }}</div>
+        <div class="table-wrapper">
+          <table class="users-table">
+            <thead>
+            <tr>
+              <th class="col-id">ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+              @for (user of users; track user.id) {
+                <tr>
+                  <td class="col-id mono">{{ user.id }}</td>
+                  <td>
+                    <div class="user-cell">
+                      <div class="user-avatar">{{ (user.username || '?').charAt(0).toUpperCase() }}</div>
+                      <span>{{ user.username }}</span>
+                    </div>
+                  </td>
+                  <td class="muted">{{ user.email }}</td>
+                  <td class="col-actions">
+                    <button class="delete-button" (click)="deleteUser(user.id)">
+                      <mat-icon>delete_outline</mat-icon>
+                      <span>Delete</span>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-state">
+        <div class="empty-icon">
+          <mat-icon>group_off</mat-icon>
+        </div>
+        <h3>No users yet</h3>
+        <p>There are no registered users. Create one to get started.</p>
+        <button class="new-user-btn" [routerLink]="['/dashboard/register']">
+          <mat-icon>person_add</mat-icon>
+          <span>Register user</span>
+        </button>
+      </div>
+    }
+  } @else {
+    <div class="spinner-container">
+      <mat-spinner [diameter]="48"></mat-spinner>
+    </div>
+  }
+</div>

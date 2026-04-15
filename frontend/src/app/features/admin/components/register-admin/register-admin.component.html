@@ -1,107 +1,133 @@
-<div class="back-button">
-  <button mat-icon-button [routerLink]="['/dashboard']">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-</div>
-<div class="register-wrapper">
-  <h2>Register a user</h2>
-  <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <input
-        type="text"
-        id="username"
-        name="username"
-        formControlName="username"
-        placeholder=""
-        [class.error]="validationService.isControlInvalid(myForm, 'username')"
-      />
-      <label for="username">Username</label>
-      @if (this.myForm.controls['username'].touched && this.myForm.controls['username'].invalid) {
-        <div class="error-message">
-          @if (this.myForm.controls['username'].errors?.['required']) {
-            <div>Username is required.</div>
-          }
-        </div>
-      }
-    </div>
-
-    <div class="form-group">
-      <input
-        type="email"
-        id="email"
-        name="email"
-        formControlName="email"
-        placeholder=""
-        [class.error]="validationService.isControlInvalid(myForm, 'email')"
-      />
-      <label for="email">E-mail</label>
-
-      @if (this.myForm.controls['email'].touched && this.myForm.controls['email'].invalid) {
-        <div class="error-message">
-          @if (this.myForm.controls['email'].errors?.['required']) {
-            <div>Email is required.</div>
-          } @else if (this.myForm.controls['email'].errors?.['email']) {
-            <div>Invalid email format.</div>
-          }
-        </div>
-      }
-    </div>
-
-    <div class="form-group">
-      <input
-        type="password"
-        id="password"
-        name="password"
-        formControlName="password"
-        placeholder=""
-        [class.error]="validationService.isControlInvalid(myForm, 'password')"
-      />
-      <label for="password">Password</label>
-
-      @if (this.myForm.controls['password'].touched && this.myForm.controls['password'].invalid) {
-        <div class="error-message">
-          @if (this.myForm.controls['password'].errors?.['required']) {
-            <div>Password is required.</div>
-          } @else if (this.myForm.controls['password'].errors?.['pattern']) {
-            <div>Password must be strong.</div>
-          }
-        </div>
-      }
-    </div>
-
-
-    <div class="form-group">
-      <select
-        id="role"
-        name="role"
-        formControlName="role"
-        [class.error]="validationService.isControlInvalid(myForm, 'role')"
-      >
-        <option value="" disabled>Select Role</option>
-        <option value="PATIENT">Patient</option>
-        <option value="DOCTOR">Doctor</option>
-        <option value="SPECIALIST">Specialist</option>
-        <option value="PHARMACIST">Pharmacist</option>
-      </select>
-
-      @if (this.myForm.controls['role'].touched && this.myForm.controls['role'].invalid) {
-        <div class="error-message">
-          @if (this.myForm.controls['role'].errors?.['required']) {
-            <div>Role is required.</div>
-          }
-        </div>
-      }
-
-    </div>
-
-    @if (successMessage) {
-      <div class="success-message">
-        {{ successMessage }}
-      </div>
-    }
-
-    <button type="submit" [disabled]="!myForm.valid" class="submit-button">
-      Register
+<div class="page">
+  <div class="back-button">
+    <button mat-icon-button [routerLink]="['/dashboard']" aria-label="Back to dashboard">
+      <mat-icon>arrow_back</mat-icon>
     </button>
-  </form>
+    <span class="back-label">Back to dashboard</span>
+  </div>
+
+  <div class="register-wrapper">
+    <div class="header">
+      <div class="header-icon">
+        <mat-icon>person_add</mat-icon>
+      </div>
+      <div>
+        <h2>Register a user</h2>
+        <p class="subtitle">Create credentials and assign a role.</p>
+      </div>
+    </div>
+
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            formControlName="username"
+            autocomplete="off"
+            [class.error]="validationService.isControlInvalid(myForm, 'username')"
+          />
+          @if (this.myForm.controls['username'].touched && this.myForm.controls['username'].invalid) {
+            <div class="error-message">
+              @if (this.myForm.controls['username'].errors?.['required']) {
+                <div>Username is required.</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            formControlName="email"
+            autocomplete="off"
+            [class.error]="validationService.isControlInvalid(myForm, 'email')"
+          />
+          @if (this.myForm.controls['email'].touched && this.myForm.controls['email'].invalid) {
+            <div class="error-message">
+              @if (this.myForm.controls['email'].errors?.['required']) {
+                <div>Email is required.</div>
+              } @else if (this.myForm.controls['email'].errors?.['email']) {
+                <div>Invalid email format.</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            formControlName="password"
+            autocomplete="new-password"
+            [class.error]="validationService.isControlInvalid(myForm, 'password')"
+          />
+          <div class="hint">Min 8 chars with upper, lower, number, and symbol.</div>
+          @if (this.myForm.controls['password'].touched && this.myForm.controls['password'].invalid) {
+            <div class="error-message">
+              @if (this.myForm.controls['password'].errors?.['required']) {
+                <div>Password is required.</div>
+              } @else if (this.myForm.controls['password'].errors?.['pattern']) {
+                <div>Password must be strong.</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Role</label>
+          <div class="role-grid">
+            <label class="role-option" [class.selected]="myForm.value.role === 'PATIENT'">
+              <input type="radio" formControlName="role" value="PATIENT"/>
+              <mat-icon>personal_injury</mat-icon>
+              <span>Patient</span>
+            </label>
+            <label class="role-option" [class.selected]="myForm.value.role === 'DOCTOR'">
+              <input type="radio" formControlName="role" value="DOCTOR"/>
+              <mat-icon>medical_services</mat-icon>
+              <span>Doctor</span>
+            </label>
+            <label class="role-option" [class.selected]="myForm.value.role === 'SPECIALIST'">
+              <input type="radio" formControlName="role" value="SPECIALIST"/>
+              <mat-icon>health_and_safety</mat-icon>
+              <span>Specialist</span>
+            </label>
+            <label class="role-option" [class.selected]="myForm.value.role === 'PHARMACIST'">
+              <input type="radio" formControlName="role" value="PHARMACIST"/>
+              <mat-icon>local_pharmacy</mat-icon>
+              <span>Pharmacist</span>
+            </label>
+          </div>
+          @if (this.myForm.controls['role'].touched && this.myForm.controls['role'].invalid) {
+            <div class="error-message">
+              @if (this.myForm.controls['role'].errors?.['required']) {
+                <div>Role is required.</div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (successMessage) {
+        <div class="success-message">
+          {{ successMessage }}
+        </div>
+      }
+
+      <div class="actions">
+        <button type="button" class="btn-cancel" [routerLink]="['/dashboard']">Cancel</button>
+        <button type="submit" [disabled]="!myForm.valid" class="submit-button">
+          <mat-icon>check</mat-icon>
+          Register user
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

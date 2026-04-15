@@ -1,13 +1,14 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {DoctorService} from '../../doctor.service';
-import {debounceTime, distinctUntilChanged, Observable, startWith, Subject, switchMap} from 'rxjs';
-import {Patient} from '../../../../models/patient.model';
-import {AsyncPipe} from '@angular/common';
-import {MatIconButton} from '@angular/material/button';
-import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {PatientCardComponent} from '../patient-card/patient-card.component';
-import {RouterLink} from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
+import { Component, inject, OnInit } from '@angular/core';
+import { DoctorService } from '../../doctor.service';
+import { debounceTime, distinctUntilChanged, Observable, startWith, Subject, switchMap } from 'rxjs';
+import { Patient } from '../../../../models/patient.model';
+import { AsyncPipe } from '@angular/common';
+import { MatIconButton } from '@angular/material/button';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { PatientCardComponent } from '../patient-card/patient-card.component';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-claim-patient',
@@ -24,6 +25,7 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class ClaimPatientComponent implements OnInit {
   service = inject(DoctorService);
+  private toast = inject(ToastService);
   patients$?: Observable<Patient[]>;
   subject = new Subject<string>();
 
@@ -45,9 +47,12 @@ export class ClaimPatientComponent implements OnInit {
     this.service.claimPatient(patientId).subscribe(
       (patient) => {
         console.log('Patient claimed:', patient);
+        this.toast.success('Patient claimed successfully');
+        this.subject.next('');
       },
       (error) => {
         console.error('Claim patient failed:', error);
+        this.toast.error('Could not claim patient');
       }
     );
   }

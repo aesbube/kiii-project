@@ -1,4 +1,35 @@
-.patient-item {
-  margin: 15px;
-  width: 300px;
+:host {
+  display: block;
+}
+
+.patient-card {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  height: 100%;
+}
+
+.patient-card__header {
+  padding-bottom: var(--space-4);
+  margin-bottom: 0;
+}
+
+.patient-card__title-wrap {
+  min-width: 0;
+}
+
+.patient-card__title-wrap .app-card__title {
+  font-size: 16px;
+}
+
+.patient-card__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.patient-card__actions .app-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }

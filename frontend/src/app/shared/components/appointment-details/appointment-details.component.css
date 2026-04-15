@@ -1,4 +1,52 @@
-.appointment-item {
-  margin: 15px;
-  width: 300px;
+:host {
+  display: block;
+}
+
+.appointment-card {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  height: 100%;
+}
+
+.appointment-card__header {
+  padding-bottom: var(--space-4);
+  margin-bottom: 0;
+}
+
+.appointment-card__title-wrap .app-card__title {
+  font-size: 16px;
+}
+
+.appointment-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.appointment-card__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.appointment-card__meta-item mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--color-primary);
+}
+
+.appointment-card__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.appointment-card__actions .app-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }

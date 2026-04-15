@@ -1,24 +1,6 @@
-.back-button {
-  position: fixed;
-  top: 70px;
-  left: 20px;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  align-items: self-start;
-  padding: 20px;
-  margin: 20px auto 0;
-}
-
-.container-app {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
+:host {
+  display: block;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--color-bg);
+  padding: var(--space-6) var(--space-4);
 }

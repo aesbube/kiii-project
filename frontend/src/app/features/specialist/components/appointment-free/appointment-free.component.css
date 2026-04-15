@@ -1,45 +1,45 @@
-.container {
+:host {
+  display: block;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--color-bg);
+  padding: var(--space-6) var(--space-4);
+}
+
+.appointment-layout {
   display: flex;
   flex-direction: column;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+  gap: var(--space-5);
 }
 
 .appointment-selector {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  gap: var(--space-3);
 }
 
-.time-selector {
+.time-selector,
+.location-input {
   width: 100%;
-  max-width: 200px;
-  margin-bottom: 16px;
+  max-width: 280px;
 }
 
 .calendar-container {
   width: 100%;
 }
 
-.location-container {
-  margin-top: 25px;
-}
-
 .calendar-card {
-  padding: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-3);
 }
 
-/* Selected date highlighting */
 ::ng-deep .selected-date {
-  background-color: rgba(103, 58, 183, 0.3) !important;
+  background-color: var(--color-primary-100) !important;
   border-radius: 50%;
 }
 
-/* Styling for the disabled time options */
 ::ng-deep .mat-mdc-select-disabled {
   opacity: 0.6;
 }
@@ -49,39 +49,42 @@
   text-decoration: line-through;
 }
 
-.appointments-list {
-  margin-top: 24px;
+.appointments-list__title {
+  font-size: 16px;
+  margin-bottom: var(--space-3);
 }
 
 .no-appointments {
-  color: #666;
+  color: var(--color-text-subtle);
   font-style: italic;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-3);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 .appointment-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
-  margin-bottom: 8px;
-  background-color: #f5f5f5;
-  border-radius: 4px;
+  padding: 8px 14px;
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-button[color="primary"] {
-  margin-top: 16px;
-}
-
-.back-button {
-  position: fixed;
-  top: 70px;
-  left: 20px;
+.submit-btn mat-icon,
+.app-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }
 
 .spinner-container {
@@ -91,20 +94,18 @@ button[color="primary"] {
   height: 200px;
 }
 
-@media screen and (min-width: 768px) {
-  .container {
+@media screen and (min-width: 900px) {
+  .appointment-layout {
     flex-direction: row;
     align-items: flex-start;
   }
 
   .appointment-selector {
     flex: 2;
-    margin-right: 24px;
-    margin-bottom: 0;
+    margin-right: var(--space-5);
   }
 
   .appointments-list {
     flex: 1;
-    margin-top: 0;
   }
 }

@@ -1,19 +1,18 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FormsModule} from '@angular/forms';
-import {MatCard} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
-import {MatButtonModule} from '@angular/material/button';
-import {MatNativeDateModule} from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
+import {MatIconButton} from '@angular/material/button';
+import {MatNativeDateModule} from '@angular/material/core';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Appointment} from '../../../../models/appointment.model';
 import {Specialist} from '../../../../models/specialist.model';
 import {OccupyAppointment} from '../../../../models/occupy-appointment.model';
 import {DoctorService} from '../../doctor.service';
+import {ToastService} from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-appointment',
@@ -22,13 +21,11 @@ import {DoctorService} from '../../doctor.service';
   standalone: true,
   imports: [
     MatFormFieldModule,
-    MatInputModule,
     MatDatepickerModule,
     FormsModule,
-    MatCard,
     MatSelectModule,
     MatIconModule,
-    MatButtonModule,
+    MatIconButton,
     MatNativeDateModule,
     MatProgressSpinner,
     RouterLink
@@ -36,20 +33,18 @@ import {DoctorService} from '../../doctor.service';
 })
 export class AppointmentComponent implements OnInit {
   service = inject(DoctorService);
+  private toast = inject(ToastService);
 
   specialists: Specialist[] = [];
   selectedSpecialist: Specialist | null = null;
-
   value: Date | null = null;
   time: string = '';
-
   availableAppointments: Appointment[] = [];
   selectedAppointment: Appointment | null = null;
   availableDates: Set<string> = new Set();
   availableTimesByDate: Map<string, string[]> = new Map();
   appointmentsByDateTime: Map<string, Appointment> = new Map();
   route = inject(ActivatedRoute);
-
   loading = false;
   appointmentsLoaded = false;
   patientId = '';
@@ -57,25 +52,15 @@ export class AppointmentComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.patientId = params.get('id') || '';
-      if (!this.patientId) {
-        console.error('Patient ID is required');
-        return;
-      }
-    })
+    });
     this.loadSpecialists();
   }
 
   loadSpecialists() {
     this.loading = true;
     this.service.getAllSpecialists().subscribe({
-      next: (specialists) => {
-        this.specialists = specialists;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Failed to load specialists:', err);
-        this.loading = false;
-      }
+      next: (specialists) => { this.specialists = specialists; this.loading = false; },
+      error: () => this.loading = false
     });
   }
 
@@ -89,23 +74,16 @@ export class AppointmentComponent implements OnInit {
 
   loadAppointments() {
     if (!this.selectedSpecialist) return;
-
     this.loading = true;
     this.appointmentsLoaded = false;
-
     this.service.getFreeAppointments(this.selectedSpecialist.username as string).subscribe({
       next: (appointments) => {
         this.availableAppointments = appointments;
         this.processAppointments();
         this.loading = false;
         this.appointmentsLoaded = true;
-        console.log('Available appointments:', this.availableAppointments);
       },
-      error: (err) => {
-        console.error('Failed to load appointments:', err);
-        this.loading = false;
-        this.appointmentsLoaded = true;
-      }
+      error: () => { this.loading = false; this.appointmentsLoaded = true; }
     });
   }
 
@@ -113,16 +91,12 @@ export class AppointmentComponent implements OnInit {
     this.availableDates = new Set();
     this.availableTimesByDate = new Map();
     this.appointmentsByDateTime = new Map();
-
     for (const appointment of this.availableAppointments) {
       this.availableDates.add(appointment.date);
-
       const times = this.availableTimesByDate.get(appointment.date) || [];
       times.push(appointment.time);
       this.availableTimesByDate.set(appointment.date, times);
-
-      const key = `${appointment.date}_${appointment.time}`;
-      this.appointmentsByDateTime.set(key, appointment);
+      this.appointmentsByDateTime.set(`${appointment.date}_${appointment.time}`, appointment);
     }
   }
 
@@ -136,31 +110,26 @@ export class AppointmentComponent implements OnInit {
   onTimeChange(timeStr: string) {
     this.time = timeStr;
     if (!this.value || !this.time) return;
-
-    const dateStr = this.formatDate(this.value);
-    const key = `${dateStr}_${this.time}`;
+    const key = `${this.formatDate(this.value)}_${this.time}`;
     this.selectedAppointment = this.appointmentsByDateTime.get(key) || null;
   }
 
   scheduleAppointment() {
     if (!this.selectedAppointment || !this.patientId) return;
-
     const occupyAppointment: OccupyAppointment = {
       appointmentId: this.selectedAppointment.id,
       scheduleId: this.selectedAppointment.scheduleId,
       refNumber: this.selectedAppointment.refNumber
     };
-
     this.loading = true;
-
     this.service.scheduleAppointment(this.patientId, occupyAppointment).subscribe({
-      next: (response) => {
-        console.log('Appointment scheduled successfully:', response);
+      next: () => {
+        this.toast.success('Appointment scheduled');
         this.loading = false;
         this.resetForm();
       },
-      error: (err) => {
-        console.error('Failed to schedule appointment:', err);
+      error: () => {
+        this.toast.error('Could not schedule appointment');
         this.loading = false;
       }
     });
@@ -184,20 +153,13 @@ export class AppointmentComponent implements OnInit {
 
   isDateAvailable = (date: Date | null): boolean => {
     if (!date) return false;
-    const dateStr = this.formatDate(date);
-    return this.availableDates.has(dateStr);
+    return this.availableDates.has(this.formatDate(date));
   }
 
   getAvailableTimesForSelectedDate(): string[] {
     if (!this.value) return [];
-    const dateStr = this.formatDate(this.value);
-    return this.availableTimesByDate.get(dateStr) || [];
+    return this.availableTimesByDate.get(this.formatDate(this.value)) || [];
   }
 
-  dateClass = (date: Date) => {
-    if (this.isDateAvailable(date)) {
-      return 'available-date';
-    }
-    return 'unavailable-date';
-  }
+  dateClass = (date: Date) => this.isDateAvailable(date) ? 'available-date' : '';
 }

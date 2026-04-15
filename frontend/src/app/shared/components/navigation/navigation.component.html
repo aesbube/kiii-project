@@ -1,14 +1,26 @@
-<div id="nav-left">
-  <a routerLink="" id="logo"><img src="MedView Logo.png" alt="Logo" /></a>
-  <a routerLink="" href="">MedView</a>
-</div>
+<nav class="app-nav">
+  <div class="nav-left">
+    <a routerLink="" class="brand">
+      <span class="brand-logo"><img src="MedView Logo.png" alt="MedView logo"/></span>
+      <span class="brand-name">MedView</span>
+    </a>
+  </div>
 
-<div id="nav-right">
-  <button mat-button routerLink="">Home</button>
+  <div class="nav-right">
+    <a routerLink="" class="nav-link">Home</a>
 
-  <button mat-flat-button *ngIf="!authService.isLoggedIn()" routerLink="/login">Login</button>
-  <button mat-flat-button *ngIf="!authService.isLoggedIn()" routerLink="/register">Register</button>
+    @if (!authService.isLoggedIn()) {
+      <ng-container>
+        <a routerLink="/login" class="nav-link">Login</a>
+        <a routerLink="/register" class="nav-link nav-link--primary">Register</a>
+      </ng-container>
+    }
 
-  <button mat-button *ngIf="authService.isLoggedIn()" routerLink="/dashboard"> Dashboard</button>
-  <button mat-button *ngIf="authService.isLoggedIn()" (click)="authService.logout()"> Logout</button>
-</div>
+    @if (authService.isLoggedIn()) {
+      <ng-container>
+        <a routerLink="/dashboard" class="nav-link">Dashboard</a>
+        <button type="button" class="nav-link nav-link--ghost" (click)="authService.logout()">Logout</button>
+      </ng-container>
+    }
+  </div>
+</nav>

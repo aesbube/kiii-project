@@ -1,35 +1,25 @@
-<div class="patient-item">
-  <mat-card appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>Patient name: {{ patient.name }} {{patient.surname}}</mat-card-title>
-      <mat-card-subtitle>Patient email: {{ patient.email }}</mat-card-subtitle>
-    </mat-card-header>
+<div class="app-card patient-card">
+  <div class="app-card__header patient-card__header">
+    <div class="app-card__header-icon">
+      <mat-icon>person</mat-icon>
+    </div>
+    <div class="patient-card__title-wrap">
+      <h3 class="app-card__title">{{ patient.name }} {{ patient.surname }}</h3>
+      <div class="app-card__subtitle">{{ patient.email }}</div>
+    </div>
+  </div>
 
-    <mat-card-actions align="end">
-      @if (isClaim) {
-        <a>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="handleCardClick()"
-          >
-            Claim
-          </button>
-        </a>
-      } @else {
-        <a
-          [routerLink]="[patient.id]"
-          routerLinkActive="active">
-          <button
-            mat-raised-button
-            color="primary"
-          >
-            View Details
-          </button>
-        </a>
-      }
-
-
-    </mat-card-actions>
-  </mat-card>
+  <div class="patient-card__actions">
+    @if (isClaim) {
+      <button type="button" class="app-btn" (click)="handleCardClick()">
+        <mat-icon>how_to_reg</mat-icon>
+        Claim patient
+      </button>
+    } @else {
+      <a class="app-btn" [routerLink]="[patient.id]">
+        <mat-icon>visibility</mat-icon>
+        View details
+      </a>
+    }
+  </div>
 </div>

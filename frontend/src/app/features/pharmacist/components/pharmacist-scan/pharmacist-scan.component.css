@@ -1,26 +1,90 @@
-:host{
-  display: flex;
-  align-items: center;
-  width: 100vw;
-  height: calc(100vh - 56px);
+:host {
+  display: block;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--color-bg);
+  padding: var(--space-6) var(--space-4);
 }
 
-.camera-wrapper{
-  flex: 1 1;
+.scan-layout {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.scan-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.scanner-wrap {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #000;
+}
+
+.scanner-wrap zxing-scanner {
+  display: block;
+  width: 100%;
+}
+
+.scan-result {
+  display: flex;
   align-items: center;
+  gap: 8px;
+  color: var(--color-success);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.scan-result mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.scan-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.scan-actions .app-btn mat-icon,
+.prescription-actions .app-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.prescription-panel {
+  display: flex;
   flex-direction: column;
 }
 
-.prescription-wrapper{
-  flex: 1 1;
+.spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  height: 200px;
 }
 
-zxing-scanner{
-  width: 500px;
+.invalid-icon {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+@media (min-width: 900px) {
+  .scan-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .scan-card {
+    flex: 1;
+    max-width: 480px;
+  }
+
+  .prescription-panel {
+    flex: 1;
+  }
 }

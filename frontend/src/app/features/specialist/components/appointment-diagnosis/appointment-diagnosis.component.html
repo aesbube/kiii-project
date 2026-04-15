@@ -1,23 +1,35 @@
-<div class="back-button">
-  <button mat-icon-button [routerLink]="isDoctor ? goBackUrl : '/dashboard/appointments/'">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-</div>
-<div class="container">
+<div class="app-page-inner">
+  <a class="app-back" [routerLink]="isDoctor ? goBackUrl : '/dashboard/appointments'">
+    <button mat-icon-button aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="app-back-label">Back</span>
+  </a>
+
   @if (isDoctor) {
     @if (appointment$) {
       <app-appointment-card [appointment]="appointment$"></app-appointment-card>
       @if (diagnosis$) {
         <app-diagnosis-card [diagnosis]="diagnosis$"></app-diagnosis-card>
       } @else {
-        <h3 style="text-align: center">No diagnosis found for this appointment</h3>
+        <div class="app-empty">
+          <mat-icon>assignment_late</mat-icon>
+          <h3>No diagnosis yet</h3>
+          <p>No diagnosis has been recorded for this appointment.</p>
+        </div>
       }
+    } @else {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="48"></mat-spinner>
+      </div>
     }
   } @else if (isGuest) {
     @if (appointment$) {
       <app-appointment-card [appointment]="appointment$"></app-appointment-card>
     } @else {
-      <h3 style="text-align: center">No appointment found</h3>
+      <div class="spinner-container">
+        <mat-spinner [diameter]="48"></mat-spinner>
+      </div>
     }
   } @else {
     @if (appointment$) {
@@ -27,7 +39,10 @@
       } @else {
         <app-write-diagnosis></app-write-diagnosis>
       }
+    } @else {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="48"></mat-spinner>
+      </div>
     }
   }
 </div>
-

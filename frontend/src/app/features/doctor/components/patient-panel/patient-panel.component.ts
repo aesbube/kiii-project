@@ -23,21 +23,13 @@ import {PatientPrescriptionsComponent} from '../patient-prescriptions/patient-pr
   styleUrl: './patient-panel.component.css'
 })
 export class PatientPanelComponent implements OnInit {
-  service = inject(DoctorService)
-  patient$?: Patient | undefined
+  service = inject(DoctorService);
+  patient$?: Patient;
   route = inject(ActivatedRoute);
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
-      switchMap(params => {
-        const id = params.get('id');
-        console.log('Patient ID:', id);
-        return this.service.getPatientDetails(id!);
-      })
-    ).subscribe(patient => {
-      this.patient$ = patient;
-      console.log('Patient:', patient);
-    });
+      switchMap(params => this.service.getPatientDetails(params.get('id')!))
+    ).subscribe(patient => this.patient$ = patient);
   }
-
 }
