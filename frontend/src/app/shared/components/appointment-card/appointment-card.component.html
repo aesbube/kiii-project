@@ -6,7 +6,9 @@
       </div>
       <div>
         <h2 class="app-card__title">Appointment details</h2>
-        <div class="app-card__subtitle">Ref #{{ appointment.refNumber }}</div>
+        @if (appointment.refNumber) {
+          <div class="app-card__subtitle">Ref #{{ appointment.refNumber }}</div>
+        }
       </div>
       @if (appointment.status) {
         <span class="appt-status" [ngClass]="statusClass">{{ appointment.status }}</span>
@@ -38,10 +40,12 @@
         <span class="app-info-label">Location</span>
         <span class="app-info-value">{{ appointment.location || '—' }}</span>
       </div>
-      <div class="app-info-item">
-        <span class="app-info-label">Reference</span>
-        <span class="app-info-value">{{ appointment.refNumber }}</span>
-      </div>
+      @if (appointment.refNumber) {
+        <div class="app-info-item">
+          <span class="app-info-label">Reference</span>
+          <span class="app-info-value">{{ appointment.refNumber }}</span>
+        </div>
+      }
     </div>
   </div>
 } @else {

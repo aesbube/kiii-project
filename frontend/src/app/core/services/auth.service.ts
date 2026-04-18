@@ -114,4 +114,18 @@ export class AuthService {
     return 0
   }
 
+  getUsername(): string {
+    const token = this.getToken();
+    if (token) {
+      try {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        return decodedToken?.sub || '';
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return '';
+      }
+    }
+    return '';
+  }
+
 }

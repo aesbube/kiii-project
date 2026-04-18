@@ -74,6 +74,14 @@ export class DoctorService {
     return this.http.post<WritePrescriptionModel>(`${this.baseUrl}/patients/${patientId}/prescriptions/new`, prescription);
   }
 
+  cancelPrescription(patientId: number, prescriptionId: string): Observable<Prescription> {
+    return this.http.get<Prescription>(`${this.baseUrl}/patients/${patientId}/prescriptions/${prescriptionId}`);
+  }
+
+  updatePrescription(patientId: number, prescriptionId: string, prescription: WritePrescriptionModel): Observable<Prescription> {
+    return this.http.post<Prescription>(`${this.baseUrl}/patients/${patientId}/prescriptions/${prescriptionId}/update`, prescription);
+  }
+
   getAppointmentDetails(id: string): Observable<Appointment> {
     return this.http.get<Appointment>(`${this.baseUrl}/appointments-details/${id}`);
   }

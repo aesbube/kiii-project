@@ -11,7 +11,7 @@ data class PharmacistDto(
     val phone: String,
     val address: String,
     val birthDate: LocalDate?,
-    val licenseNumber: Int,
+    val licenseNumber: String,
     val pharmacyName: String,
     val pharmacyAddress: String
 )

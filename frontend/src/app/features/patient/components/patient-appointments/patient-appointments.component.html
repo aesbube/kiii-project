@@ -1,15 +1,33 @@
-@if(!fetched){
-  <mat-spinner></mat-spinner>
-}
-@else {
-  @if(numOfAppointments==0){
-    <h3>You do not have any upcoming appointments</h3>
-  }
-  @else {
-    @for(appointment of appointments; track appointment){
-      @if (appointment.date >= today) {
-        <app-appointment-details [appointment]="appointment" [isPatient]="true"></app-appointment-details>
-      }
+<div class="app-card">
+  <div class="app-card__header">
+    <div class="app-card__header-icon">
+      <mat-icon>event_available</mat-icon>
+    </div>
+    <div>
+      <h2 class="app-card__title">My Appointments</h2>
+      <div class="app-card__subtitle">Upcoming scheduled appointments</div>
+    </div>
+  </div>
+
+  @if (!fetched) {
+    <div class="spinner-container">
+      <mat-spinner [diameter]="40"></mat-spinner>
+    </div>
+  } @else {
+    @if (numOfAppointments === 0) {
+      <div class="app-empty">
+        <mat-icon>event_busy</mat-icon>
+        <h3>No upcoming appointments</h3>
+        <p>You do not have any upcoming appointments scheduled.</p>
+      </div>
+    } @else {
+      <div class="app-grid-cards">
+        @for (appointment of appointments; track appointment) {
+          @if (appointment.date >= today) {
+            <app-appointment-details [appointment]="appointment" [isPatient]="true"></app-appointment-details>
+          }
+        }
+      </div>
     }
   }
-}
+</div>

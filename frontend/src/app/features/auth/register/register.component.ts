@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators, } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ValidationService } from '../../../core/services/validation.service';
@@ -14,7 +14,7 @@ import { ToastService } from '../../../core/services/toast.service';
   styleUrls: ['./register.component.css'],
   providers: [ValidationService],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   myForm: FormGroup;
   strongPasswordPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/;
@@ -36,9 +36,6 @@ export class RegisterComponent implements OnInit {
         Validators.pattern(this.strongPasswordPattern),
       ]),
     });
-  }
-
-  ngOnInit() {
   }
 
   onSubmit() {

@@ -89,6 +89,15 @@ class SpecialistController(
         return ResponseEntity.ok(response.message)
     }
 
+    @PostMapping("/appointments/{appointmentId}/diagnosis/update")
+    fun updateDiagnosis(
+        @PathVariable(value = "appointmentId") appointmentId: Long,
+        @RequestBody writeDiagnosisDto: WriteDiagnosisDto
+    ): ResponseEntity<String> {
+        val response = specialistService.updateDiagnosis(appointmentId, writeDiagnosisDto)
+        return ResponseEntity.ok(response.message)
+    }
+
     @GetMapping("/appointments/{appointmentId}")
     fun getAppointmentById(@PathVariable appointmentId: Long): ResponseEntity<AppointmentDto> {
         val appointment = specialistService.getAppointmentById(appointmentId)

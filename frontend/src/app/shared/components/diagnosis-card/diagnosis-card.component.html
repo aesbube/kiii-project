@@ -10,20 +10,61 @@
       </div>
     </div>
 
-    <div class="app-info-grid">
-      <div class="app-info-item app-info-item--full">
-        <span class="app-info-label">Patient</span>
-        <span class="app-info-value">{{ diagnosis.patientNameAndSurname || '—' }}</span>
+    @if (!editing) {
+      <div class="app-info-grid">
+        <div class="app-info-item app-info-item--full">
+          <span class="app-info-label">Patient</span>
+          <span class="app-info-value">{{ diagnosis.patientNameAndSurname || '—' }}</span>
+        </div>
+        <div class="app-info-item app-info-item--full">
+          <span class="app-info-label">Diagnosis</span>
+          <span class="app-info-value">{{ diagnosis.name || '—' }}</span>
+        </div>
+        <div class="app-info-item app-info-item--full">
+          <span class="app-info-label">Description</span>
+          <span class="app-info-value">{{ diagnosis.description || '—' }}</span>
+        </div>
+        <div class="app-info-item app-info-item--full">
+          <span class="app-info-label">Treatment</span>
+          <span class="app-info-value">{{ diagnosis.treatment || '—' }}</span>
+        </div>
       </div>
-      <div class="app-info-item app-info-item--full">
-        <span class="app-info-label">Description</span>
-        <span class="app-info-value">{{ diagnosis.description || '—' }}</span>
-      </div>
-      <div class="app-info-item app-info-item--full">
-        <span class="app-info-label">Treatment</span>
-        <span class="app-info-value">{{ diagnosis.treatment || '—' }}</span>
-      </div>
-    </div>
+
+      @if (canEdit) {
+        <div class="diagnosis-actions">
+          <button type="button" class="app-btn app-btn--ghost" (click)="startEdit()">
+            <mat-icon>edit</mat-icon>
+            Edit diagnosis
+          </button>
+        </div>
+      }
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="save()" class="details-form">
+        <div class="details-form__grid">
+          <div class="details-form__field details-form__field--full">
+            <label class="details-form__label">Diagnosis name</label>
+            <input class="app-input" formControlName="name"/>
+          </div>
+          <div class="details-form__field details-form__field--full">
+            <label class="details-form__label">Description</label>
+            <textarea class="app-input" formControlName="description" rows="3"></textarea>
+          </div>
+          <div class="details-form__field details-form__field--full">
+            <label class="details-form__label">Treatment</label>
+            <textarea class="app-input" formControlName="treatment" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="diagnosis-actions">
+          <button type="button" class="app-btn app-btn--ghost" (click)="cancelEdit()" [disabled]="submitting">
+            Cancel
+          </button>
+          <button type="submit" class="app-btn" [disabled]="form.invalid || submitting">
+            <mat-icon>save</mat-icon>
+            Save changes
+          </button>
+        </div>
+      </form>
+    }
   </div>
 } @else {
   <div class="spinner-container">

@@ -46,6 +46,12 @@ export class SpecialistService {
     });
   }
 
+  updateDiagnosis(appointmentId: string, diagnosis: WriteDiagnosis): Observable<string> {
+    return this.http.post(`${this.baseUrl}/appointments/${appointmentId}/diagnosis/update`, diagnosis, {
+      responseType: 'text' as const
+    });
+  }
+
   getDiagnosis(appointmentId: string): Observable<Diagnosis> {
     return this.http.get<Diagnosis>(`${this.baseUrl}/appointments/${appointmentId}/diagnosis`);
   }

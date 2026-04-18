@@ -26,6 +26,11 @@ class PharmacistController(private val pharmacistService: PharmacistService) {
         return ResponseEntity.ok(pharmacists)
     }
 
+    @GetMapping("/me")
+    fun getCurrentPharmacist(): ResponseEntity<PharmacistDto> {
+        return ResponseEntity.ok(pharmacistService.getCurrentPharmacist())
+    }
+
     @PostMapping("/update")
     fun addDetailsToDoctor(@RequestBody pharmacistUpdateRequestDto: PharmacistUpdateRequestDto): ResponseEntity<String> {
         val response = pharmacistService.addDetailsToPharmacist(pharmacistUpdateRequestDto)

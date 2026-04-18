@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  min-height: calc(100vh - var(--nav-height));
+  background-color: var(--color-bg);
+  padding: var(--space-6) var(--space-4);
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 260px;
+}
+
+.details-form__actions .app-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}

@@ -8,3 +8,27 @@
   align-items: center;
   height: 200px;
 }
+
+.diagnosis-actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.diagnosis-actions .app-btn--ghost {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.diagnosis-actions .app-btn--ghost:hover {
+  background-color: var(--color-surface-alt);
+  color: var(--color-text);
+}
+
+textarea.app-input {
+  resize: vertical;
+  min-height: 80px;
+}

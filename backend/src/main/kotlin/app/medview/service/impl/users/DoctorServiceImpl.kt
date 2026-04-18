@@ -151,6 +151,21 @@ class DoctorServiceImpl(
         )
     }
 
+    override fun updatePrescription(
+        patientId: Long,
+        prescriptionId: String,
+        prescriptionRequestDto: PrescriptionRequestDto
+    ): PrescriptionDto {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val username = authentication.name
+        val doctor = doctorRepository.findByUsername(username)
+            ?: throw UsernameNotFoundException("User not found with username: $username")
+
+        return prescriptionConverter.convert(
+            prescriptionService.update(patientId, doctor.id, prescriptionId, prescriptionRequestDto)
+        )
+    }
+
     override fun scheduleAppointment(patientId: Long, occupyAppointmentDto: OccupyAppointmentDto): MessageResponse {
         logger.info(SecurityContextHolder.getContext().authentication.name)
         val authentication = SecurityContextHolder.getContext().authentication

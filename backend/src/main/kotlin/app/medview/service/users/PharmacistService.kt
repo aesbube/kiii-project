@@ -12,6 +12,7 @@ interface PharmacistService {
     fun getAllPharmacists(): List<PharmacistDto>
     fun getPharmacistById(id: Long): PharmacistDto
     fun addDetailsToPharmacist(pharmacistUpdateRequestDto: PharmacistUpdateRequestDto): MessageResponse
+    fun getCurrentPharmacist(): PharmacistDto
     fun getPrescription(prescriptionScanDto: PrescriptionScanDto) : PrescriptionDto
     fun validatePrescription(prescriptionScanDto: PrescriptionScanDto) : PrescriptionDto
 }

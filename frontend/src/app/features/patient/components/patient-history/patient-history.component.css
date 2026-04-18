@@ -1,12 +1,16 @@
-:host{
-  display: flex;
-  justify-content: space-around;
-  height: calc(100vh - 56px);
-  width: calc(100vw - 250px);
-  padding-top: 50px;
+:host {
+  display: block;
 }
-.col{
+
+.history-sections {
   display: flex;
   flex-direction: column;
+  gap: var(--space-5);
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
   align-items: center;
+  height: 200px;
 }

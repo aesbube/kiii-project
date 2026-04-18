@@ -1,24 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Appointment } from '../../../../models/appointment.model';
 import { Subscription } from 'rxjs';
 import { PatientService } from '../../patient.service';
 import { Prescription } from '../../../../models/prescription.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AppointmentDetailsComponent } from '../../../../shared/components/appointment-details/appointment-details.component';
-import { PrescriptionDetailsComponent } from '../../../../shared/components/prescription-details/prescription-details.component';
-import {PrescriptionStatusModel} from '../../../../models/prescription-status.model';
+import {
+  AppointmentDetailsComponent
+} from '../../../../shared/components/appointment-details/appointment-details.component';
+import {
+  PrescriptionDetailsComponent
+} from '../../../../shared/components/prescription-details/prescription-details.component';
+import { MatIconModule } from '@angular/material/icon';
+import { PrescriptionStatusModel } from '../../../../models/prescription-status.model';
 
 @Component({
   selector: 'app-patient-history',
   imports: [
     MatProgressSpinnerModule,
     AppointmentDetailsComponent,
-    PrescriptionDetailsComponent
+    PrescriptionDetailsComponent,
+    MatIconModule,
   ],
   templateUrl: './patient-history.component.html',
   styleUrl: './patient-history.component.css'
 })
-export class PatientHistoryComponent {
+export class PatientHistoryComponent implements OnInit {
 
   appointments: Appointment[] = []
   numOfAppointments = 0
@@ -33,36 +39,29 @@ export class PatientHistoryComponent {
 
   today = this.getDate()
 
-  constructor(private patientService: PatientService) { }
+  constructor(private patientService: PatientService) {
+  }
 
   ngOnInit() {
-    console.log(this.today);
-
     this.subscription = this.patientService.getAppointments().subscribe({
       next: (data: Appointment[]) => {
         this.appointments = data;
-        this.numOfAppointments = this.appointments.length
+        this.numOfAppointments = this.appointments.length;
         this.fetchedAppointments = true;
       },
       error: (error) => {
-        console.error('Error fetching patient data:', error);
-      },
-      complete: () => {
-        console.log('Patient data fetching complete.');
+        console.error('Error fetching appointments:', error);
       }
     });
 
     this.subscription = this.patientService.getPrescriptions().subscribe({
       next: (data: Prescription[]) => {
         this.prescriptions = data;
-        this.numOfPrescriptions = this.prescriptions.length
+        this.numOfPrescriptions = this.prescriptions.length;
         this.fetchedPrescriptions = true;
       },
       error: (error) => {
-        console.error('Error fetching patient data:', error);
-      },
-      complete: () => {
-        console.log('Patient data fetching complete.');
+        console.error('Error fetching prescriptions:', error);
       }
     });
   }
@@ -73,13 +72,9 @@ export class PatientHistoryComponent {
       day = '' + d.getDate(),
       year = d.getFullYear();
 
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
   }
-
-
 }

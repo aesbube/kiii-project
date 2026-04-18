@@ -1,6 +1,6 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
 import {AppointmentCardComponent} from '../../../../shared/components/appointment-card/appointment-card.component';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {SpecialistService} from '../../specialist.service';
 import {Appointment} from '../../../../models/appointment.model';
 import {forkJoin, of, switchMap, throwError} from 'rxjs';
@@ -12,6 +12,7 @@ import {MatIconButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {DoctorService} from '../../../doctor/doctor.service';
+import {ToastService} from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-appointment-diagnosis',
@@ -30,6 +31,8 @@ import {DoctorService} from '../../../doctor/doctor.service';
 export class AppointmentDiagnosisComponent implements OnInit {
   service = inject(SpecialistService)
   doctorService = inject(DoctorService)
+  private router = inject(Router);
+  private toast = inject(ToastService);
   appointment$?: Appointment | undefined
   diagnosis$?: Diagnosis | undefined
   route = inject(ActivatedRoute);
@@ -60,14 +63,20 @@ export class AppointmentDiagnosisComponent implements OnInit {
     } else if (this.isGuest) {
       this.route.paramMap.pipe(
         switchMap(params => {
-          const id = params.get('reference')!;
-          return forkJoin({
-            appointment: this.service.getAppointmentByReference(id)
-          });
+          const reference = params.get('reference')!;
+          return this.service.getAppointmentByReference(reference).pipe(
+            catchError(error => {
+              console.warn('Appointment not found for reference:', reference, error);
+              this.toast.info(`No appointment found with reference "${reference}"`);
+              this.router.navigate(['/']);
+              return of(undefined);
+            })
+          );
         })
-      ).subscribe(({appointment}) => {
-        this.appointment$ = appointment;
-        console.log('Appointment:', appointment);
+      ).subscribe((appointment) => {
+        if (appointment) {
+          this.appointment$ = appointment;
+        }
       });
     } else {
       this.route.paramMap.pipe(

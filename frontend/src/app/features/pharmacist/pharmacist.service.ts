@@ -3,6 +3,7 @@ import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Prescription} from '../../models/prescription.model';
+import {Pharmacist} from '../../models/pharmacist.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,16 @@ export class PharmacistService {
         patientId: patientId
       }
     );
+  }
+
+  getPharmacistDetails(): Observable<Pharmacist> {
+    return this.http.get<Pharmacist>(`${this.apiUrl}/me`);
+  }
+
+  updatePharmacistDetails(pharmacist: Pharmacist): Observable<string> {
+    return this.http.post(`${this.apiUrl}/update`, pharmacist, {
+      responseType: 'text' as const
+    });
   }
 
 }

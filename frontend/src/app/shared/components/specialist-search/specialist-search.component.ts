@@ -50,6 +50,14 @@ export class SpecialistSearchComponent implements OnInit {
     this.router.navigate(['/specialist', username]);
   }
 
+  displayName(specialist: Specialist): string {
+    const full = [specialist.name, specialist.surname]
+      .map(v => (v ?? '').toString().trim())
+      .filter(v => v.length > 0)
+      .join(' ');
+    return full || (specialist.username ?? '').toString();
+  }
+
   @Output() focused = new EventEmitter<boolean>();
 
   onInputFocus(): void {

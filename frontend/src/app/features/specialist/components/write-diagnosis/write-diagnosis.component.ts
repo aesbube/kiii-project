@@ -1,11 +1,8 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatButtonModule, MatIconButton} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {SpecialistService} from '../../specialist.service';
-import {MatInput} from '@angular/material/input';
 import {Location} from '@angular/common';
 import {ToastService} from '../../../../core/services/toast.service';
 
@@ -14,11 +11,7 @@ import {ToastService} from '../../../../core/services/toast.service';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatFormFieldModule,
     MatIconModule,
-    MatButtonModule,
-    MatIconButton,
-    MatInput,
   ],
   templateUrl: './write-diagnosis.component.html',
   styleUrl: './write-diagnosis.component.css'

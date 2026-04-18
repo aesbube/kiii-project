@@ -105,7 +105,6 @@ button {
   font-family: inherit;
 }
 
-/* Shared app primitives */
 .app-page {
   display: block;
   min-height: calc(100vh - var(--nav-height));
@@ -350,7 +349,6 @@ textarea.app-input {
   --mat-snack-bar-button-color: var(--color-primary-100);
 }
 
-/* Dashboard grid tiles */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -413,7 +411,6 @@ textarea.app-input {
   line-height: 1.4;
 }
 
-/* Dashboard page layout */
 .dashboard-page {
   max-width: 960px;
   margin: 0 auto;
@@ -450,7 +447,6 @@ textarea.app-input {
   margin-bottom: var(--space-3);
 }
 
-/* Details form layout */
 .details-form {
   display: flex;
   flex-direction: column;

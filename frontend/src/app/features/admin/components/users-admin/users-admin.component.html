@@ -28,6 +28,7 @@
               <th class="col-id">ID</th>
               <th>Username</th>
               <th>Email</th>
+              <th class="col-role">Role</th>
               <th class="col-actions">Actions</th>
             </tr>
             </thead>
@@ -42,8 +43,11 @@
                     </div>
                   </td>
                   <td class="muted">{{ user.email }}</td>
+                  <td class="col-role">
+                    <span class="role-badge" [ngClass]="roleClass(user.role)">{{ roleLabel(user.role) }}</span>
+                  </td>
                   <td class="col-actions">
-                    <button class="delete-button" (click)="deleteUser(user.id)">
+                    <button class="delete-button" (click)="askDelete(user)">
                       <mat-icon>delete_outline</mat-icon>
                       <span>Delete</span>
                     </button>
@@ -73,3 +77,24 @@
     </div>
   }
 </div>
+
+@if (pendingDelete) {
+  <div class="confirm-backdrop" (click)="cancelDelete()">
+    <div class="confirm-dialog" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <div class="confirm-dialog__icon">
+        <mat-icon>warning</mat-icon>
+      </div>
+      <h3 class="confirm-dialog__title">Delete user?</h3>
+      <p class="confirm-dialog__message">
+        Are you sure you want to delete <strong>{{ pendingDelete.username }}</strong>? This action cannot be undone.
+      </p>
+      <div class="confirm-dialog__actions">
+        <button type="button" class="confirm-btn confirm-btn--ghost" (click)="cancelDelete()">Cancel</button>
+        <button type="button" class="confirm-btn confirm-btn--danger" (click)="confirmDelete()">
+          <mat-icon>delete_outline</mat-icon>
+          <span>Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+}

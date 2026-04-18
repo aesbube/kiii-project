@@ -1,9 +1,10 @@
-:host{
-  width: calc(100vw - 250px);
-  height: calc(100vh - 56px);
+:host {
+  display: block;
+}
+
+.spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  height: 200px;
 }
-

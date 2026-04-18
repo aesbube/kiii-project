@@ -73,6 +73,15 @@ class DoctorController(private val doctorService: DoctorService, private val spe
         return ResponseEntity.ok(doctorService.cancelPrescription(patientId, prescriptionId))
     }
 
+    @PostMapping("/patients/{patientId}/prescriptions/{prescriptionId}/update")
+    fun updatePrescription(
+        @PathVariable("patientId") patientId: Long,
+        @PathVariable("prescriptionId") prescriptionId: String,
+        @RequestBody prescription: PrescriptionRequestDto
+    ): ResponseEntity<PrescriptionDto> {
+        return ResponseEntity.ok(doctorService.updatePrescription(patientId, prescriptionId, prescription))
+    }
+
     @PostMapping("/patients/{patientId}/appointments")
     fun scheduleAppointment(
         @PathVariable("patientId") patientId: Long,

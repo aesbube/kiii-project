@@ -42,11 +42,17 @@
               </svg>
             </div>
             <div class="result-body">
-              <div class="result-name">{{ specialist.name }} {{ specialist.surname }}</div>
+              <div class="result-name">{{ displayName(specialist) }}</div>
               <div class="result-meta">
-                <span *ngIf="specialist.specialty">{{ specialist.specialty }}</span>
-                <span *ngIf="specialist.specialty && specialist.username" class="dot">&middot;</span>
-                <span *ngIf="specialist.username" class="muted">&#64;{{ specialist.username }}</span>
+                @if (specialist.specialty) {
+                  <span>{{ specialist.specialty }}</span>
+                }
+                @if (specialist.specialty && specialist.username) {
+                  <span class="dot">&middot;</span>
+                }
+                @if (specialist.username) {
+                  <span class="muted">&#64;{{ specialist.username }}</span>
+                }
               </div>
             </div>
           </li>

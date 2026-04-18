@@ -7,6 +7,14 @@
   <div>
     <div class="dashboard-section-label">Actions</div>
     <div class="dashboard-grid">
+      <a class="dashboard-tile" [routerLink]="['/dashboard/info-p']" routerLinkActive="dashboard-tile--active">
+        <div class="dashboard-tile__icon">
+          <mat-icon>manage_accounts</mat-icon>
+        </div>
+        <h3 class="dashboard-tile__title">My details</h3>
+        <p class="dashboard-tile__desc">View and update your personal and pharmacy information.</p>
+      </a>
+
       <a class="dashboard-tile" routerLink="/scan">
         <div class="dashboard-tile__icon">
           <mat-icon>qr_code_scanner</mat-icon>

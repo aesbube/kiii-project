@@ -20,7 +20,7 @@ class Pharmacist(
     var birthDate: LocalDate? = null,
     var pharmacyName: String = "",
     var pharmacyAddress: String = "",
-    var licenseNumber: Int = 0,
+    var licenseNumber: String = "",
 ) : User(
     id = id,
     username = username,

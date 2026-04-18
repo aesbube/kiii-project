@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs';
 import { PatientService } from '../../patient.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PrescriptionDetailsComponent } from '../../../../shared/components/prescription-details/prescription-details.component';
-import {MatButtonModule} from '@angular/material/button';
-import {PrescriptionStatusModel} from '../../../../models/prescription-status.model';
+import { MatIconModule } from '@angular/material/icon';
+import { PrescriptionStatusModel } from '../../../../models/prescription-status.model';
 
 
 @Component({
@@ -13,7 +13,7 @@ import {PrescriptionStatusModel} from '../../../../models/prescription-status.mo
   imports: [
     MatProgressSpinnerModule,
     PrescriptionDetailsComponent,
-    MatButtonModule,
+    MatIconModule,
   ],
   templateUrl: './patient-prescriptions.component.html',
   styleUrl: './patient-prescriptions.component.css'
@@ -26,7 +26,6 @@ export class PatientPrescriptionsComponent implements OnInit {
   subscription: Subscription | undefined;
   prescriptionStatus = PrescriptionStatusModel
 
-
   constructor(private patientService: PatientService) { }
 
   ngOnInit() {
@@ -38,11 +37,7 @@ export class PatientPrescriptionsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching patient data:', error);
-      },
-      complete: () => {
-        console.log('Patient data fetching complete.');
       }
     });
   }
-
 }

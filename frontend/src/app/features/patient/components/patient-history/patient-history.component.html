@@ -1,35 +1,69 @@
-<div class="col">
-  <h2>Past appointments</h2>
-  @if (!fetchedAppointments) {
-    <mat-spinner></mat-spinner>
-  } @else {
-    @if (numOfAppointments == 0) {
-      <h3>You do not have any past appointments</h3>
-    } @else {
-      @for (appointment of appointments; track appointment) {
-        @if (appointment.date < today) {
-          <app-appointment-details [appointment]="appointment"></app-appointment-details>
-        }
-      }
-    }
-  }
-</div>
+<div class="history-sections">
+  <div class="app-card">
+    <div class="app-card__header">
+      <div class="app-card__header-icon">
+        <mat-icon>history</mat-icon>
+      </div>
+      <div>
+        <h2 class="app-card__title">Past Appointments</h2>
+        <div class="app-card__subtitle">Appointments that have already occurred</div>
+      </div>
+    </div>
 
-<div class="col">
-  <h2>Past prescriptions</h2>
-  @if (!fetchedPrescriptions) {
-    <mat-spinner></mat-spinner>
-  } @else {
-    @if (numOfPrescriptions == 0) {
-      <h3>You do not have any past prescriptions</h3>
+    @if (!fetchedAppointments) {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="40"></mat-spinner>
+      </div>
     } @else {
-      @for (prescription of prescriptions; track prescription) {
-        <div class="prescription-wrapper">
-          @if (prescription.status != prescriptionStatus.ACTIVE) {
-            <app-prescription-details [prescription]="prescription"></app-prescription-details>
+      @if (numOfAppointments === 0) {
+        <div class="app-empty">
+          <mat-icon>event_busy</mat-icon>
+          <h3>No past appointments</h3>
+          <p>Your appointment history is empty.</p>
+        </div>
+      } @else {
+        <div class="app-grid-cards">
+          @for (appointment of appointments; track appointment) {
+            @if (appointment.date < today) {
+              <app-appointment-details [appointment]="appointment" [isPatient]="true"></app-appointment-details>
+            }
           }
         </div>
       }
     }
-  }
+  </div>
+
+  <div class="app-card">
+    <div class="app-card__header">
+      <div class="app-card__header-icon">
+        <mat-icon>receipt_long</mat-icon>
+      </div>
+      <div>
+        <h2 class="app-card__title">Past Prescriptions</h2>
+        <div class="app-card__subtitle">Expired or used prescriptions</div>
+      </div>
+    </div>
+
+    @if (!fetchedPrescriptions) {
+      <div class="spinner-container">
+        <mat-spinner [diameter]="40"></mat-spinner>
+      </div>
+    } @else {
+      @if (numOfPrescriptions === 0) {
+        <div class="app-empty">
+          <mat-icon>medication_liquid</mat-icon>
+          <h3>No past prescriptions</h3>
+          <p>Your prescription history is empty.</p>
+        </div>
+      } @else {
+        <div class="app-grid-cards">
+          @for (prescription of prescriptions; track prescription) {
+            @if (prescription.status != prescriptionStatus.ACTIVE) {
+              <app-prescription-details [prescription]="prescription"></app-prescription-details>
+            }
+          }
+        </div>
+      }
+    }
+  </div>
 </div>

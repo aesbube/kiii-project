@@ -22,6 +22,7 @@ import {RegisterAdminComponent} from './features/admin/components/register-admin
 import {PatientPanelComponent} from './features/doctor/components/patient-panel/patient-panel.component';
 import {WritePrescriptionComponent} from './features/doctor/components/write-prescription/write-prescription.component';
 import {PharmacistScanComponent} from './features/pharmacist/components/pharmacist-scan/pharmacist-scan.component';
+import {PharmacistDetailsComponent} from './features/pharmacist/components/pharmacist-details/pharmacist-details.component';
 import {
   AppointmentDiagnosisComponent
 } from './features/specialist/components/appointment-diagnosis/appointment-diagnosis.component';
@@ -66,6 +67,14 @@ export const routes: Routes = [
       {path: 'patients/:id/appointments', component: AppointmentComponent},
       {path: 'patients/:id/:appointmentId', component: AppointmentDetailsComponent},
       {path: 'claim-patient', component: ClaimPatientComponent}
+    ]
+  },
+  {
+    path: 'dashboard',
+    canActivate: [RoleGuard],
+    data: {"expectedRole": ["ROLE_PHARMACIST"]},
+    children: [
+      {path: 'info-p', component: PharmacistDetailsComponent},
     ]
   },
   {

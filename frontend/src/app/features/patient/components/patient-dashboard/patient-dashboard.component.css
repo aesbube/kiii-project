@@ -5,12 +5,10 @@
 
 .patient-layout {
   display: flex;
+  align-items: flex-start;
   min-height: calc(100vh - var(--nav-height));
 }
 
-app-side-menu {
-  flex-shrink: 0;
-}
 
 .patient-content {
   flex: 1;

@@ -6,9 +6,10 @@
     <div class="appointment-card__title-wrap">
       @if (!isDoctor && appointment.patientName) {
         <h3 class="app-card__title">{{ appointment.patientName }}</h3>
-        <div class="app-card__subtitle">Ref #{{ appointment.refNumber }}</div>
       } @else {
         <h3 class="app-card__title">Appointment</h3>
+      }
+      @if (appointment.refNumber) {
         <div class="app-card__subtitle">Ref #{{ appointment.refNumber }}</div>
       }
     </div>

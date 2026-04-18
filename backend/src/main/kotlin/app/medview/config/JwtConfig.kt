@@ -7,5 +7,5 @@ import org.springframework.context.annotation.Configuration
 @ConfigurationProperties(prefix = "app.jwt")
 class JwtConfig {
     var secret: String = "defaultSecretKeyNeedsToBeAtLeast256BitsLongForHS256Algorithm"
-    var expirationMs: Long = 86400000 // 24 hours
+    var expirationMs: Long = 86400000 // 24 saati
 }

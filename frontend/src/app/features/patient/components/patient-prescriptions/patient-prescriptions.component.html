@@ -1,17 +1,33 @@
-@if(!fetched){
-  <mat-spinner></mat-spinner>
-}
-@else {
-  @if(numOfPrescriptions==0){
-    <h3>You do not have any upcoming appointments</h3>
-  }
-  @else {
-    @for(prescription of prescriptions; track prescription){
-      @if (prescription.status == prescriptionStatus.ACTIVE) {
-        <div class="prescription-wrapper">
-          <app-prescription-details [prescription]="prescription"></app-prescription-details>
-        </div>
-      }
+<div class="app-card">
+  <div class="app-card__header">
+    <div class="app-card__header-icon">
+      <mat-icon>medication</mat-icon>
+    </div>
+    <div>
+      <h2 class="app-card__title">My Prescriptions</h2>
+      <div class="app-card__subtitle">Active prescriptions</div>
+    </div>
+  </div>
+
+  @if (!fetched) {
+    <div class="spinner-container">
+      <mat-spinner [diameter]="40"></mat-spinner>
+    </div>
+  } @else {
+    @if (numOfPrescriptions === 0) {
+      <div class="app-empty">
+        <mat-icon>medication_liquid</mat-icon>
+        <h3>No prescriptions</h3>
+        <p>You do not have any active prescriptions.</p>
+      </div>
+    } @else {
+      <div class="app-grid-cards">
+        @for (prescription of prescriptions; track prescription) {
+          @if (prescription.status == prescriptionStatus.ACTIVE) {
+            <app-prescription-details [prescription]="prescription"></app-prescription-details>
+          }
+        }
+      </div>
     }
   }
-}
+</div>

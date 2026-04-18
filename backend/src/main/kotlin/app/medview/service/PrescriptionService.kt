@@ -8,6 +8,7 @@ interface PrescriptionService {
     fun create(patientId: Long, doctor: Doctor, prescriptionRequestDto: PrescriptionRequestDto) : Prescription
     fun redeem(pharmacistId: Long, prescriptionId: String, patientId: Long) : Prescription
     fun cancel(patientId: Long, doctorId: Long, prescriptionId: String): Prescription
+    fun update(patientId: Long, doctorId: Long, prescriptionId: String, prescriptionRequestDto: PrescriptionRequestDto): Prescription
     fun getPrescriptionById(prescriptionId: String) : Prescription
     fun getPrescriptionsByPatientId(patientId: Long) : List<Prescription>
 

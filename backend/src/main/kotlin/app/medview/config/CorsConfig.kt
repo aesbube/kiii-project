@@ -10,12 +10,12 @@ class CorsConfig {
     fun corsConfigurer(): WebMvcConfigurer {
         return object : WebMvcConfigurer {
             override fun addCorsMappings(registry: CorsRegistry) {
-                registry.addMapping("/**") // Apply to all endpoints
-                    .allowedOrigins("*") // Allow requests from your Angular app
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow these HTTP methods
-                    .allowedHeaders("*") // Allow all headers
-                    .allowCredentials(true) // Allow sending credentials (cookies, auth headers)
-                    .maxAge(3600) // Cache preflight response for 1 hour
+                registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    .allowedHeaders("*")
+                    .allowCredentials(true)
+                    .maxAge(3600)
             }
         }
     }

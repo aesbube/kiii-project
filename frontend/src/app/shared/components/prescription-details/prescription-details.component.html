@@ -18,20 +18,57 @@
     </span>
   </div>
 
-  <div class="app-info-grid">
-    <div class="app-info-item">
-      <span class="app-info-label">Medicine</span>
-      <span class="app-info-value">{{ prescription.medicine || '—' }}</span>
+  @if (!editing) {
+    <div class="app-info-grid">
+      <div class="app-info-item">
+        <span class="app-info-label">Medicine</span>
+        <span class="app-info-value">{{ prescription.medicine || '—' }}</span>
+      </div>
+      <div class="app-info-item">
+        <span class="app-info-label">Frequency</span>
+        <span class="app-info-value">{{ prescription.frequency || '—' }}</span>
+      </div>
+      <div class="app-info-item">
+        <span class="app-info-label">Expiration date</span>
+        <span class="app-info-value">{{ prescription.expirationDate || '—' }}</span>
+      </div>
     </div>
-    <div class="app-info-item">
-      <span class="app-info-label">Frequency</span>
-      <span class="app-info-value">{{ prescription.frequency || '—' }}</span>
+  } @else {
+    <form [formGroup]="editForm" (ngSubmit)="saveEdit()" class="details-form">
+      <div class="details-form__grid">
+        <div class="details-form__field">
+          <label class="details-form__label">Medicine</label>
+          <input class="app-input" formControlName="medicine"/>
+        </div>
+        <div class="details-form__field">
+          <label class="details-form__label">Frequency</label>
+          <input class="app-input" formControlName="frequency"/>
+        </div>
+      </div>
+      <div class="details-form__actions edit-actions">
+        <button type="button" class="app-btn app-btn--ghost" (click)="cancelEdit()" [disabled]="submitting">
+          Cancel
+        </button>
+        <button type="submit" class="app-btn" [disabled]="editForm.invalid || submitting">
+          <mat-icon>save</mat-icon>
+          Save changes
+        </button>
+      </div>
+    </form>
+  }
+
+  @if (canDoctorManage && !editing) {
+    <div class="prescription-actions prescription-actions--manage">
+      <button type="button" class="app-btn app-btn--ghost" (click)="startEdit()">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+      <button type="button" class="app-btn app-btn--danger" (click)="askCancel()">
+        <mat-icon>cancel</mat-icon>
+        Cancel prescription
+      </button>
     </div>
-    <div class="app-info-item">
-      <span class="app-info-label">Expiration date</span>
-      <span class="app-info-value">{{ prescription.expirationDate || '—' }}</span>
-    </div>
-  </div>
+  }
 
   @if (userRole == "ROLE_PATIENT" && prescription.status == PrescriptionStatus.ACTIVE) {
     <div class="prescription-actions">
@@ -41,8 +78,34 @@
           Redeem prescription
         </button>
       } @else {
-        <div class="qr-wrap">
-          <app-qr-code [qrText]="uniqueQrText"></app-qr-code>
+        <div class="code-panel">
+          <div class="code-toggle" role="tablist">
+            <button type="button"
+                    class="code-toggle__btn"
+                    [class.active]="codeMode === 'qr'"
+                    role="tab"
+                    [attr.aria-selected]="codeMode === 'qr'"
+                    (click)="setCodeMode('qr')">
+              <mat-icon>qr_code</mat-icon>
+              <span>QR code</span>
+            </button>
+            <button type="button"
+                    class="code-toggle__btn"
+                    [class.active]="codeMode === 'barcode'"
+                    role="tab"
+                    [attr.aria-selected]="codeMode === 'barcode'"
+                    (click)="setCodeMode('barcode')">
+              <mat-icon>barcode</mat-icon>
+              <span>Barcode</span>
+            </button>
+          </div>
+          <div class="code-wrap">
+            @if (codeMode === 'qr') {
+              <app-qr-code [qrText]="uniqueCodeText"></app-qr-code>
+            } @else {
+              <app-barcode [value]="uniqueCodeText" format="CODE128"></app-barcode>
+            }
+          </div>
         </div>
       }
     </div>
@@ -57,3 +120,26 @@
     </div>
   }
 </div>
+
+@if (confirmCancel) {
+  <div class="confirm-backdrop" (click)="dismissCancel()">
+    <div class="confirm-dialog" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <div class="confirm-dialog__icon">
+        <mat-icon>warning</mat-icon>
+      </div>
+      <h3 class="confirm-dialog__title">Cancel prescription?</h3>
+      <p class="confirm-dialog__message">
+        Are you sure you want to cancel this prescription? The patient will no longer be able to redeem it.
+      </p>
+      <div class="confirm-dialog__actions">
+        <button type="button" class="confirm-btn confirm-btn--ghost" (click)="dismissCancel()" [disabled]="submitting">
+          Keep it
+        </button>
+        <button type="button" class="confirm-btn confirm-btn--danger" (click)="confirmCancelPrescription()" [disabled]="submitting">
+          <mat-icon>cancel</mat-icon>
+          Cancel prescription
+        </button>
+      </div>
+    </div>
+  </div>
+}

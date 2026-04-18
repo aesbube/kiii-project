@@ -18,6 +18,7 @@ interface SpecialistService {
     fun setFreeAppointments(appointments: List<FreeAppointmentDto>): MessageResponse
     fun getAppointments(): List<AppointmentDto>
     fun writeDiagnosis(appointmentId: Long, writeDiagnosisDto: WriteDiagnosisDto): MessageResponse
+    fun updateDiagnosis(appointmentId: Long, writeDiagnosisDto: WriteDiagnosisDto): MessageResponse
     fun getOccupiedAppointments(): List<AppointmentDto>
     fun getSpecialist(): SpecialistDto
     fun getAppointmentById(appointmentId: Long): AppointmentDto

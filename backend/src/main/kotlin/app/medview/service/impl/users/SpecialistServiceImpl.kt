@@ -154,6 +154,32 @@ class SpecialistServiceImpl(
         return MessageResponse("Diagnosis written successfully")
     }
 
+    override fun updateDiagnosis(
+        appointmentId: Long,
+        writeDiagnosisDto: WriteDiagnosisDto
+    ): MessageResponse {
+        val auth = SecurityContextHolder.getContext().authentication
+        val username = auth.name
+
+        val specialist = specialistRepository.findByUsername(username)
+            ?: throw RuntimeException("Specialist not found with username: $username")
+
+        val existing = diagnosisRepository.findDiagnosisByAppointmentId(appointmentId)
+            ?: throw RuntimeException("Diagnosis not found for appointment with id: $appointmentId")
+
+        if (existing.specialist?.id != specialist.id)
+            throw RuntimeException("Only the authoring specialist can edit this diagnosis")
+
+        val updated = existing.copy(
+            name = writeDiagnosisDto.name,
+            description = writeDiagnosisDto.description,
+            treatment = writeDiagnosisDto.treatment
+        )
+
+        diagnosisRepository.save(updated)
+        return MessageResponse("Diagnosis updated successfully")
+    }
+
     override fun getOccupiedAppointments(): List<AppointmentDto> {
         val auth = SecurityContextHolder.getContext().authentication
         val username = auth.name

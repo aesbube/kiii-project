@@ -98,6 +98,32 @@ class PrescriptionServiceImpl(
     }
 
 
+    @Transactional
+    override fun update(patientId: Long, doctorId: Long, prescriptionId: String, prescriptionRequestDto: PrescriptionRequestDto): Prescription {
+        val patient = patientService.getPatientById(patientId)
+        val doctor = doctorService.getDoctorById(doctorId)
+
+        if (patient.doctor != doctor)
+            throw IllegalDoctorPatientOperation(doctorId, patientId)
+
+        val prescription: Prescription =
+            prescriptionRepository
+                .findById(prescriptionId)
+                .orElseThrow { PrescriptionNotFoundException(prescriptionId) }
+
+        if (prescription.status != PrescriptionStatus.ACTIVE)
+            throw PrescriptionCanceledException(prescriptionId)
+
+        val updated = prescription.copy(
+            medicine = prescriptionRequestDto.medicine,
+            frequency = prescriptionRequestDto.frequency,
+            lastModifiedBy = doctor.username,
+            lastModifiedDate = LocalDate.now()
+        )
+
+        return prescriptionRepository.save(updated)
+    }
+
     override fun getPrescriptionById(prescriptionId: String): Prescription {
         return prescriptionRepository.findById(prescriptionId).orElseThrow { PrescriptionNotFoundException(prescriptionId) }
     }

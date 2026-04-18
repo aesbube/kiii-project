@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppointmentDetailsComponent } from "../../../../shared/components/appointment-details/appointment-details.component";
 import { PatientService } from '../../patient.service';
 import { Appointment } from '../../../../models/appointment.model';
 import { Subscription } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-patient-appointments',
   imports: [
     AppointmentDetailsComponent,
-    MatProgressSpinnerModule],
+    MatProgressSpinnerModule,
+    MatIconModule,
+  ],
   templateUrl: './patient-appointments.component.html',
   styleUrl: './patient-appointments.component.css'
 })
-export class PatientAppointmentsComponent {
+export class PatientAppointmentsComponent implements OnInit {
 
   appointments: Appointment[] = []
   numOfAppointments = 0
@@ -26,8 +29,6 @@ export class PatientAppointmentsComponent {
   constructor(private patientService: PatientService) { }
 
   ngOnInit() {
-    console.log(this.today);
-
     this.subscription = this.patientService.getAppointments().subscribe({
       next: (data: Appointment[]) => {
         this.appointments = data;
@@ -36,9 +37,6 @@ export class PatientAppointmentsComponent {
       },
       error: (error) => {
         console.error('Error fetching patient data:', error);
-      },
-      complete: () => {
-        console.log('Patient data fetching complete.');
       }
     });
   }
@@ -49,12 +47,9 @@ export class PatientAppointmentsComponent {
         day = '' + d.getDate(),
         year = d.getFullYear();
 
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
-}
-
+  }
 }

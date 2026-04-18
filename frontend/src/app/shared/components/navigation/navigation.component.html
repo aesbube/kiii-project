@@ -10,17 +10,44 @@
     <a routerLink="" class="nav-link">Home</a>
 
     @if (!authService.isLoggedIn()) {
-      <ng-container>
-        <a routerLink="/login" class="nav-link">Login</a>
-        <a routerLink="/register" class="nav-link nav-link--primary">Register</a>
-      </ng-container>
+      <a routerLink="/login" class="nav-link">Login</a>
+      <a routerLink="/register" class="nav-link nav-link--primary">Register</a>
     }
 
     @if (authService.isLoggedIn()) {
-      <ng-container>
-        <a routerLink="/dashboard" class="nav-link">Dashboard</a>
-        <button type="button" class="nav-link nav-link--ghost" (click)="authService.logout()">Logout</button>
-      </ng-container>
+      <a routerLink="/dashboard" class="nav-link">Dashboard</a>
+
+      <div class="user-menu">
+        <button
+          type="button"
+          class="user-trigger"
+          [class.open]="menuOpen"
+          (click)="toggleMenu($event)"
+          aria-haspopup="true"
+          [attr.aria-expanded]="menuOpen">
+          <span class="user-avatar">{{ userInitial }}</span>
+          <span class="user-name">{{ username }}</span>
+          <mat-icon class="user-caret">expand_more</mat-icon>
+        </button>
+
+        @if (menuOpen) {
+          <div class="user-dropdown" role="menu">
+            <div class="user-dropdown__header">
+              <div class="user-dropdown__avatar">{{ userInitial }}</div>
+              <div class="user-dropdown__id">
+                <div class="user-dropdown__name">{{ username }}</div>
+                @if (roleLabel) {
+                  <div class="user-dropdown__role">{{ roleLabel }}</div>
+                }
+              </div>
+            </div>
+            <button type="button" class="user-dropdown__item" (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </div>
+        }
+      </div>
     }
   </div>
 </nav>

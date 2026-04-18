@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ToastService } from '../../../../core/services/toast.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationService } from '../../../../core/services/validation.service';
@@ -19,7 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './register-admin.component.html',
   styleUrl: './register-admin.component.css'
 })
-export class RegisterAdminComponent implements OnInit {
+export class RegisterAdminComponent {
   myForm: FormGroup;
   strongPasswordPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/;
@@ -41,9 +41,6 @@ export class RegisterAdminComponent implements OnInit {
       ]),
       role: new FormControl('', Validators.required)
     });
-  }
-
-  ngOnInit() {
   }
 
   onSubmit() {

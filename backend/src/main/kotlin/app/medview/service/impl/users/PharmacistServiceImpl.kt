@@ -49,12 +49,25 @@ class PharmacistServiceImpl(
             throw RuntimeException("User is not a pharmacist")
         }
 
+        pharmacist.name = pharmacistUpdateRequestDto.name ?: pharmacist.name
+        pharmacist.surname = pharmacistUpdateRequestDto.surname ?: pharmacist.surname
+        pharmacist.phone = pharmacistUpdateRequestDto.phone ?: pharmacist.phone
+        pharmacist.address = pharmacistUpdateRequestDto.address ?: pharmacist.address
+        pharmacist.birthDate = pharmacistUpdateRequestDto.birthDate ?: pharmacist.birthDate
         pharmacist.pharmacyName = pharmacistUpdateRequestDto.pharmacyName ?: pharmacist.pharmacyName
         pharmacist.pharmacyAddress = pharmacistUpdateRequestDto.pharmacyAddress ?: pharmacist.pharmacyAddress
         pharmacist.licenseNumber = pharmacistUpdateRequestDto.licenseNumber ?: pharmacist.licenseNumber
 
         pharmacistRepository.save(pharmacist)
         return MessageResponse("Pharmacist details added successfully")
+    }
+
+    override fun getCurrentPharmacist(): PharmacistDto {
+        val auth = SecurityContextHolder.getContext().authentication
+        val username = auth.name
+        val pharmacist = pharmacistRepository.findByUsername(username)
+            ?: throw UsernameNotFoundException("User not found with username: $username")
+        return pharmacistConverter.convert(pharmacist)
     }
 
     override fun getPrescription(prescriptionScanDto: PrescriptionScanDto): PrescriptionDto {

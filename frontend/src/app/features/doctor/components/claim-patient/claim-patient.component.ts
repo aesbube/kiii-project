@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DoctorService } from '../../doctor.service';
-import { debounceTime, distinctUntilChanged, Observable, startWith, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, Observable, startWith, Subject, switchMap, tap } from 'rxjs';
 import { Patient } from '../../../../models/patient.model';
 import { AsyncPipe } from '@angular/common';
 import { MatIconButton } from '@angular/material/button';
@@ -26,16 +26,18 @@ import { ToastService } from '../../../../core/services/toast.service';
 export class ClaimPatientComponent implements OnInit {
   service = inject(DoctorService);
   private toast = inject(ToastService);
-  patients$?: Observable<Patient[]>;
+  patients$ = new BehaviorSubject<Patient[] | null>(null);
   subject = new Subject<string>();
+  private currentQuery = '';
 
   ngOnInit(): void {
-    this.patients$ = this.subject.pipe(
-      startWith(""),
+    this.subject.pipe(
+      startWith(''),
+      tap(q => this.currentQuery = q),
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((searchTerm) => this.service.searchPatientsClaim(searchTerm))
-    )
+    ).subscribe(patients => this.patients$.next(patients));
   }
 
   onChange(query: string) {
@@ -43,17 +45,16 @@ export class ClaimPatientComponent implements OnInit {
   }
 
   handleCardClick(patientId: string) {
-    console.log("Card clicked:", patientId);
-    this.service.claimPatient(patientId).subscribe(
-      (patient) => {
-        console.log('Patient claimed:', patient);
+    this.service.claimPatient(patientId).subscribe({
+      next: () => {
         this.toast.success('Patient claimed successfully');
-        this.subject.next('');
+        const current = this.patients$.value ?? [];
+        this.patients$.next(current.filter(p => p.username.toString() !== patientId));
       },
-      (error) => {
+      error: (error) => {
         console.error('Claim patient failed:', error);
         this.toast.error('Could not claim patient');
       }
-    );
+    });
   }
 }
